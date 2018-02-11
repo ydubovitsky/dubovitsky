@@ -4,3 +4,5 @@ My name is Jam;
 Пройти курс и все понять за 6 месяцев
 
 Попытка 2.
+
+Only English! Try 3.
