@@ -5,6 +5,7 @@ package ru.job4j;
 * который выводит в консоль строку Hello Java World.
 * @author - Dubovitsky.
 * @version - 1.0.
+ * Добавил commit из IDEA.
 */
 public class Calculate {
 	/**
