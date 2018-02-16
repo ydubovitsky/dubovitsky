@@ -37,11 +37,7 @@ public class Triangle {
 	* @return
 	*/
 	private boolean exist(double ab, double ac, double bc) {
-		if(ab != ac && ab != bc && ac != bc) {
-			return true;
-		} else {
-	    return false;
-		}
+		return ((ab != ac && ab != bc && ac != bc) ? true : false);
 	}
 	
 	/**
@@ -58,9 +54,7 @@ public class Triangle {
 		if (this.exist(ab, ac, bc)) {
 			// написать формулу для расчета площади треугольника.
 			rsl = Math.sqrt((p * (p - ab) * (p - ac) * (p - bc)));
-		} else {
-			rs = -1;
-		}
+		} 
 		return rsl;
 	}
 }
