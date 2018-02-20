@@ -4,6 +4,12 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * @author Dubovitsky Y. (y.dubovitsky@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
+
 public class FindLoopTest {
 	@Test
 	public void whenIndexOfNotFound() {
