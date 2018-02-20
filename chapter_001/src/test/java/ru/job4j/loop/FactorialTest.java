@@ -2,6 +2,7 @@ package ru.job4j.loop;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
 
 public class FactorialTest {
 
@@ -24,7 +25,7 @@ public class FactorialTest {
 	 // Подсчиываем Факториал
 	 int result = a.calc(10);
 	 // Задаем ожидаемый результат.
-	 double expected = 3 628 800
+	 double expected = 3628800;
 	 //Проверяем результат и ожидаемое значение.
 	 assertThat(result, is(expected));
 	 }

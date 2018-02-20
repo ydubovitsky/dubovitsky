@@ -6,35 +6,7 @@ package ru.job4j.loop;
 */
 
 public class Counter {
-	/*
-	* Значения по умолчанию.
-	*/	
-	int start = 0;
-	int finish = 0;
-	
-	/*
-	* Конструктор класса.
-	*/
-	
-	public Counter(a, finish) {
-		start = a;
-		this.finish = finish;
-	}
-	
-	/*
-	* Перегруженный метод
-	*/
-	
-	public int add() {
-		int sum = 0;
-		for(int i = this.start; i < this.finish; i++) {
-			if((i % 2) == 0) {
-				sum += i;
-			}
-		}
-		return sum;
-	}
-	
+
 	/*
 	* Метод подсчиывает сумму четных значений в диапазоне от start да finish.
 	*/
