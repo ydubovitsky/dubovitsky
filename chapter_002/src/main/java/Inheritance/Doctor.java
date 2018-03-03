@@ -1,10 +1,14 @@
 package Inheritance;
 
 public class Doctor extends Profession {
-	// Лечим пациента, в качестве аргумента функции выступает объект класса Patient
-	// В качестве возвращаемого значение  - объект класса Patient.
-	public Patient Cure(Patient patient) {
-		patient.name = patient.name + " вылечен";
-		return patient;
+	public static int count = 0;
+	public Diagnose heal(Patient patient) {} {
+		Diagnose diagnose = new Diagnose();
+		if(count % 2 != 0) {
+			diagnose.setDiagnose("Вам поможет только чудо");
+		} else {
+			diagnose.setDiagnose("Поздравляю вы здоровы");
+		}
+		return diagnose;
 	}
 }

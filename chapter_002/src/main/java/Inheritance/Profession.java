@@ -1,6 +1,14 @@
 package Inheritance;
 
 public class Profession {
-	public String name;
-	public String profession;
+	private String name;
+	private String profession;
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getProfession() {
+		return this.profession;
+	}
 }
