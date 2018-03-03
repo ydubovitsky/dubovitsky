@@ -1,4 +1,6 @@
 package Inheritance;
 
-public class Professional {
+public class Profession {
+	public String name;
+	public String profession;
 }

@@ -1,6 +1,6 @@
 package Inheritance;
 
-public class Engineer extends Professional {
+public class Engineer extends Profession {
 	static int countBuilding = 0;
 	//Строим дом и увеличиваем количество построенных домов.
 	public static House build() {
