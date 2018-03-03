@@ -16,7 +16,7 @@ public class TurnTest {
 		Turn turn = new Turn();
 		int[] qwe = {1,2,3,4,5,6,7};
 		int[] resultArray = turn.back(qwe);
-		int[] expectArray = {7654321};
+		int[] expectArray = {7,6,5,4,3,2,1};
 		assertThat(resultArray, is(expectArray));
 	}
 	@Test
@@ -24,7 +24,7 @@ public class TurnTest {
 		Turn turn = new Turn();
 		int[] qwe = {1,2,3,4,5,6,7};
 		int[] resultArray = turn.back(qwe);
-		int[] expectArray = {1234567};
+		int[] expectArray = {1,2,3,4,5,6,7};
 		assertThat(resultArray, is(expectArray));
 	}
 }
