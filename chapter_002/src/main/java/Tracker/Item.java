@@ -1,7 +1,9 @@
 package Tracker;
 
 public class Item {
-    // Лучше всего чтобы id был типа int а не String.
+    /*
+    Лучше всего чтобы id был типа int а не String.
+     */
     private int id;
     private String name;
     private String desc;
@@ -10,6 +12,17 @@ public class Item {
 
     public Item(String name) {
         this.name = name;
+    }
+
+    public Item(String name, String desc, long create, String comments) {
+        this.name = name;
+        this.desc = desc;
+        this.create = create;
+        this.comments = comments;
+    }
+
+    public Item() {
+
     }
 
     public int getId() {
@@ -21,7 +34,7 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
