@@ -10,10 +10,13 @@ public class TrackerTest {
     @Test
     public void add() {
         Tracker tracker = new Tracker();
-        Item item = new Item("name","desc",123l,"comments");
-        tracker.add(item);
+        // Добавляем 100 объектов типа Item в массив Item[] items объекта типа Tracker под именем tracker.
+        for(int i = 0; i < tracker.getPosition(); i++) {
+            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
+            tracker.add(item);
+        }
         int result = tracker.getPosition();
-        int expect = 1;
+        int expect = 99;
         assertThat(result, is(expect));
     }
 
@@ -23,63 +26,48 @@ public class TrackerTest {
         Item resultFunctionItem = new Item("name","desc",123l,"comments");
         // Добавляев новый объект в массив
         tracker.add(resultFunctionItem);
-        Item itemReplace = new Item("TestName","TestDesc",123l,"comments");
+        Item itemReplace = new Item("replaced!","TestDesc",123l,"comments");
+        // Находим id добавленного объекта и присваиваем его объекту который будем передавать в функцию.
         int expectId = resultFunctionItem.getId();
         itemReplace.setId(expectId);
-        // Вызываем функцию в которой имени одного объекта присваивается имя другого при совпадении их id.
         tracker.replace(expectId, itemReplace);
-        String result = resultFunctionItem.getName();
-        assertThat(result, is("TestName"));
+        // Проверяем совпадают ли объекты
+        Item itemFromTrackerObject = tracker.getItems()[0];
+        assertThat(itemFromTrackerObject, is(itemReplace));
     }
 
     @Test
     public void delete() {
         Tracker tracker = new Tracker();
-        Item item1 = new Item("name","desc",123l,"comments");
-        Item item2 = new Item("TestName","TestDesc",123l,"comments");
-        Item item3 = new Item("TestName","TestDesc",123l,"comments");
-        Item item4 = new Item("name","desc",123l,"comments");
-        // Добавляев новые объекты в массивы
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
-        tracker.add(item4);
-        //
+        for(int i = 0; i < tracker.getPosition(); i++) {
+            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
+            tracker.add(item);
+        }
         int id = tracker.getItems()[1].getId();
         tracker.delete(id);
-        //
     }
 
     @Test
     public void findAll() {
         Tracker tracker = new Tracker();
-        Item item1 = new Item("name","desc",123l,"comments");
-        Item item2 = new Item("name2","TestDesc",123l,"comments");
-        Item item3 = new Item("name3","TestDesc",123l,"comments");
-        Item item4 = new Item("name4","desc",123l,"comments");
-        // Добавляев новые объекты в массивы
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
-        tracker.add(item4);
+        for(int i = 0; i < tracker.getPosition(); i++) {
+            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
+            tracker.add(item);
+        }
         // Вызываем метод
         Item[] returnArray = tracker.findAll();
-        assertThat(returnArray[1].getName(), is("name2"));
+        assertThat(returnArray[55], is(tracker.getItems()[55]));
     }
 
     @Test
     public void findByName() {
         Tracker tracker = new Tracker();
-        Item item1 = new Item("name","desc",123l,"comments");
-        Item item2 = new Item("name2","TestDesc",123l,"comments");
-        Item item3 = new Item("name3","TestDesc",123l,"comments");
-        Item item4 = new Item("name4","desc",123l,"comments");
-        // Добавляев новые объекты в массивы
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
-        tracker.add(item4);
+        for(int i = 0; i < tracker.getPosition(); i++) {
+            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
+            tracker.add(item);
+        }
         Item[] itemResult = tracker.findByName("name3");
+        assertThat(itemResult[0].getName(), is("name3"));
     }
 
     @Test
@@ -96,7 +84,7 @@ public class TrackerTest {
         tracker.add(item4);
         //
         int id = item1.getId();
-        // Вызываем функцию
-        System.out.println(tracker.findById(id).getName());
+        // Смотрим, совпадает ли имя найденного по id объекта с ожидаемым именем.
+        assertThat(tracker.findById(id).getName(), is("name"));
     }
 }
