@@ -26,26 +26,23 @@ public class Tracker {
 		return this.items[position];
 	}
 
-	/*
-	Генерирование уникального ID.
-	 */
 	private int generateId() {
 		Date date = new Date();
 		int random = (int) (Math.random() * date.getTime());
 		return random;
 	}
-
 	/*
 	Редактирование заявок.
-	Ищем в массиве объектов items заявку по ключу, если нашли,
-	то присваиваем items новый объект переданный в функцию
+	Ищем в массиве объектов items заявку по ключу, если нашли, но присваиваем ей новый сгенерированный ключ
 	и досрочно выходим из цикла.
 	 */
 	public void replace(int id, Item item) {
         for (int i = 0; i < this.items.length; i++) {
             if (id == this.items[i].getId()) {
-                // теперь обе переменые ссылаются на один и тотже объект!
-                this.items[i] = item;
+                // Заменяем найденный по id элемент на элементы переданный в функцию.
+                // По идее тут нужно либо клонировать объект, а лучше делать серриализацию,
+                // но пока я не знаю как это делать, поэтому напишу так:
+                this.items[i].setName(item.getName());
                 break;
             }
         }
@@ -54,14 +51,14 @@ public class Tracker {
 	public void delete(int id) {
         for (int i = 0; i < this.items.length; i++) {
             if (id == this.items[i].getId()) {
-                System.arraycopy(this.items, i + 1, this.items, i, this.position - i);
+                System.arraycopy(this.items, i + 1, this.items, i, 100 - i);
                 break;
+                }
             }
         }
-    }
 
 	/*
-	Возвращает копию массива, именно копию, а не ссылку на тот же массив.
+	Возвращает копию массива, именно копию а не ссылку на тот же массив.
 	 */
 	public Item[] findAll() {
         Item[] findAllItems = Arrays.copyOf(this.items, this.items.length);
@@ -69,15 +66,22 @@ public class Tracker {
 	}
 
 	/*
-	Сделать потом рефакторинг:
-	Сперва вычисляем длинну результирущего массива, затем уже заносим элементы в новый массив.
+	Сперва вычисляем длинну результирущего массива, затем уже заносим ИМЯ совпавшего элемента в новый массив.
+	P/s Нужно сделать потом рефакторинг.
 	 */
 	public Item[] findByName(String key) {
-        Item[] resultArray = new Item[100];
-        int k = 0;
-        for(int i = 0; i < this.position; i++) {
+	    int length = 0;
+        for(int i = 0; i < 100; i++) {
             if (key.equals(this.items[i].getName())) {
-                resultArray[k] = this.items[i];
+                length++;
+            }
+        }
+        Item[] resultArray = new Item[length];
+        int k = 0;
+        for (Item item : items) {
+            if (key.equals(item.getName())) {
+                resultArray[k].setName(item.getName());
+                k++;
             }
         }
         return resultArray;
