@@ -39,7 +39,7 @@ public class TrackerTest {
     @Test
     public void delete() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 10; i++) {
             Item item = new Item("name " + i, "desc", i, "this ic comments № " + i);
             tracker.add(item);
         }

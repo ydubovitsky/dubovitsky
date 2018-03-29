@@ -30,7 +30,7 @@ public class Tracker {
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (Math.random() * date.getTime());
+		int random = (int) (Math.random() * date.hashCode());
 		return random;
 	}
 	/*
@@ -48,7 +48,15 @@ public class Tracker {
 	}
 
 	public void delete(int id) {
-	    //
+	    for (int i = 0; i < this.position; i++) {
+	        if (this.getItems()[i].getId() == id) {
+	            for (int j = i; j < this.position - 1; j++) {
+	                this.getItems()[j] = this.getItems()[j + 1];
+                }
+                this.getItems()[this.position] = null;
+                break;
+            }
+        }
     }
 
 	/*
