@@ -2,7 +2,6 @@ package Tracker;
 
 import java.util.*;
 import java.util.Arrays;
-import java.lang.System;
 
 public class Tracker {
 
@@ -26,6 +25,9 @@ public class Tracker {
 		return this.items[position];
 	}
 
+    /*
+    Генерируем уникальный ID.
+     */
 	private int generateId() {
 		Date date = new Date();
 		int random = (int) (Math.random() * date.getTime());
@@ -39,9 +41,6 @@ public class Tracker {
 	public void replace(int id, Item item) {
         for (int i = 0; i < this.items.length; i++) {
             if (id == this.items[i].getId()) {
-                // Заменяем найденный по id элемент на элементы переданный в функцию.
-                // По идее тут нужно либо клонировать объект, а лучше делать серриализацию,
-                // но пока я не знаю как это делать, поэтому напишу так:
                 this.items[i].setName(item.getName());
                 break;
             }
@@ -49,13 +48,8 @@ public class Tracker {
 	}
 
 	public void delete(int id) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (id == this.items[i].getId()) {
-                System.arraycopy(this.items, i + 1, this.items, i, 100 - i);
-                break;
-                }
-            }
-        }
+	    //
+    }
 
 	/*
 	Возвращает копию массива, именно копию а не ссылку на тот же массив.

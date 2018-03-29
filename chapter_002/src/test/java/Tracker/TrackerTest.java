@@ -39,12 +39,16 @@ public class TrackerTest {
     @Test
     public void delete() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < tracker.getPosition(); i++) {
-            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
+        for(int i = 0; i < 4; i++) {
+            Item item = new Item("name " + i, "desc", i, "this ic comments № " + i);
             tracker.add(item);
         }
-        int id = tracker.getItems()[1].getId();
+        Item[] items  = tracker.getItems();
+        int id = items[2].getId();
         tracker.delete(id);
+        for (int i = 0; i < tracker.getPosition(); i++) {
+            System.out.println(tracker.getItems()[i].getName());
+        }
     }
 
     @Test
