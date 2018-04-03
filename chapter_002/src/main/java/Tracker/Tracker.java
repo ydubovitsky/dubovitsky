@@ -13,16 +13,16 @@ public class Tracker {
     }
 
     public Item[] getItems() {
-        return this.items;
+        return items;
     }
 
 	/*
 	Добавление заявки с уникальным ID.
 	 */
 	public Item add(Item item) {
-		item.setId(this.generateId());
-		this.items[this.position++] = item;
-		return this.items[position];
+		item.setId(generateId());
+		items[position++] = item;
+		return items[position];
 	}
 
     /*
@@ -35,47 +35,48 @@ public class Tracker {
 	}
 	/*
 	Редактирование заявок.
-	Ищем в массиве объектов items заявку по ключу, если нашли, но присваиваем ей новый сгенерированный ключ
+	Ищем в массиве объектов items заявку по ключу, если нашли, то присваиваем ей новый сгенерированный ключ
 	и досрочно выходим из цикла.
 	 */
 	public void replace(int id, Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (id == this.items[i].getId()) {
-                this.items[i].setName(item.getName());
+        for (int i = 0; i < items.length; i++) {
+            if (id == items[i].getId()) {
+                items[i] = item;
                 break;
             }
         }
 	}
 
 	public void delete(int id) {
-	    //
+	    for (int i = 0; i < position; i++) {
+	        if (items[i].getId() == id) {
+	            // Будет скопировано (position - i) элементов из массива-источника items в результирующий массив items,
+                // начиная с i + 1 индекса источника во i индекс результирующего массива.
+                System.arraycopy(items, i + 1, items, i,position - i);
+                items[position] = null;
+            } else {
+                System.out.println(id + " не найден.");
+            }
+        }
     }
 
 	/*
 	Возвращает копию массива, именно копию а не ссылку на тот же массив.
 	 */
 	public Item[] findAll() {
-        Item[] findAllItems = Arrays.copyOf(this.items, this.items.length);
+        Item[] findAllItems = Arrays.copyOf(items, items.length);
         return findAllItems;
 	}
 
 	/*
-	Сперва вычисляем длинну результирущего массива, затем уже заносим ИМЯ совпавшего элемента в новый массив.
-	P/s Нужно сделать потом рефакторинг.
+    Получение списка элементов с одинаковым именем.
 	 */
 	public Item[] findByName(String key) {
-	    int length = 0;
-        for(int i = 0; i < 100; i++) {
-            if (key.equals(this.items[i].getName())) {
-                length++;
-            }
-        }
-        Item[] resultArray = new Item[length];
-        int k = 0;
-        for (Item item : items) {
-            if (key.equals(item.getName())) {
-                resultArray[k].setName(item.getName());
-                k++;
+        Item[] resultArray = new Item[position];
+        for(int i = 0, j = 0; i < position; i++) {
+            if (key.equals(items[i].getName())) {
+                resultArray[j] = items[i];
+                j++;
             }
         }
         return resultArray;
@@ -83,11 +84,11 @@ public class Tracker {
 
 	public Item findById(int id) {
 	    int i = 0;
-        for( ; i < this.items.length; i++) {
-            if(id == this.items[i].getId()) {
+        for( ; i < items.length; i++) {
+            if(id == items[i].getId()) {
                 break;
             }
         }
-        return this.items[i];
+        return items[i];
 	}
 }

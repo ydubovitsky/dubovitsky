@@ -11,12 +11,13 @@ public class TrackerTest {
     public void add() {
         Tracker tracker = new Tracker();
         // Добавляем 100 объектов типа Item в массив Item[] items объекта типа Tracker под именем tracker.
-        for(int i = 0; i < tracker.getPosition(); i++) {
+        for(int i = 0; i < 99; i++) {
             Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
             tracker.add(item);
         }
         int result = tracker.getPosition();
         int expect = 99;
+        // Проверяем сколько элементов добавлено в массив.
         assertThat(result, is(expect));
     }
 
@@ -39,9 +40,8 @@ public class TrackerTest {
     @Test
     public void delete() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < 4; i++) {
-            Item item = new Item("name " + i, "desc", i, "this ic comments № " + i);
-            tracker.add(item);
+        for(int i = 0; i < 10; i++) {
+            tracker.add(new Item("name " + i, "desc", i, "this ic comments № " + i));
         }
         Item[] items  = tracker.getItems();
         int id = items[2].getId();
@@ -55,10 +55,8 @@ public class TrackerTest {
     public void findAll() {
         Tracker tracker = new Tracker();
         for(int i = 0; i < tracker.getPosition(); i++) {
-            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
-            tracker.add(item);
+            tracker.add(new Item("name" + i, "desc", i, "this ic comments № " + i));
         }
-        // Вызываем метод
         Item[] returnArray = tracker.findAll();
         assertThat(returnArray[55], is(tracker.getItems()[55]));
     }
@@ -66,9 +64,8 @@ public class TrackerTest {
     @Test
     public void findByName() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < tracker.getPosition(); i++) {
-            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
-            tracker.add(item);
+        for(int i = 0; i < 50; i++) {
+            tracker.add(new Item("name" + i, "desc", i, "this ic comments № " + i));
         }
         Item[] itemResult = tracker.findByName("name3");
         assertThat(itemResult[0].getName(), is("name3"));
