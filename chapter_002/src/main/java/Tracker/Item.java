@@ -10,10 +10,6 @@ public class Item {
     private long create;
     private String comments;
 
-    public Item(String name) {
-        this.name = name;
-    }
-
     public Item(String name, String desc, long create, String comments) {
         this.name = name;
         this.desc = desc;

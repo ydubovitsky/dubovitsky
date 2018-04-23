@@ -8,21 +8,13 @@ public class Tracker {
     private Item[] items = new Item[100];
     private int position = 0;
 
-    public int getPosition() {
-        return position;
-    }
-
-    public Item[] getItems() {
-        return items;
-    }
-
 	/*
 	Добавление заявки с уникальным ID.
 	 */
-	public Item add(Item item) {
+	public Item[] add(Item item) {
 		item.setId(generateId());
 		items[position++] = item;
-		return items[position];
+		return items;
 	}
 
     /*
@@ -47,15 +39,14 @@ public class Tracker {
         }
 	}
 
-	public void delete(int id) {
-	    for (int i = 0; i < position; i++) {
-	        if (items[i].getId() == id) {
-	            // Будет скопировано (position - i) элементов из массива-источника items в результирующий массив items,
-                // начиная с i + 1 индекса источника во i индекс результирующего массива.
-                System.arraycopy(items, i + 1, items, i,position - i);
-                items[position] = null;
-            } else {
-                System.out.println(id + " не найден.");
+    public void delete(int id) {
+        Item[] result = new Item[items.length];
+        for (int index = 0; index != this.position; index++) {
+            if (this.items[index].getId() == id) {
+                System.arraycopy(items, 0, result, 0, index);
+                System.arraycopy(items, index + 1, result, index, items.length - index - 1);
+                items = result;
+                break;
             }
         }
     }

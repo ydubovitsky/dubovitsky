@@ -10,13 +10,11 @@ public class TrackerTest {
     @Test
     public void add() {
         Tracker tracker = new Tracker();
-        // Добавляем 100 объектов типа Item в массив Item[] items объекта типа Tracker под именем tracker.
-        for(int i = 0; i < 99; i++) {
-            Item item = new Item("name" + i, "desc", i, "this ic comments № " + i);
-            tracker.add(item);
-        }
-        int result = tracker.getPosition();
-        int expect = 99;
+        // Добавляем 2 объекта типа Item в массив Item[] items объекта типа Tracker под именем tracker.
+        tracker.add(new Item("name1", "desc", 17, "test"));
+        tracker.add(new Item("name2", "desc2", 13, "test2"));
+        int result = tracker.findByName("name2").length;
+        int expect = 2;
         // Проверяем сколько элементов добавлено в массив.
         assertThat(result, is(expect));
     }
@@ -33,42 +31,36 @@ public class TrackerTest {
         itemReplace.setId(expectId);
         tracker.replace(expectId, itemReplace);
         // Проверяем совпадают ли объекты
-        Item itemFromTrackerObject = tracker.getItems()[0];
+        Item itemFromTrackerObject = tracker.findAll()[0];
         assertThat(itemFromTrackerObject, is(itemReplace));
     }
 
     @Test
     public void delete() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < 10; i++) {
-            tracker.add(new Item("name " + i, "desc", i, "this ic comments № " + i));
-        }
-        Item[] items  = tracker.getItems();
-        int id = items[2].getId();
-        tracker.delete(id);
-        for (int i = 0; i < tracker.getPosition(); i++) {
-            System.out.println(tracker.getItems()[i].getName());
-        }
+        tracker.add(new Item("name1", "desc", 13, "test"));
+        tracker.add(new Item("name2", "desc2", 13, "test2"));
+        tracker.delete(tracker.findAll()[0].getId());
+        assertThat(tracker.findAll()[0].getName(), is("name2"));
     }
 
     @Test
     public void findAll() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < tracker.getPosition(); i++) {
-            tracker.add(new Item("name" + i, "desc", i, "this ic comments № " + i));
-        }
-        Item[] returnArray = tracker.findAll();
-        assertThat(returnArray[55], is(tracker.getItems()[55]));
+        tracker.add(new Item("task1", "test", 12, "test"));
+        assertThat(tracker.findAll()[0].getName(), is("task1"));
     }
 
     @Test
     public void findByName() {
         Tracker tracker = new Tracker();
-        for(int i = 0; i < 50; i++) {
-            tracker.add(new Item("name" + i, "desc", i, "this ic comments № " + i));
-        }
-        Item[] itemResult = tracker.findByName("name3");
-        assertThat(itemResult[0].getName(), is("name3"));
+        Item item1 = new Item("name","desc",123l,"comments");
+        Item item2 = new Item("name2","TestDesc",123l,"comments");
+        // Добавляев новые объекты в массивы
+        tracker.add(item1);
+        tracker.add(item2);
+        Item[] itemResult = tracker.findByName("name2");
+        assertThat(itemResult[0].getName(), is("name2"));
     }
 
     @Test
