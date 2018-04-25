@@ -8,21 +8,13 @@ public class Tracker {
     private Item[] items = new Item[100];
     private int position = 0;
 
-    public int getPosition() {
-        return position;
-    }
-
-    public Item[] getItems() {
-        return this.items;
-    }
-
 	/*
 	Добавление заявки с уникальным ID.
 	 */
-	public Item add(Item item) {
-		item.setId(this.generateId());
-		this.items[this.position++] = item;
-		return this.items[position];
+	public Item[] add(Item item) {
+		item.setId(generateId());
+		items[position++] = item;
+		return items;
 	}
 
     /*
@@ -30,30 +22,30 @@ public class Tracker {
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (Math.random() * date.hashCode());
+		int random = (int) (Math.random() * date.getTime());
 		return random;
 	}
 	/*
 	Редактирование заявок.
-	Ищем в массиве объектов items заявку по ключу, если нашли, но присваиваем ей новый сгенерированный ключ
+	Ищем в массиве объектов items заявку по ключу, если нашли, то присваиваем ей новый сгенерированный ключ
 	и досрочно выходим из цикла.
 	 */
 	public void replace(int id, Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (id == this.items[i].getId()) {
-                this.items[i].setName(item.getName());
+        for (int i = 0; i < items.length; i++) {
+            if (id == items[i].getId()) {
+                items[i] = item;
                 break;
             }
         }
 	}
 
-	public void delete(int id) {
-	    for (int i = 0; i < this.position; i++) {
-	        if (this.getItems()[i].getId() == id) {
-	            for (int j = i; j < this.position - 1; j++) {
-	                this.getItems()[j] = this.getItems()[j + 1];
-                }
-                this.getItems()[this.position] = null;
+    public void delete(int id) {
+        Item[] result = new Item[items.length];
+        for (int index = 0; index != this.position; index++) {
+            if (this.items[index].getId() == id) {
+                System.arraycopy(items, 0, result, 0, index);
+                System.arraycopy(items, index + 1, result, index, items.length - index - 1);
+                items = result;
                 break;
             }
         }
@@ -63,27 +55,19 @@ public class Tracker {
 	Возвращает копию массива, именно копию а не ссылку на тот же массив.
 	 */
 	public Item[] findAll() {
-        Item[] findAllItems = Arrays.copyOf(this.items, this.items.length);
+        Item[] findAllItems = Arrays.copyOf(items, items.length);
         return findAllItems;
 	}
 
 	/*
-	Сперва вычисляем длинну результирущего массива, затем уже заносим ИМЯ совпавшего элемента в новый массив.
-	P/s Нужно сделать потом рефакторинг.
+    Получение списка элементов с одинаковым именем.
 	 */
 	public Item[] findByName(String key) {
-	    int length = 0;
-        for(int i = 0; i < 100; i++) {
-            if (key.equals(this.items[i].getName())) {
-                length++;
-            }
-        }
-        Item[] resultArray = new Item[length];
-        int k = 0;
-        for (Item item : items) {
-            if (key.equals(item.getName())) {
-                resultArray[k].setName(item.getName());
-                k++;
+        Item[] resultArray = new Item[position];
+        for(int i = 0, j = 0; i < position; i++) {
+            if (key.equals(items[i].getName())) {
+                resultArray[j] = items[i];
+                j++;
             }
         }
         return resultArray;
@@ -91,11 +75,11 @@ public class Tracker {
 
 	public Item findById(int id) {
 	    int i = 0;
-        for( ; i < this.items.length; i++) {
-            if(id == this.items[i].getId()) {
+        for( ; i < items.length; i++) {
+            if(id == items[i].getId()) {
                 break;
             }
         }
-        return this.items[i];
+        return items[i];
 	}
 }
