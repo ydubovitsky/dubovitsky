@@ -55,7 +55,7 @@ public class Tracker {
 	Возвращает копию массива, именно копию а не ссылку на тот же массив.
 	 */
 	public Item[] findAll() {
-        Item[] findAllItems = Arrays.copyOf(items, items.length);
+        Item[] findAllItems = Arrays.copyOf(items, position);
         return findAllItems;
 	}
 
