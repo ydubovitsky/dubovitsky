@@ -22,9 +22,10 @@ public class Tracker {
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (Math.random() * date.getTime());
+		int random = (int) (date.getTime() + (Math.random() * 1000));
 		return random;
 	}
+
 	/*
 	Редактирование заявок.
 	Ищем в массиве объектов items заявку по ключу, если нашли, то присваиваем ей новый сгенерированный ключ
