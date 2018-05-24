@@ -1,22 +1,31 @@
 package Tracker;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
-public class StartUI {
+public class StartUI extends Thread {
 
     private Scanner scanner = new Scanner(System.in);
     private Tracker tracker = new Tracker();
     private Item[] item;
     private boolean exit = true;
+    private final List<String> menuArray = Arrays.asList("0. Add new Item", "1. Show all items", "2. Edit item",
+            "3. Delete item", "4. Find item by Id", "5. Find items by name", "6. Exit Program", "Select: ");
 
     public static void main(String[] args) {
         //
-        StartUI startUI = new StartUI();
-        startUI.showMenu();
+        new StartUI().start();
     }
 
-    public void start() {
+    public void run() {
+        for (int i = 0; i < menuArray.size(); i++) {
+            System.out.println(menuArray.get(i));
+        }
+        init();
+    }
+
+    private void init() {
         while (exit) {
             switch (scanner.nextLine()) {
                 case ("0"): {
@@ -55,24 +64,7 @@ public class StartUI {
         }
     }
 
-    public void showMenu() {
-        ArrayList<String> menuArray = new ArrayList<>();
-        menuArray.add("0. Add new Item");
-        menuArray.add("1. Show all items");
-        menuArray.add("2. Edit item");
-        menuArray.add("3. Delete item");
-        menuArray.add("4. Find item by Id");
-        menuArray.add("5. Find items by name");
-        menuArray.add("6. Exit Program");
-        menuArray.add("Select: ");
-
-        for (int i = 0; i < menuArray.size(); i++) {
-            System.out.println(menuArray.get(i));
-        }
-        start();
-    }
-
-    public void addElement() {
+    synchronized private void addElement() {
         System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
         try {
             String[] result = scanner.nextLine().split(", ");
@@ -81,7 +73,7 @@ public class StartUI {
                 System.out.println("Пример ввода: Имя, Описание, 2018, забрать почту");
             }
             tracker.add(new Item(result[0], result[1], Long.parseLong(result[2]), result[3]));
-            System.out.println("Вы добавили новый элемент под именем " + " в Трекер.");
+            System.out.println("Вы добавили новый элемент под именем " + " в Трекер и вернулись в главное меню");
         } catch (Exception e) {
             // Пишем в лог ошибки
             LogFileOut.createFile();
@@ -89,7 +81,7 @@ public class StartUI {
         }
     }
 
-    public void showAllElements() {
+    private void showAllElements() {
         if (tracker.findAll().length > 0) {
             item = tracker.findAll();
             System.out.println("Выводим все элементы Трекера на экран.");
@@ -102,48 +94,42 @@ public class StartUI {
         }
     }
 
-    public void editElement() {
+    synchronized private void editElement() {
         System.out.println("Введите номер элемента, который вы хотите отредактировать:");
         int id = Integer.parseInt(scanner.nextLine());
         // Создаем элемент для замены
-        System.out.println("Какое новое ИМЯ вы хотите присвоить элементу?");
-        String name = scanner.nextLine();
-        System.out.println("Какое новое ОПИСАНИЕ вы хотите присвоить элементу?");
-        String desc = scanner.nextLine();
-        System.out.println("Какую ДАТУ СОЗДАНИЯ вы хотите присвоить элементу?");
-        long create = Long.parseLong(scanner.nextLine());
-        System.out.println("Какой КОМЕНТАРИЙ вы хотите присвоить элементу?");
-        String comments = scanner.nextLine();
-        Item itemReplace = new Item(name, desc, create, comments);
+        System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
+        String[] result = scanner.nextLine().split(", ");
+        Item itemReplace = new Item(result[0], result[1], Long.parseLong(result[2]), result[3]);
         tracker.replace(id, itemReplace);
-        System.out.println("Элементу c id№" + id + " Присвоено имя " + tracker.findById(id).getName());
+        System.out.println("Элементу c id№" + id + " отредактирован");
     }
 
 
-    public void deleteElement() {
+    synchronized private void deleteElement() {
         System.out.println("Введите id элемента, который вы хотите удалить");
         int id = Integer.parseInt(scanner.nextLine());
         tracker.delete(id);
     }
 
-    public void searchElement() {
+    private void searchElement() {
         System.out.println("Введите id элемента, который вы хотите найти");
         int id = Integer.parseInt(scanner.nextLine());
         System.out.println(tracker.findById(id));
     }
 
-    public void searchElementByName() {
+    private void searchElementByName() {
         System.out.println("Введите имя элемента, который вы хотите найти");
         String name = scanner.nextLine();
         System.out.println(tracker.findByName(name));
     }
 
-    public void exit() {
+    private void exit() {
         System.out.println("Всего вам доброго.");
         exit = false;
     }
 
-    public void uncknownOperation() {
+    private void uncknownOperation() {
         System.out.println("Пожалуйста введите цифры от 0 до 6");
     }
 }

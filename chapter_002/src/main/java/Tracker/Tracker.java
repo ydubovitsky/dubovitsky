@@ -22,7 +22,7 @@ public class Tracker {
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (date.getTime() + (Math.random() * 1000));
+		int random = (int) (date.hashCode() + (Math.random() * 1000));
 		return random;
 	}
 
