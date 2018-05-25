@@ -12,21 +12,29 @@ public class StartUI extends Thread {
     private boolean exit = true;
     private final List<String> menuArray = Arrays.asList("0. Add new Item", "1. Show all items", "2. Edit item",
             "3. Delete item", "4. Find item by Id", "5. Find items by name", "6. Exit Program", "Select: ");
+    enum Points {
+        One("Введите ИМЯ нового элемента:"), Two("Введите Описание нового элемента:"),
+            Three("Введите Дату Создания нового элемента:"), Four("Введите Коментарий:");
+
+        private String value;
+
+        Points(String a) {
+            value = a;
+        }
+        String getValue() {
+            return value;
+        }
+    }
 
     public static void main(String[] args) {
-        //
         new StartUI().start();
     }
 
     public void run() {
-        for (int i = 0; i < menuArray.size(); i++) {
-            System.out.println(menuArray.get(i));
-        }
-        init();
-    }
-
-    private void init() {
         while (exit) {
+            for (int i = 0; i < menuArray.size(); i++) {
+                System.out.println(menuArray.get(i));
+            }
             switch (scanner.nextLine()) {
                 case ("0"): {
                     addElement();
@@ -65,19 +73,44 @@ public class StartUI extends Thread {
     }
 
     synchronized private void addElement() {
-        System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
-        try {
-            String[] result = scanner.nextLine().split(", ");
-            if (result.length > 4) {
-                System.out.println("Ошибка! Повторите ввод.");
-                System.out.println("Пример ввода: Имя, Описание, 2018, забрать почту");
+        System.out.println("Для ввода данных через запятую нажмите \"y\", в строчку - \"n\"");
+        switch(scanner.nextLine()) {
+            case ("y"): {
+                System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
+                try {
+                    String[] result = scanner.nextLine().split(", ");
+                    if (result.length != 4) {
+                        System.out.println("Ошибка! Повторите ввод.");
+                        System.out.println("Пример ввода: Имя, Описание, 2018, забрать почту");
+                    }
+                    tracker.add(new Item(result[0], result[1], Long.parseLong(result[2]), result[3]));
+                    System.out.println("Вы добавили новый элемент под именем " + result[0] + " в Трекер и вернулись в главное меню");
+                } catch (Exception e) {
+                    // Пишем в лог ошибки
+                    LogFileOut.createFile();
+                    LogFileOut.logged(e.getMessage());
+                }
+                break;
             }
-            tracker.add(new Item(result[0], result[1], Long.parseLong(result[2]), result[3]));
-            System.out.println("Вы добавили новый элемент под именем " + " в Трекер и вернулись в главное меню");
-        } catch (Exception e) {
-            // Пишем в лог ошибки
-            LogFileOut.createFile();
-            LogFileOut.logged(e.getMessage());
+            case ("n"): {
+                String results[] = new String[4];
+                //Points points;
+                for (int i = 0; i < results.length; i++) {
+                    System.out.println(Points.values()[i].getValue());
+                    results[i] = scanner.nextLine();
+                }
+                try {
+                    tracker.add(new Item(results[0], results[1], Long.parseLong(results[2]), results[3]));
+                } catch (NumberFormatException e) {
+                    System.out.println("Неправильный формат ввода данных! Повторите ввод.");
+                    break;
+                }
+                System.out.println("Вы добавили новый элемент под именем " + results[0] + " в Трекер и вернулись в главное меню");
+                break;
+            }
+            default: {
+                System.out.println("Введите y или n");
+            }
         }
     }
 
