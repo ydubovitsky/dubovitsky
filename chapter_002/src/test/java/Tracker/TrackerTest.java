@@ -2,6 +2,8 @@ package Tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
 
@@ -13,7 +15,7 @@ public class TrackerTest {
         // Добавляем 2 объекта типа Item в массив Item[] items объекта типа Tracker под именем tracker.
         tracker.add(new Item("name1", "desc", 17, "test"));
         tracker.add(new Item("name2", "desc2", 13, "test2"));
-        int result = tracker.findByName("name2").length;
+        int result = tracker.findByName("name2").size();
         int expect = 2;
         // Проверяем сколько элементов добавлено в массив.
         assertThat(result, is(expect));
@@ -59,8 +61,8 @@ public class TrackerTest {
         // Добавляев новые объекты в массивы
         tracker.add(item1);
         tracker.add(item2);
-        Item[] itemResult = tracker.findByName("name2");
-        assertThat(itemResult[0].getName(), is("name2"));
+        ArrayList<Item> itemResult = tracker.findByName("name2");
+        assertThat(itemResult.get(0).getName(), is("name2"));
     }
 
     @Test

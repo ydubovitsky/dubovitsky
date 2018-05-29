@@ -22,7 +22,7 @@ public class Tracker {
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (date.hashCode() + (Math.random() * 1000));
+		int random = (int) (date.hashCode() / (Math.random() * -100));
 		return random;
 	}
 
@@ -34,6 +34,7 @@ public class Tracker {
 	public void replace(int id, Item item) {
         for (int i = 0; i < items.length; i++) {
             if (id == items[i].getId()) {
+                item.setId(id);
                 items[i] = item;
                 break;
             }
@@ -47,6 +48,7 @@ public class Tracker {
                 System.arraycopy(items, 0, result, 0, index);
                 System.arraycopy(items, index + 1, result, index, items.length - index - 1);
                 items = result;
+                position--;
                 break;
             }
         }
@@ -63,11 +65,11 @@ public class Tracker {
 	/*
     Получение списка элементов с одинаковым именем.
 	 */
-	public Item[] findByName(String key) {
-        Item[] resultArray = new Item[position];
+	public ArrayList<Item> findByName(String key) {
+        ArrayList<Item> resultArray = new ArrayList<>();
         for(int i = 0, j = 0; i < position; i++) {
             if (key.equals(items[i].getName())) {
-                resultArray[j] = items[i];
+                resultArray.add(items[i]);
                 j++;
             }
         }
@@ -76,7 +78,7 @@ public class Tracker {
 
 	public Item findById(int id) {
 	    int i = 0;
-        for( ; i < items.length; i++) {
+        for( ; i < position; i++) {
             if(id == items[i].getId()) {
                 break;
             }

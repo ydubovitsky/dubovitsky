@@ -53,7 +53,7 @@ public class StartUI extends Thread {
                     break;
                 }
                 case ("4"): {
-                    searchElement();
+                    searchElementById();
                     break;
                 }
                 case ("5"): {
@@ -119,8 +119,8 @@ public class StartUI extends Thread {
             item = tracker.findAll();
             System.out.println("Выводим все элементы Трекера на экран.");
             for (int i = 0; i < item.length; i++) {
-                System.out.println(i + " Имя элемента - " + item[i].getName() +
-                        " и id - " + item[i].getId());
+                System.out.println(i + " Id элемента - " + item[i].getId() +
+                        " Имя - " + item[i].getName());
             }
         } else {
             System.out.println("В трекере нет элементов для отображения.");
@@ -129,32 +129,53 @@ public class StartUI extends Thread {
 
     synchronized private void editElement() {
         System.out.println("Введите номер элемента, который вы хотите отредактировать:");
-        int id = Integer.parseInt(scanner.nextLine());
-        // Создаем элемент для замены
-        System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
-        String[] result = scanner.nextLine().split(", ");
-        Item itemReplace = new Item(result[0], result[1], Long.parseLong(result[2]), result[3]);
-        tracker.replace(id, itemReplace);
-        System.out.println("Элементу c id№" + id + " отредактирован");
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+            // Создаем элемент для замены
+            System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
+            String[] result = scanner.nextLine().split(", ");
+            Item itemReplace = new Item(result[0], result[1], Long.parseLong(result[2]), result[3]);
+            tracker.replace(id, itemReplace);
+            System.out.println("Элементу c id№" + id + " отредактирован");
+        } catch (NumberFormatException n) {
+            System.out.println("Вы ввели неверные данные. Повторите ввод.");
+        }
     }
 
 
     synchronized private void deleteElement() {
         System.out.println("Введите id элемента, который вы хотите удалить");
-        int id = Integer.parseInt(scanner.nextLine());
-        tracker.delete(id);
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+            tracker.delete(id);
+            System.out.println("Элементы с id " + id + " удален.");
+        } catch (NumberFormatException n) {
+            System.out.println("Неправильный формат id, повторите попытку.");
+        }
     }
 
-    private void searchElement() {
+    private void searchElementById() {
+        // Мы исходим из того, что id не могут быть одинаковы.
         System.out.println("Введите id элемента, который вы хотите найти");
-        int id = Integer.parseInt(scanner.nextLine());
-        System.out.println(tracker.findById(id));
+        try {
+            int id = Integer.parseInt(scanner.nextLine());
+            System.out.println("Имя заявки: " + tracker.findById(id).getName());
+        } catch (NumberFormatException e) {
+            System.out.println("Недопустимый формат id");
+        }
     }
 
     private void searchElementByName() {
         System.out.println("Введите имя элемента, который вы хотите найти");
         String name = scanner.nextLine();
-        System.out.println(tracker.findByName(name));
+        System.out.println("Результаты поиска:");
+        if (tracker.findByName(name).size() != 0) {
+            System.out.println("Length = " + tracker.findByName(name).size());
+            for (int i = 0; i < tracker.findByName(name).size(); i++)
+                System.out.println("id заявки: " + tracker.findByName(name).get(i).getId());
+        } else {
+            System.out.println("Поиск не дал результата");
+        }
     }
 
     private void exit() {
