@@ -15,10 +15,8 @@ public class TrackerTest {
         // Добавляем 2 объекта типа Item в массив Item[] items объекта типа Tracker под именем tracker.
         tracker.add(new Item("name1", "desc", 17, "test"));
         tracker.add(new Item("name2", "desc2", 13, "test2"));
-        int result = tracker.findByName("name2").size();
-        int expect = 2;
         // Проверяем сколько элементов добавлено в массив.
-        assertThat(result, is(expect));
+        assertThat(tracker.findAll()[0].getName(), is("name1"));
     }
 
     @Test
