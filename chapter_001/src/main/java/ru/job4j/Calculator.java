@@ -14,7 +14,7 @@ class Calculator {
 	
 	public void div(double first, double second) {
 		if(second == 0) {
-			throw new ArithmeticException();
+			throw new ArithmeticException("На ноль делить нельзя");
 		} else {
 			this.result = first / second;
 		}

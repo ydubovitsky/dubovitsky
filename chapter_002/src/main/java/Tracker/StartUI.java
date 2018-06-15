@@ -2,12 +2,11 @@ package Tracker;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-public class StartUI extends Thread {
+public class StartUI {
 
-    private Scanner scanner = new Scanner(System.in);
-    private Tracker tracker = new Tracker();
+    private Tracker tracker;
+    private Input input;
     private Item[] item;
     private boolean exit = true;
     private final List<String> menuArray = Arrays.asList("0. Add new Item", "1. Show all items", "2. Edit item",
@@ -26,16 +25,17 @@ public class StartUI extends Thread {
         }
     }
 
-    public static void main(String[] args) {
-        new StartUI().start();
+    public StartUI(Tracker tracker, Input input) {
+        this.tracker = tracker;
+        this.input = input;
     }
 
-    public void run() {
+    public void init() {
         while (exit) {
             for (int i = 0; i < menuArray.size(); i++) {
                 System.out.println(menuArray.get(i));
             }
-            switch (scanner.nextLine()) {
+            switch (input.ask("Выберите пункты от 0 до 6")) {
                 case ("0"): {
                     addElement();
                     break;
@@ -72,13 +72,11 @@ public class StartUI extends Thread {
         }
     }
 
-    synchronized private void addElement() {
-        System.out.println("Для ввода данных через запятую нажмите \"y\", в строчку - \"n\"");
-        switch(scanner.nextLine()) {
+    private void addElement() {
+        switch(input.ask("Для ввода данных через запятую нажмите \"y\", в строчку - \"n\"")) {
             case ("y"): {
-                System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
                 try {
-                    String[] result = scanner.nextLine().split(", ");
+                    String[] result = input.ask("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:").split(", ");
                     if (result.length != 4) {
                         System.out.println("Ошибка! Повторите ввод.");
                         System.out.println("Пример ввода: Имя, Описание, 2018, забрать почту");
@@ -97,7 +95,7 @@ public class StartUI extends Thread {
                 //Points points;
                 for (int i = 0; i < results.length; i++) {
                     System.out.println(Points.values()[i].getValue());
-                    results[i] = scanner.nextLine();
+                    results[i] = input.ask("n");
                 }
                 try {
                     tracker.add(new Item(results[0], results[1], Long.parseLong(results[2]), results[3]));
@@ -127,13 +125,11 @@ public class StartUI extends Thread {
         }
     }
 
-    synchronized private void editElement() {
-        System.out.println("Введите номер элемента, который вы хотите отредактировать:");
+    private void editElement() {
         try {
-            int id = Integer.parseInt(scanner.nextLine());
+            int id = Integer.parseInt(input.ask("Введите номер элемента, который вы хотите отредактировать:"));
             // Создаем элемент для замены
-            System.out.println("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:");
-            String[] result = scanner.nextLine().split(", ");
+            String[] result = input.ask("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:").split(", ");
             Item itemReplace = new Item(result[0], result[1], Long.parseLong(result[2]), result[3]);
             tracker.replace(id, itemReplace);
             System.out.println("Элементу c id№" + id + " отредактирован");
@@ -143,10 +139,9 @@ public class StartUI extends Thread {
     }
 
 
-    synchronized private void deleteElement() {
-        System.out.println("Введите id элемента, который вы хотите удалить");
+    private void deleteElement() {
         try {
-            int id = Integer.parseInt(scanner.nextLine());
+            int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите удалить"));
             tracker.delete(id);
             System.out.println("Элементы с id " + id + " удален.");
         } catch (NumberFormatException n) {
@@ -156,9 +151,8 @@ public class StartUI extends Thread {
 
     private void searchElementById() {
         // Мы исходим из того, что id не могут быть одинаковы.
-        System.out.println("Введите id элемента, который вы хотите найти");
         try {
-            int id = Integer.parseInt(scanner.nextLine());
+            int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
             System.out.println("Имя заявки: " + tracker.findById(id).getName());
         } catch (NumberFormatException e) {
             System.out.println("Недопустимый формат id");
@@ -166,8 +160,7 @@ public class StartUI extends Thread {
     }
 
     private void searchElementByName() {
-        System.out.println("Введите имя элемента, который вы хотите найти");
-        String name = scanner.nextLine();
+        String name = input.ask("Введите имя элемента, который вы хотите найти");
         System.out.println("Результаты поиска:");
         if (tracker.findByName(name).size() != 0) {
             System.out.println("Length = " + tracker.findByName(name).size());
