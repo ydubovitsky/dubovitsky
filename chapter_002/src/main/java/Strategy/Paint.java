@@ -3,18 +3,18 @@ package Strategy;
 public class Paint {
     private Shape shape;
 
-    public Paint(Shape shape) {
+    public void setShape(Shape shape) {
         this.shape = shape;
     }
 
-    public String executePain() {
-        return shape.draw();
+    public void executePain() {
+        System.out.println(shape.draw());
     }
 
     public static void main(String[] args) {
-        Paint paint = new Paint(new Triangle());
-        System.out.println(paint.executePain());
-        paint = new Paint(new Square());
-        System.out.println(paint.executePain());
+        Shape shape = new Square();
+        Paint paint = new Paint();
+        paint.setShape(shape);
+        paint.executePain();
     }
 }
