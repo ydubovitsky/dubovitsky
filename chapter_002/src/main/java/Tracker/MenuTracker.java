@@ -1,6 +1,6 @@
 package Tracker;
 
-import javax.jws.soap.SOAPBinding;
+
 import java.util.ArrayList;
 
 public class MenuTracker {
@@ -8,6 +8,7 @@ public class MenuTracker {
 
     private Input input;
     private Tracker tracker;
+
     // Список всех наших функций
     private ArrayList<UserAction> actions = new ArrayList<UserAction>();
 
@@ -40,7 +41,10 @@ public class MenuTracker {
         }
     }
 
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
+
+        int key;
+        String name;
 
         public int key() {
             return 0;
@@ -60,7 +64,7 @@ public class MenuTracker {
     }
 // Статический класс тут неудобен! Приходится создавать свои переменные,
 // которым потом присваиваются значения из внешнего НЕстатического класса.
-    private static class ShowAllElements implements UserAction {
+    private static class ShowAllElements extends BaseAction {
 
         Tracker tracker;
         Input input;
@@ -94,7 +98,7 @@ public class MenuTracker {
         }
     }
 
-    class DeleteElement implements UserAction {
+    class DeleteElement extends BaseAction {
 
         @Override
         public int key() {
@@ -118,7 +122,7 @@ public class MenuTracker {
         }
     }
 
-    class SearchElementById implements UserAction {
+    class SearchElementById extends BaseAction {
 
         @Override
         public int key() {
@@ -142,7 +146,7 @@ public class MenuTracker {
         }
     }
 
-    class SearchByName implements UserAction {
+    class SearchByName extends BaseAction {
 
         @Override
         public int key() {
