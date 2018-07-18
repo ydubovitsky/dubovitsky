@@ -29,7 +29,7 @@ public class MenuTracker {
 
     public void doAction(int key) {
         if (key >= actions.size() || key < 0) {
-            System.out.println("Вы ввели некорректный номер, повторите ввод.");
+        // Еще одна дублирующая проверка - плохо.
         } else {
             actions.get(key).execute();
         }
@@ -146,7 +146,7 @@ public class MenuTracker {
         }
     }
 
-    class SearchByName extends BaseAction {
+    class SearchByName implements UserAction {
 
         @Override
         public int key() {

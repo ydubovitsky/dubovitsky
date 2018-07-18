@@ -1,6 +1,6 @@
 package Tracker;
 
-public class StartUI {
+public class StartUI extends ValidateInput {
 
     private Input input;
     private static boolean exit = true;
@@ -26,7 +26,7 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         new StartUI(input).init();
     }
 }

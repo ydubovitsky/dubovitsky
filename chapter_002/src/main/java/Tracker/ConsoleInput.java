@@ -10,5 +10,10 @@ public class ConsoleInput implements Input {
         System.out.println(question);
         return scanner.nextLine();
     }
+
+    @Override
+    public int ask(String question, int[] range) {
+        return -1;
+    }
 }
 
