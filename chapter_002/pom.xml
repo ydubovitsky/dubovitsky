@@ -33,6 +33,11 @@
             </plugin>
         </plugins>
     </build>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>com.github.sevntu.checkstyle</groupId>
+            <artifactId>sevntu-checks</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -3,9 +3,8 @@ package Tracker;
 public class StartUI extends ValidateInput {
 
     private Input input;
-    private static boolean exit = true;
 
-    public StartUI(Input input) {
+    public StartUI(final Input input) {
         this.input = input;
     }
 
@@ -18,15 +17,11 @@ public class StartUI extends ValidateInput {
             // Запрашиваем у пользователя действие
             int key = Integer.parseInt(input.ask("Выберите пункт меню: "));
             menu.doAction(key);
-        } while (exit);
-    }
-
-    protected static void setExit() {
-        exit = false;
+        } while (!"y".equals(input.ask("Вы хотите выйти? y/n")));
     }
 
     public static void main(String[] args) {
-        Input input = new ValidateInput();
+        Input input = new ConsoleInput();
         new StartUI(input).init();
     }
 }

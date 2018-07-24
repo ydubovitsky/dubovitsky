@@ -2,10 +2,10 @@ package Tracker;
 
 public interface UserAction {
 
-    // Запрашиваем у пользователя действие, которое он хочет выполнить.
+    // Запрашиваем у пользователя действие(ключ из меню), которое он хочет выполнить.
     int key();
     // Наши основные действия в трекере.
-    void execute();
+    void execute(Input input, Tracker tracker);
     // Что метод делает
     String info();
 }

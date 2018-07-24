@@ -1,112 +1,137 @@
 package Tracker;
+/**
+ * Этот класс отвечает за меню трекера.
+ * Класс содержит набор внутренних классов,
+ * отвечающих за работу с заявками.
+ */
+public final class MenuTracker {
+    /**
+     * Переменная, отвечающая за пользовательский ввод данных.
+     */
+    private final Input input;
+    /**
+     * Класс нашего трекера.
+     */
+    private final Tracker tracker;
+    /**
+     * Список всех наших функций
+     */
+    private final UserAction[] actions = new UserAction[6];
 
-
-import java.util.ArrayList;
-
-public class MenuTracker {
-    // Что делает наше меню?
-
-    private Input input;
-    private Tracker tracker;
-
-    // Список всех наших функций
-    private ArrayList<UserAction> actions = new ArrayList<UserAction>();
-
-    public MenuTracker(Input input, Tracker tracker) {
+    /**
+     *
+     * @param input
+     * @param tracker
+     */
+    public MenuTracker(final Input input, final Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
+    /**
+     * Метод, отвечающий за заполнение меню трекера.
+     */
     public void fillActions() {
-        this.actions.add(0, new AddItem());
-        this.actions.add(1, new MenuTracker.ShowAllElements(this.input, this.tracker));
-        this.actions.add(2, new EditElement(this.input, this.tracker));
-        this.actions.add(3, new DeleteElement());
-        this.actions.add(4, new SearchElementById());
-        this.actions.add(5, new SearchByName());
-        this.actions.add(6, new Exit(this.input));
+        actions[0] = new AddItem(0, "Добавить новый элемент");
+        actions[1] = new MenuTracker.ShowAllElements(1, "Показать все элементы");
+        actions[2] = new DeleteElement(2, "Удалить заявку");
+        actions[3] = new SearchElementById(3, "Найти заявку по id");
+        actions[4] = new SearchByName(4, "Найти заявку по Имени");
+        actions[5] = new EditElement(5, "Редактировать заявку");
     }
 
-    public void doAction(int key) {
-        if (key >= actions.size() || key < 0) {
-        // Еще одна дублирующая проверка - плохо.
-        } else {
-            actions.get(key).execute();
-        }
+    /**
+     * Метод, отвечающий за выполнение действий из меню
+     * по пользовательскому ключу.
+     * @param key
+     */
+    public void doAction(final int key) {
+        actions[key].execute(input, tracker);
     }
 
+    /**
+     * Метод, выводящий меню на экран пользователю.
+     */
     public void show() {
-        for (UserAction action: this.actions) {
+        for (UserAction action : actions) {
             System.out.println(action.info());
         }
     }
 
-    private class AddItem extends BaseAction {
-
-        int key;
-        String name;
-
-        public int key() {
-            return 0;
+    private final class AddItem extends BaseAction {
+        /**
+         * Обычный конструктор, передающий в родительский класс ключ и название метода.
+         * @param key
+         * @param name
+         */
+        private AddItem(final int key, final String name) {
+            super(key, name);
         }
 
-        public void execute() {
+        /**
+         * Метод, добавляющий в трекер новую заявку.
+         * @param input
+         * @param tracker
+         */
+        public void execute(final Input input, final Tracker tracker) {
             String name = input.ask("Введите Имя задачи");
             String desc = input.ask("Введите Описание нового элемента:");
             Long date = Long.parseLong(input.ask("Введите Дату Создания нового элемента:"));
             String comment = input.ask("Введите Коментарий:");
             tracker.add(new Item(name, desc, date, comment));
         }
-
-        public String info() {
-            return String.format("%s. %s", this.key(), "Добавить новый элемент");
-        }
     }
-// Статический класс тут неудобен! Приходится создавать свои переменные,
-// которым потом присваиваются значения из внешнего НЕстатического класса.
+
     private static class ShowAllElements extends BaseAction {
 
-        Tracker tracker;
-        Input input;
-
-        public ShowAllElements(Input input, Tracker tracker) {
-            this.tracker = tracker;
-            this.input = input;
+        /**
+         * Обычный конструктор, передающий в родительский класс ключ и название метода.
+         * @param key
+         * @param name
+         */
+        private ShowAllElements(final int key, final String name) {
+            super(key, name);
         }
 
-        @Override
-        public int key() {
-            return 1;
-        }
-
-        @Override
-        public void execute (){
+        /**
+         * Метод, показывающий все созданные заявки.
+         * @param input
+         * @param tracker
+         */
+        public void execute(final Input input, final Tracker tracker) {
             if (tracker.findAll().length > 0) {
                 System.out.println("Выводим все элементы Трекера на экран.");
                 for (int i = 0; i < tracker.findAll().length; i++) {
-                    System.out.println(i + " Id элемента - " + tracker.findAll()[i].getId() +
-                            " Имя - " + tracker.findAll()[i].getName());
+                    System.out.println(i + " Id элемента - " + tracker.findAll()[i].getId()
+                           + " Имя - " + tracker.findAll()[i].getName());
                 }
             } else {
                 System.out.println("В трекере нет элементов для отображения.");
             }
         }
-
-        @Override
-        public String info() {
-            return  String.format("%s. %s", this.key(), "Показать все элементы:");
-        }
     }
+    /**
+     * Класс, отвечающий за удаление заявок из трекера.
+     */
+    final class DeleteElement extends BaseAction {
 
-    class DeleteElement extends BaseAction {
-
-        @Override
-        public int key() {
-            return 3;
+        /**
+         *
+         * @param key
+         * @param name
+         */
+        private DeleteElement(final int key, final String name) {
+            super(key, name);
         }
 
+        /**
+         * Метод, удаляет заявку из трекера.
+         * @param input
+         * @param tracker
+         */
+        @SuppressWarnings("CheckStyle")
         @Override
-        public void execute() {
+        public void execute(Input input, Tracker tracker) {
             try {
                 int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите удалить"));
                 tracker.delete(id);
@@ -115,22 +140,25 @@ public class MenuTracker {
                 System.out.println("Неправильный формат id, повторите попытку.");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Удалить заявку:");
-        }
     }
 
-    class SearchElementById extends BaseAction {
+    final class SearchElementById extends BaseAction {
 
-        @Override
-        public int key() {
-            return 4;
+        /**
+         *
+         * @param key
+         * @param name
+         */
+        private SearchElementById(final int key, final String name) {
+            super(key, name);
         }
-
+        /**
+         * Метод, для поиска заявки в трекере по id.
+         * @param input
+         * @param tracker
+         */
         @Override
-        public void execute() {
+        public void execute(final Input input, final Tracker tracker) {
             // Мы исходим из того, что id не могут быть одинаковы.
             try {
                 int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
@@ -139,22 +167,25 @@ public class MenuTracker {
                 System.out.println("Недопустимый формат id");
             }
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Найти элемент по id");
-        }
     }
 
-    class SearchByName implements UserAction {
-
-        @Override
-        public int key() {
-            return 5;
+    final class SearchByName extends BaseAction {
+        /**
+         *
+         * @param key
+         * @param name
+         */
+        private SearchByName(final int key, final String name) {
+            super(key, name);
         }
 
+        /**
+         * Метод, ищет заявку в трекере по имени.
+         * @param input
+         * @param tracker
+         */
         @Override
-        public void execute() {
+        public void execute(final Input input, final Tracker tracker) {
             String name = input.ask("Введите имя элемента, который вы хотите найти");
             System.out.println("Результаты поиска:");
             if (tracker.findByName(name).size() != 0) {
@@ -165,55 +196,29 @@ public class MenuTracker {
                 System.out.println("Поиск не дал результата");
             }
         }
-
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Найти элемент по имени");
-        }
-    }
-
-    static class Exit extends StartUI implements UserAction {
-
-        public Exit(Input input) {
-            super(input);
-        }
-
-        @Override
-        public int key() {
-            return 6;
-        }
-
-        @Override
-        public void execute() {
-                StartUI.setExit();
-            }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s", this.key(), "Завершить работу.");
-        }
     }
 }
 
-// Внешний класс
-// Тоже неудобен, так как нет возможности использовать приватные переменный класса public class MenuTracker!
-class EditElement extends MenuTracker implements UserAction {
-
-    Input input;
-    Tracker tracker;
-
-    EditElement(Input input, Tracker tracker) {
-        super(input, tracker);
+/**
+ * Внешний класс, отвечающий за редактирование элементов.
+ */
+class EditElement extends BaseAction {
+    /**
+     *
+     * @param key
+     * @param name
+     */
+    EditElement(final int key, final String name) {
+        super(key, name);
     }
 
+    /**
+     * Метод, отвечающий за редактирование заявки в трекере.
+     * @param input
+     * @param tracker
+     */
     @Override
-    public int key() {
-        return 2;
-    }
-
-    @Override
-    public void execute() {
+    public void execute(final Input input, final Tracker tracker) {
         try {
             int id = Integer.parseInt(input.ask("Введите номер элемента, который вы хотите отредактировать:"));
             // Создаем элемент для замены
@@ -224,10 +229,5 @@ class EditElement extends MenuTracker implements UserAction {
         } catch (NumberFormatException n) {
             System.out.println("Вы ввели неверные данные. Повторите ввод.");
         }
-    }
-
-    @Override
-    public String info() {
-        return  String.format("%s. %s", this.key(), "Редактирование элементов списка:");
     }
 }
