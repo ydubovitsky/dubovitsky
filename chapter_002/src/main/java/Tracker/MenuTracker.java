@@ -132,13 +132,9 @@ public final class MenuTracker {
         @SuppressWarnings("CheckStyle")
         @Override
         public void execute(Input input, Tracker tracker) {
-            try {
                 int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите удалить"));
                 tracker.delete(id);
                 System.out.println("Элементы с id " + id + " удален.");
-            } catch (NumberFormatException n) {
-                System.out.println("Неправильный формат id, повторите попытку.");
-            }
         }
     }
 
@@ -160,12 +156,8 @@ public final class MenuTracker {
         @Override
         public void execute(final Input input, final Tracker tracker) {
             // Мы исходим из того, что id не могут быть одинаковы.
-            try {
                 int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
                 System.out.println("Имя заявки: " + tracker.findById(id).getName());
-            } catch (NumberFormatException e) {
-                System.out.println("Недопустимый формат id");
-            }
         }
     }
 
@@ -219,15 +211,11 @@ class EditElement extends BaseAction {
      */
     @Override
     public void execute(final Input input, final Tracker tracker) {
-        try {
             int id = Integer.parseInt(input.ask("Введите номер элемента, который вы хотите отредактировать:"));
             // Создаем элемент для замены
             String[] result = input.ask("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:").split(", ");
             Item itemReplace = new Item(result[0], result[1], Long.parseLong(result[2]), result[3]);
             tracker.replace(id, itemReplace);
             System.out.println("Элементу c id№" + id + " отредактирован");
-        } catch (NumberFormatException n) {
-            System.out.println("Вы ввели неверные данные. Повторите ввод.");
-        }
     }
 }
