@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 
 abstract public class BaseAction implements UserAction {
 

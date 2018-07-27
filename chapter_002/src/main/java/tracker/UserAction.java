@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 
 public interface UserAction {
 

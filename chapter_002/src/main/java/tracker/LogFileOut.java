@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 
 import java.io.File;
 import java.io.FileOutputStream;

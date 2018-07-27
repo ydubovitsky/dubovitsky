@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class TrackerTest {
     @Test
     public void add() {
         Tracker tracker = new Tracker();
-        // Добавляем 2 объекта типа Item в массив Item[] items объекта типа Tracker под именем tracker.
+        // Добавляем 2 объекта типа Item в массив Item[] items объекта типа tracker под именем tracker.
         tracker.add(new Item("name1", "desc", 17, "test"));
         tracker.add(new Item("name2", "desc2", 13, "test2"));
         // Проверяем сколько элементов добавлено в массив.

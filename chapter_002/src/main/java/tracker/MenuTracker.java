@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 /**
  * Этот класс отвечает за меню трекера.
  * Класс содержит набор внутренних классов,
@@ -58,13 +58,13 @@ public final class MenuTracker {
         }
     }
 
-    private final class AddItem extends BaseAction {
+    private static final class AddItem extends BaseAction {
         /**
          * Обычный конструктор, передающий в родительский класс ключ и название метода.
          * @param key
          * @param name
          */
-        private AddItem(final int key, final String name) {
+        AddItem(final int key, final String name) {
             super(key, name);
         }
 
@@ -82,7 +82,7 @@ public final class MenuTracker {
         }
     }
 
-    private static class ShowAllElements extends BaseAction {
+    static class ShowAllElements extends BaseAction {
 
         /**
          * Обычный конструктор, передающий в родительский класс ключ и название метода.

@@ -1,4 +1,4 @@
-package Tracker;
+package tracker;
 
 public class StartUI extends ValidateInput {
 
