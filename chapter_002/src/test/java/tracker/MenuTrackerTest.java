@@ -26,7 +26,7 @@ public class MenuTrackerTest {
 
     @Test
     public void fillActions() {
-        
+
     }
 
     @Test
