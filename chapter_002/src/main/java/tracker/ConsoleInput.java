@@ -11,9 +11,12 @@ public class ConsoleInput implements Input {
         return scanner.nextLine();
     }
 
-    @Override
-    public int ask(String question, int[] range) {
-        return -1;
+    public int ask(String question, int range) {
+        int key = Integer.valueOf(ask(question));
+        if (key > range || key < 0) {
+            System.out.println("out of range");
+        }
+        return key;
     }
 }
 

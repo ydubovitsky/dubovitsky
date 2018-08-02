@@ -18,6 +18,10 @@ public final class MenuTracker {
      */
     private final UserAction[] actions = new UserAction[6];
 
+    public int getActionsLength() {
+        return actions.length;
+    }
+
     /**
      *
      * @param input

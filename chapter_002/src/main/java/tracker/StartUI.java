@@ -15,13 +15,12 @@ public class StartUI extends ValidateInput {
         do {
             menu.show();
             // Запрашиваем у пользователя действие
-            int key = Integer.parseInt(input.ask("Выберите пункт меню: "));
-            menu.doAction(key);
+            menu.doAction(input.ask("Выберите пункт меню: ", menu.getActionsLength()));
         } while (!"y".equals(input.ask("Вы хотите выйти? y/n")));
     }
 
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         new StartUI(input).init();
     }
 }
