@@ -1,36 +1,49 @@
 package tracker;
 
 import java.util.*;
-import java.util.Arrays;
 
+/**
+ *
+ */
 public class Tracker {
 
+    /**
+     * Максимальное количество заявок в трекере.
+     */
     private Item[] items = new Item[100];
+
+    /**
+     * Число заявок в трекере в текущий момент.
+     */
     private int position = 0;
 
-	/*
-	Добавление заявки с уникальным ID.
-	 */
+    /**
+     *
+     * @param item
+     * @return
+     */
 	public Item[] add(Item item) {
 		item.setId(generateId());
 		items[position++] = item;
 		return items;
 	}
 
-    /*
-    Генерируем уникальный ID.
+    /**
+     * Генерируем id случайным образом
+     * @return
      */
 	private int generateId() {
 		Date date = new Date();
-		int random = (int) (date.hashCode() / (Math.random() * -100));
-		return random;
+		return (int) (date.hashCode() / (Math.random() * -100));
 	}
 
-	/*
-	Редактирование заявок.
-	Ищем в массиве объектов items заявку по ключу, если нашли, то присваиваем ей новый сгенерированный ключ
-	и досрочно выходим из цикла.
-	 */
+    /**
+     * Редактирование заявок.
+     Ищем в массиве объектов items заявку по ключу, если нашли, то присваиваем ей новый сгенерированный ключ
+     и досрочно выходим из цикла.
+     * @param id
+     * @param item
+     */
 	public void replace(int id, Item item) {
         for (int i = 0; i < items.length; i++) {
             if (id == items[i].getId()) {
@@ -41,48 +54,67 @@ public class Tracker {
         }
 	}
 
+    /**
+     * Удаляем заявку из трекера.
+     * @param id
+     */
     public void delete(int id) {
-        Item[] result = new Item[items.length];
         for (int index = 0; index != this.position; index++) {
             if (this.items[index].getId() == id) {
-                System.arraycopy(items, 0, result, 0, index);
-                System.arraycopy(items, index + 1, result, index, items.length - index - 1);
-                items = result;
+                System.arraycopy(items, index + 1, items, index, items.length - index - 1);
                 position--;
                 break;
             }
         }
     }
 
-	/*
-	Возвращает копию массива, именно копию а не ссылку на тот же массив.
-	 */
+    /**
+     * Производим поиск всех заявок в трекере.
+     * @return
+     */
 	public Item[] findAll() {
-        Item[] findAllItems = Arrays.copyOf(items, position);
-        return findAllItems;
+        return Arrays.copyOf(items, position);
 	}
 
-	/*
-    Получение списка элементов с одинаковым именем.
-	 */
-	public ArrayList<Item> findByName(String key) {
-        ArrayList<Item> resultArray = new ArrayList<>();
-        for(int i = 0, j = 0; i < position; i++) {
+    /**
+     * Производим поиск заявки в трекере по имени заявки.
+     * Сперва вчисляется количество заявок с одинаковыми именами, затем создается массив длинной равной
+     * количеству этих заявок.
+     * Затем этот массив заполняется этими заявками и возвращается.
+     * Метод возвращает массив заявок с одинаковыми именами.
+     * @param key
+     * @return
+     */
+    public Item[] findByName(String key) {
+        int arrayLength = 0;
+        for(int i = 0; i < position; i++) {
             if (key.equals(items[i].getName())) {
-                resultArray.add(items[i]);
+                arrayLength++;
+            }
+        }
+        Item[] resultArray = new Item[arrayLength];
+        for(int j = 0; j < arrayLength; j++) {
+            if (key.equals(items[j].getName())) {
+                resultArray[j] = items[j];
                 j++;
             }
         }
         return resultArray;
 	}
 
-	public Item findById(int id) {
-	    int i = 0;
-        for( ; i < position; i++) {
-            if(id == items[i].getId()) {
-                break;
+    /**
+     * Производим поиск по id
+     * @param id
+     * @return
+     */
+	public Item findById(int id) throws MenuOutException {
+	    Item item = new Item();
+	    for (int i = 0; i < position; i++) {
+	        if (id == items[i].getId()) {
+	            item = items[i];
+	            break;
             }
         }
-        return items[i];
-	}
+        return item;
+    }
 }

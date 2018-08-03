@@ -59,8 +59,8 @@ public class TrackerTest {
         // Добавляев новые объекты в массивы
         tracker.add(item1);
         tracker.add(item2);
-        ArrayList<Item> itemResult = tracker.findByName("name2");
-        assertThat(itemResult.get(0).getName(), is("name2"));
+        Item[] itemResult = tracker.findByName("name2");
+        assertThat(itemResult[0].getName(), is("name2"));
     }
 
     @Test

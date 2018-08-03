@@ -160,8 +160,8 @@ public final class MenuTracker {
         @Override
         public void execute(final Input input, final Tracker tracker) {
             // Мы исходим из того, что id не могут быть одинаковы.
-                int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
-                System.out.println("Имя заявки: " + tracker.findById(id).getName());
+            int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
+            System.out.println("Имя заявки: " + tracker.findById(id).getName());
         }
     }
 
@@ -184,10 +184,10 @@ public final class MenuTracker {
         public void execute(final Input input, final Tracker tracker) {
             String name = input.ask("Введите имя элемента, который вы хотите найти");
             System.out.println("Результаты поиска:");
-            if (tracker.findByName(name).size() != 0) {
-                System.out.println("Length = " + tracker.findByName(name).size());
-                for (int i = 0; i < tracker.findByName(name).size(); i++)
-                    System.out.println("id заявки: " + tracker.findByName(name).get(i).getId());
+            if (tracker.findByName(name).length != 0) {
+                System.out.println("Length = " + tracker.findByName(name).length);
+                for (int i = 0; i < tracker.findByName(name).length; i++)
+                    System.out.println("id заявки: " + tracker.findByName(name)[i].getId());
             } else {
                 System.out.println("Поиск не дал результата");
             }

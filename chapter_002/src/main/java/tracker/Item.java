@@ -1,8 +1,9 @@
 package tracker;
 
 public class Item {
-    /*
-    Лучше всего чтобы id был типа int а не String.
+
+    /**
+     * Переменные класса, характеризующие заявку.
      */
     private int id;
     private String name;
@@ -32,34 +33,4 @@ public class Item {
     public String getName() {
         return this.name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public long getCreate() {
-        return create;
-    }
-
-    public void setCreate(long create) {
-        this.create = create;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-
 }
