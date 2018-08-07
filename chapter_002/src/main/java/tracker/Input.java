@@ -18,5 +18,5 @@ public interface Input {
      * @param range
      * @return
      */
-    int ask(String question, int range);
+    int ask(String question, int[] range);
 }

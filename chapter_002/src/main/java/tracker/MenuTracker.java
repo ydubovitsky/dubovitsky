@@ -18,8 +18,16 @@ public final class MenuTracker {
      */
     private final UserAction[] actions = new UserAction[6];
 
-    public int getActionsLength() {
-        return actions.length;
+    /**
+     * Метод возвращает массив ключей меню.
+     * @return
+     */
+    public int[] getActionsLength() {
+        int[] length = new int[actions.length];
+        for (int i = 0; i < actions.length; i++) {
+            length[i] = i;
+        }
+        return length;
     }
 
     /**
