@@ -1,13 +1,26 @@
 package tracker;
 
-public class StartUI extends ValidateInput {
+/**
+ * Главный класс приложения Трекер.
+ */
+public class StartUI {
 
+    /**
+     * Параметр отвечающий за ввод данных.
+     */
     private Input input;
 
+    /**
+     * Конструктор.
+     * @param input
+     */
     public StartUI(final Input input) {
         this.input = input;
     }
 
+    /**
+     * Метод запускающий приложение.
+     */
     public void init() {
         Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(input, tracker);
@@ -19,8 +32,11 @@ public class StartUI extends ValidateInput {
         } while (!"y".equals(input.ask("Вы хотите выйти? y/n")));
     }
 
+    /**
+     * Главный метод, отвечающий за запуск приложения.
+     * @param args
+     */
     public static void main(String[] args) {
-        Input input = new ValidateInput();
-        new StartUI(input).init();
+        new StartUI(new ValidateInput(new ConsoleInput())).init();
     }
 }
