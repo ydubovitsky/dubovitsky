@@ -12,10 +12,19 @@ public class ConsoleInput implements Input {
     }
 
     public int ask(String question, int range) {
-        int key = Integer.valueOf(ask(question));
-        if (key > range || key < 0) {
-            System.out.println("out of range");
-        }
+        int key = -1;
+        do {
+            try {
+                key = Integer.valueOf(ask(question));
+                if (key > range || key < 0) {
+                    throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
+                } else {
+                    break;
+                }
+            } catch (MenuOutException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (true);
         return key;
     }
 }
