@@ -35,9 +35,8 @@ public class ConsoleInput implements Input {
                 key = Integer.valueOf(ask(question));
                 if (key > range.length || key < 0) {
                     throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
-                } else {
-                    break;
                 }
+                break;
             } catch (MenuOutException e) {
                 System.out.println(e.getMessage());
             }
