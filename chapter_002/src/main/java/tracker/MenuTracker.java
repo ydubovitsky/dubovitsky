@@ -23,11 +23,11 @@ public final class MenuTracker {
      * @return
      */
     public int[] getActionsLength() {
-        int[] length = new int[actions.length];
+        int[] arrayOfKeys = new int[actions.length];
         for (int i = 0; i < actions.length; i++) {
-            length[i] = i;
+            arrayOfKeys[i] = actions[i].key();
         }
-        return length;
+        return arrayOfKeys;
     }
 
     /**
@@ -58,7 +58,14 @@ public final class MenuTracker {
      * @param key
      */
     public void doAction(final int key) {
-        actions[key].execute(input, tracker);
+        int i = 0;
+        do {
+            if (actions[i].key() == key) {
+                actions[i].execute(input, tracker);
+                break;
+            }
+            i++;
+        }while (true);
     }
 
     /**

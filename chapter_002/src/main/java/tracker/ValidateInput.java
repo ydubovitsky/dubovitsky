@@ -31,26 +31,35 @@ public class ValidateInput implements Input {
 
     /**
      * Метод проверяет валидность вводимых пользователем данных.
+     * Если ключ не соответствует значению из массива переданных ключей, возникает исключение.
      * @param question
      * @param range
      * @return
      */
     public int ask(String question, int[] range) {
+        boolean find = true;
         int key = -1;
+        int i = 0;
         do {
             try {
                 key = Integer.valueOf(ask(question));
-                if (key > range.length || key < 0) {
-                    throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
-                } else {
-                    break;
-                }
+                do {
+                    if (key == range[i]) {
+                        find = false;
+                        break;
+                    } else {
+                        if (i == range.length - 1) {
+                            throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
+                        }
+                    }
+                    i++;
+                } while (true);
             } catch (MenuOutException exp) {
                 System.out.println(exp.getMessage());
             } catch (NumberFormatException exp) {
                 System.out.println("Необходимо ввести корректное значение");
             }
-        } while(true);
+        } while(find);
         return key;
     }
 }
