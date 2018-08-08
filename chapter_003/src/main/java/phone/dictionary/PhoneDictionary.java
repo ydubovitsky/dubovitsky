@@ -17,21 +17,21 @@ public class PhoneDictionary {
      */
     public List<Person> find(String key) {
         List<Person> result = new ArrayList<>();
-        for (int i = 0; i < this.persons.size(); i++) {
-            if (persons.get(i).getName().contains(key)) {
+        for (int i = 0; i < persons.size(); i++) {
+            String str = String.join("", persons.get(i).getList());
+            if (str.contains(key)) {
                 result.add(persons.get(i));
             }
-            if (persons.get(i).getAddress().contains(key)) {
-                result.add(persons.get(i));
-            }
-            if (persons.get(i).getPhone().contains(key)) {
-                result.add(persons.get(i));
-            }
-            if (persons.get(i).getSurname().contains(key)) {
-                result.add(persons.get(i));
-            }
+            //System.out.println(str);
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        PhoneDictionary phoneDictionary = new PhoneDictionary();
+        phoneDictionary.add(new Person("Иван", "Дулин", "03", "Челябинск"));
+        phoneDictionary.add(new Person("Иван", "Дулин", "03", "Челябинск"));
+        System.out.println(phoneDictionary.find("Иван"));
     }
 }
 
