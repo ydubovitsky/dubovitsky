@@ -37,29 +37,18 @@ public class ValidateInput implements Input {
      * @return
      */
     public int ask(String question, int[] range) {
-        boolean find = true;
-        int key = -1;
-        int i = 0;
+        boolean invalidNumber = true;
+        int result = -1;
         do {
             try {
-                key = Integer.valueOf(ask(question));
-                do {
-                    if (key == range[i]) {
-                        find = false;
-                        break;
-                    } else {
-                        if (i == range.length - 1) {
-                            throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
-                        }
-                    }
-                    i++;
-                } while (true);
-            } catch (MenuOutException exp) {
-                System.out.println(exp.getMessage());
-            } catch (NumberFormatException exp) {
+                result = this.input.ask(question, range);
+                invalidNumber = false;
+            } catch (MenuOutException moe) {
+                System.out.println("Необходимо выбрать значение из диапазона меню");
+            } catch (NumberFormatException nfe) {
                 System.out.println("Необходимо ввести корректное значение");
             }
-        } while(find);
-        return key;
+        } while (invalidNumber);
+        return result;
     }
 }
