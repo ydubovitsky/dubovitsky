@@ -1,4 +1,4 @@
-package models;
+package tracker.simple;
 
 public class Task extends Item {
 	public Task(String name, String description) {
