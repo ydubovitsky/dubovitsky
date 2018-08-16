@@ -1,12 +1,13 @@
 package convert.list.to.array;
 
 import org.junit.Test;
-
 import java.util.Arrays;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Класс для тестирования.
+ */
 public class ConvertList2ArrayTest {
     @Test
     public void when7ElementsThen9() {
