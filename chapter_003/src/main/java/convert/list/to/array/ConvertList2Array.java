@@ -35,6 +35,22 @@ public class ConvertList2Array {
     }
 
     /**
+     * Метод конвертирует лист массивов в лист.
+     * @param list - лист массивов.
+     * @return
+     */
+    public List<Integer> convert (List<int[]> list) {
+        List<Integer> listResult = new ArrayList<>();
+        for (int[] a : list) {
+            for (int b : a) {
+                listResult.add(b);
+            }
+        }
+        return listResult;
+    }
+
+
+    /**
      * Главный метод
      * @param args
      */
@@ -50,6 +66,13 @@ public class ConvertList2Array {
             for (int b : a) {
                 System.out.print(b);
             }
+        }
+        List<int[]> listR = new ArrayList<>();
+        listR.add(new int[]{1, 2});
+        listR.add(new int[]{3, 4, 5, 6});
+        List<Integer> result = convertList2Array.convert(listR);
+        for (int a : result) {
+            System.out.println(a);
         }
     }
 }
