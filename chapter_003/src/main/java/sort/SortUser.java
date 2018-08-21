@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Класс, реализующий сортировку пользователей.
+ * Класс, реализующий сортировку пользователей
  */
 public class SortUser {
     /**

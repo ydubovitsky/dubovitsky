@@ -3,10 +3,7 @@ package sort;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -19,29 +16,38 @@ public class SortUserTest {
      * Лист пользователей
      */
     List<User> users = new ArrayList<User>();
-    /**
-     * Множество отсортированных пользователей.
-     */
-    Set<User> usersSet = new TreeSet<>(users);
+    User user1 = new User("Петр", 99);
+    User user2 = new User("Иван", 9);
+    User user3 = new User("Федор", -5);
+    User user4 = new User("Киса", 15);
+    User user5 = new User("Ося", 0);
+
     /**
      * Метод заполняет лист пользователями.
      * @throws Exception
      */
     @Before
     public void setUp() throws Exception {
-        for (int i = 10; i > 0; i--) {
-            users.add(new User("Иван", i));
-        }
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
     }
 
     /**
-     * Тест показывает сортирует ли метод SortUser
+     * Тест показывает сортирует ли метод SortUser.
+     * Приходится конвертировать множество в Лист, чтобы прошел тест.
      */
     @Test
     public void whenUserSortedByAge() {
-        SortUser sortUser = new SortUser();
-        Set resultSet = sortUser.sort(users);
-        Set<User> usersSet = new TreeSet<>(users);
-        assertThat(usersSet, is(resultSet));
+        List<User> result = new ArrayList(new SortUser().sort(users));
+        List<User> expected = new ArrayList<>();
+        expected.add(user3);
+        expected.add(user5);
+        expected.add(user2);
+        expected.add(user4);
+        expected.add(user1);
+        assertThat(result, is(expected));
     }
 }
