@@ -1,4 +1,4 @@
-package models;
+package tracker.simple;
 
 public class Item {
 	public String name;

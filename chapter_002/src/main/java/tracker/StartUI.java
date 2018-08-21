@@ -11,6 +11,11 @@ public class StartUI {
     private Input input;
 
     /**
+     * Переменная, отвечающая за работу цикла.
+     */
+    private volatile boolean active = true;
+
+    /**
      * Конструктор.
      * @param input
      */
@@ -19,17 +24,25 @@ public class StartUI {
     }
 
     /**
+     *
+     * @param active
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
      * Метод запускающий приложение.
      */
     public void init() {
         Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(input, tracker);
-        menu.fillActions();
+        menu.fillActions(this);
         do {
             menu.show();
             // Запрашиваем у пользователя действие
             menu.doAction(input.ask("Выберите пункт меню: ", menu.getActionsLength()));
-        } while (!"y".equals(input.ask("Вы хотите выйти? y/n")));
+        } while (active);
     }
 
     /**

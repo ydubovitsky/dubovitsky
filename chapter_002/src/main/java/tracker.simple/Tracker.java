@@ -1,6 +1,4 @@
-package start;
-
-import models.*;
+package tracker.simple;
 
 public class Tracker {
 	

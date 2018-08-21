@@ -107,12 +107,12 @@ public class Tracker {
      * @param id
      * @return
      */
-    public Item findById(int id) {
-        Item item = null;
-        for(int i = 0; i < position; i++) {
-            if(id == items[i].getId()) {
-                item = items[i];
-                break;
+	public Item findById(int id) throws MenuOutException {
+	    Item item = new Item();
+	    for (int i = 0; i < position; i++) {
+	        if (id == items[i].getId()) {
+	            item = items[i];
+	            break;
             }
         }
         return item;

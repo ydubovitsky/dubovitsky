@@ -16,7 +16,7 @@ public final class MenuTracker {
     /**
      * Список всех наших функций
      */
-    private final UserAction[] actions = new UserAction[6];
+    private final UserAction[] actions = new UserAction[7];
 
     /**
      * Метод возвращает массив ключей меню.
@@ -42,14 +42,16 @@ public final class MenuTracker {
 
     /**
      * Метод, отвечающий за заполнение меню трекера.
+     * @param startUI
      */
-    public void fillActions() {
+    public void fillActions(StartUI startUI) {
         actions[0] = new AddItem(0, "Добавить новый элемент");
         actions[1] = new MenuTracker.ShowAllElements(1, "Показать все элементы");
         actions[2] = new DeleteElement(2, "Удалить заявку");
         actions[3] = new SearchElementById(3, "Найти заявку по id");
         actions[4] = new SearchByName(4, "Найти заявку по Имени");
         actions[5] = new EditElement(5, "Редактировать заявку");
+        actions[6] = new ExitProgram(6, "Выйти из программы", startUI);
     }
 
     /**
@@ -176,7 +178,12 @@ public final class MenuTracker {
         public void execute(final Input input, final Tracker tracker) {
             // Мы исходим из того, что id не могут быть одинаковы.
             int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
-            System.out.println("Имя заявки: " + tracker.findById(id).getName());
+            String value = tracker.findById(id).getName();
+            if (value == null) {
+                System.out.println("Заявка с данным id не найдена!");
+            } else {
+                System.out.println("Имя заявки: " + value);
+            }
         }
     }
 
@@ -205,6 +212,44 @@ public final class MenuTracker {
                     System.out.println("id заявки: " + tracker.findByName(name)[i].getId());
             } else {
                 System.out.println("Поиск не дал результата");
+            }
+        }
+    }
+
+    /**
+     * Класс отвечающий за выход из программы.
+     */
+    class ExitProgram extends BaseAction {
+
+        /**
+         * В эту переменную передается экземпляр класса, который запускает программу.
+         * Таким образом мы можем влиять на запускающий класс.
+         */
+        private final StartUI startUI;
+
+        /**
+         * Конструктор
+         * @param key - Номер из меню трекера.
+         * @param name
+         * @param startUI - экземпляр класса, который запускает программу.
+         */
+        public ExitProgram(final int key, final String name, StartUI startUI) {
+            super(key, name);
+            this.startUI = startUI;
+        }
+
+        /**
+         * Метод отвечающий за прерывание программы.
+         * @param input
+         * @param tracker
+         */
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            String answer = input.ask("Вы хотите выйти? y/n");
+            if ("y".equals(answer)) {
+                this.startUI.setActive(false);
+            } else {
+                this.startUI.setActive(true);
             }
         }
     }
