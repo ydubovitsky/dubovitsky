@@ -17,21 +17,14 @@ public class SortUser {
 
     /**
      * Сортирует List<User> по длине имени с использованием локального компаратора.
+     * В теле метода мы переопределяем компаратор класса Collections на собственный.
      * @param list
      * @return
      */
     public List<User> sortNameLength (List<User> list) {
-        /**
-         * Локальный класс Компаратора.
-         */
-        class LocalComparator implements Comparator<User> {
 
-            /**
-             * Переопределенный компаратор.
-             * @param user1
-             * @param user2
-             * @return
-             */
+        Collections.sort(list, new Comparator<User>() {
+            @Override
             public int compare(User user1, User user2) {
                 int result = 0;
                 if (user1.getName().length() > user2.getName().length()) {
@@ -41,55 +34,32 @@ public class SortUser {
                 }
                 return result;
             }
-        }
-        List<User> sorted = new ArrayList<>();
-        TreeSet<User> treeSet = new TreeSet<>(new LocalComparator());
-        treeSet.addAll(list);
-        sorted.addAll(treeSet);
-        return sorted;
+
+        });
+        return list;
     }
 
     /**
      * Метод, отвечающий за сортировку сперва по возрасту, затем по имени.
+     * В теле метода мы переопределяем компаратор класса Collections на собственный.
      * @return
      */
     public List<User> sortByAllFields (List<User> list) {
-        /**
-         * Класс реализующий локальный компаратор.
-         */
-        class LocalComparator implements Comparator<User> {
 
-            /**
-             * Сортировка по возрасту.
-             * @param user1
-             * @param user2
-             * @return
-             */
+        Collections.sort(list, new Comparator<User>() {
+
             @Override
             public int compare(User user1, User user2) {
                 return user1.getAge() - user2.getAge();
             }
-        }
+        });
 
-        /**
-         * Еще один компаратор.
-         */
-        class ElseOneLocalComparator implements Comparator<User> {
-
-            /**
-             * Реализует сортировку по имени в лексикографическиом порядке
-             * @param user1
-             * @param user2
-             * @return
-             */
+        Collections.sort(list, new Comparator<User>() {
+            @Override
             public int compare(User user1, User user2) {
                 return user1.getName().compareTo(user2.getName());
             }
-        }
-        List<User> sorted = new ArrayList<>();
-        TreeSet<User> treeSet = new TreeSet<>(new ElseOneLocalComparator().thenComparing(new LocalComparator()));
-        treeSet.addAll(list);
-        sorted.addAll(treeSet);
-        return sorted;
+        });
+        return list;
     }
 }
