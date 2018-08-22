@@ -3,7 +3,7 @@ package sort;
 import java.util.*;
 
 /**
- * Класс, реализующий сортировку пользователей.
+ * Класс, реализующий сортировку пользователей
  */
 public class SortUser {
     /**
@@ -12,9 +12,7 @@ public class SortUser {
      * @return - отсортированное множество пользователей.
      */
     public Set<User> sort (List<User> list){
-        TreeSet resultSet = new TreeSet<>();
-        resultSet.addAll(list);
-        return resultSet;
+        return new TreeSet<User>(list);
     }
 
     /**

@@ -29,18 +29,20 @@ public class ConsoleInput implements Input {
      * @return
      */
     public int ask(String question, int[] range) {
-        int result = Integer.valueOf(this.ask(question));
-        boolean isExist = false;
-        for (int value : range) {
-            if (result == value) {
-                isExist = true;
-                break;
+        int key = -1;
+        do {
+            try {
+                key = Integer.valueOf(ask(question));
+                if (key > range.length || key < 0) {
+                    throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
+                } else {
+                    break;
+                }
+            } catch (MenuOutException e) {
+                System.out.println(e.getMessage());
             }
-        }
-        if (!isExist) {
-            throw new MenuOutException("Необходимо выбрать значение из диапазона меню");
-        }
-        return result;
+        } while (true);
+        return key;
     }
 }
 
