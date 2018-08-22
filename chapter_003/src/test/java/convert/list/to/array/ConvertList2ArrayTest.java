@@ -17,7 +17,7 @@ public class ConvertList2ArrayTest {
     ConvertList2Array list = new ConvertList2Array();
 
     /**
-     * 
+     *
      */
     @Test
     public void when7ElementsThen9() {

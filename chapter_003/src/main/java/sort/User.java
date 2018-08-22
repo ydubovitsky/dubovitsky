@@ -20,6 +20,22 @@ public class User implements Comparable<User> {
         this.age = age;
     }
 
+    /**
+     * Геттер для имени.
+     * @return - имя пользователя.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Геттер для возраста.
+     * @return
+     */
+    public Integer getAge() {
+        return this.age;
+    }
+
     @Override
     public int compareTo(User user) {
         return age.compareTo(user.age);

@@ -44,4 +44,44 @@ public class SortUserTest {
         Set<User> usersSet = new TreeSet<>(users);
         assertThat(usersSet, is(resultSet));
     }
+
+    /**
+     * Тест проверяет сортировку по длине имени.
+     */
+    @Test
+    public void whenUsersSortedByNameLength() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("Киса Воробьянинов", 77));
+        users.add(new User("Виталий", 4));
+        users.add(new User("Неуважай-Корыто", 102));
+        users.add(new User("Петр", 47));
+        SortUser sortUser = new SortUser();
+        List<User> resultList = sortUser.sortNameLength(users);
+        List<User> expected = new ArrayList<>();
+        expected.add(new User("Петр", 77));
+        expected.add(new User("Виталий", 4));
+        expected.add(new User("Неуважай-Корыто", 102));
+        expected.add(new User("иса Воробьянинов", 47));
+        assertThat(expected, is(resultList));
+    }
+
+    /**
+     * Тест проверяет сортировку по длине имени, а затем по возрасту.
+     */
+    @Test
+    public void whenUsersSortedByNameLengthAndAge() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("Киса Воробьянинов", 77));
+        users.add(new User("Виталий", 4));
+        users.add(new User("Неуважай-Корыто", 102));
+        users.add(new User("Петр", 47));
+        SortUser sortUser = new SortUser();
+        List<User> resultList = sortUser.sortByAllFields(users);
+        List<User> expected = new ArrayList<>();
+        expected.add(new User("Петр", 77));
+        expected.add(new User("Виталий", 4));
+        expected.add(new User("Неуважай-Корыто", -6));
+        expected.add(new User("иса Воробьянинов", 47));
+        assertThat(expected, is(resultList));
+    }
 }
