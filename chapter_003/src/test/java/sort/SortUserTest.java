@@ -16,11 +16,11 @@ public class SortUserTest {
      * Лист пользователей
      */
     List<User> users = new ArrayList<User>();
-    User user1 = new User("Петр", 99);
-    User user2 = new User("Иван", 9);
+    User user1 = new User("Петр Великий Государь Московский и Всея Русси", 99);
+    User user2 = new User("Ян", 9);
     User user3 = new User("Федор", -5);
-    User user4 = new User("Киса", 15);
-    User user5 = new User("Ося", 0);
+    User user4 = new User("Киса Воробьянинов", 15);
+    User user5 = new User("Ося Бедер", 0);
 
     /**
      * Метод заполняет лист пользователями.
@@ -36,7 +36,7 @@ public class SortUserTest {
     }
 
     /**
-     * Тест показывает сортирует ли метод SortUser.
+     * Тест показывает сортирует ли метод public Set<User> sort (List<User> list).
      * Приходится конвертировать множество в Лист, чтобы прошел тест.
      */
     @Test
@@ -52,42 +52,38 @@ public class SortUserTest {
     }
 
     /**
-     * Тест проверяет сортировку по длине имени.
+     * Тест показывает сортирует ли метод public List<User> sortNameLength (List<User> list).
      */
     @Test
     public void whenUsersSortedByNameLength() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Киса Воробьянинов", 77));
-        users.add(new User("Виталий", 4));
-        users.add(new User("Неуважай-Корыто", 102));
-        users.add(new User("Петр", 47));
-        SortUser sortUser = new SortUser();
-        List<User> resultList = sortUser.sortNameLength(users);
+        List<User> result = new SortUser().sortNameLength(users);
         List<User> expected = new ArrayList<>();
-        expected.add(new User("Петр", 77));
-        expected.add(new User("Виталий", 4));
-        expected.add(new User("Неуважай-Корыто", 102));
-        expected.add(new User("иса Воробьянинов", 47));
-        assertThat(expected, is(resultList));
+        expected.add(user1);
+        expected.add(user4);
+        expected.add(user5);
+        expected.add(user3);
+        expected.add(user2);
+//        for (User a : result) {
+//            System.out.println(a.getName());
+//        }
+        assertThat(result, is(expected));
     }
 
     /**
-     * Тест проверяет сортировку по длине имени, а затем по возрасту.
+     * Тест показывает сортирует ли метод public List<User> sortNameLength (List<User> list).
      */
     @Test
-    public void whenUsersSortedByNameLengthAndAge() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Киса Воробьянинов", 77));
-        users.add(new User("Виталий", 4));
-        users.add(new User("Неуважай-Корыто", 102));
-        users.add(new User("Петр", 47));
-        SortUser sortUser = new SortUser();
-        List<User> resultList = sortUser.sortByAllFields(users);
+    public void whenUsersSortedByAgeAndName() {
+        List<User> result = new SortUser().sortByAllFields(users);
         List<User> expected = new ArrayList<>();
-        expected.add(new User("Петр", 77));
-        expected.add(new User("Виталий", 4));
-        expected.add(new User("Неуважай-Корыто", -6));
-        expected.add(new User("иса Воробьянинов", 47));
-        assertThat(expected, is(resultList));
+        expected.add(user4);
+        expected.add(user5);
+        expected.add(user1);
+        expected.add(user3);
+        expected.add(user2);
+        for (User a : result) {
+            System.out.println(a.getName());
+        }
+        assertThat(result, is(expected));
     }
 }

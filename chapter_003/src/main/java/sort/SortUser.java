@@ -16,65 +16,80 @@ public class SortUser {
     }
 
     /**
-     * Метод сортирует по длине имени.
+     * Сортирует List<User> по длине имени с использованием локального компаратора.
+     * @param list
      * @return
      */
     public List<User> sortNameLength (List<User> list) {
-        Comparator<User> comparator = new UserCompareNameLength();
-        TreeSet<User> set = new TreeSet<>(comparator);
-        List<User> resultList = new ArrayList<>();
-        resultList.addAll(set);
-        return resultList;
+        /**
+         * Локальный класс Компаратора.
+         */
+        class LocalComparator implements Comparator<User> {
+
+            /**
+             * Переопределенный компаратор.
+             * @param user1
+             * @param user2
+             * @return
+             */
+            public int compare(User user1, User user2) {
+                int result = 0;
+                if (user1.getName().length() > user2.getName().length()) {
+                    result = -1;
+                } else {
+                    result = 1;
+                }
+                return result;
+            }
+        }
+        List<User> sorted = new ArrayList<>();
+        TreeSet<User> treeSet = new TreeSet<>(new LocalComparator());
+        treeSet.addAll(list);
+        sorted.addAll(treeSet);
+        return sorted;
     }
 
     /**
-     * Метод сортирует по длине имени, а затем по возрасту.
+     * Метод, отвечающий за сортировку сперва по возрасту, затем по имени.
      * @return
      */
-    public List<User> sortByAllFields (List<User> list)  {
-        Comparator<User> comparator = new UserCompareNameLength().thenComparing(new UserCompareAllParameters());
-        TreeSet<User> set = new TreeSet<>(comparator);
-        List<User> resultList = new ArrayList<>();
-        resultList.addAll(set);
-        return resultList;
-    }
-
-    /**
-     * Класс, в котором определяется компаратор для сортировки по длине имени.
-     */
-    class UserCompareNameLength implements Comparator<User> {
+    public List<User> sortByAllFields (List<User> list) {
         /**
-         * Переопределенный компаратор.
-         * @param user1
-         * @param user2
-         * @return
+         * Класс реализующий локальный компаратор.
          */
-        @Override
-        public int compare(User user1, User user2) {
-            int value = 0;
-            if (user1.getName().length() > user2.getName().length()) {
-                value = -1;
-            } else {
-                value = 1;
+        class LocalComparator implements Comparator<User> {
+
+            /**
+             * Сортировка по возрасту.
+             * @param user1
+             * @param user2
+             * @return
+             */
+            @Override
+            public int compare(User user1, User user2) {
+                return user1.getAge() - user2.getAge();
             }
-            return value;
         }
-    }
-
-    /**
-     * В данном классе определен компаратор для сортировки по возрасту.
-     */
-    class UserCompareAllParameters implements Comparator<User> {
 
         /**
-         * Компаратор для сортировки по возрасту.
-         * @param user
-         * @param user2
-         * @return
+         * Еще один компаратор.
          */
-        @Override
-        public int compare(User user, User user2) {
-            return user.getAge().compareTo(user2.getAge());
+        class ElseOneLocalComparator implements Comparator<User> {
+
+            /**
+             * Реализует сортировку по имени в лексикографическиом порядке
+             * @param user1
+             * @param user2
+             * @return
+             */
+            public int compare(User user1, User user2) {
+                return user1.getName().compareTo(user2.getName());
+            }
         }
+        List<User> sorted = new ArrayList<>();
+        TreeSet<User> treeSet = new TreeSet<>(new ElseOneLocalComparator().thenComparing(new LocalComparator()));
+        treeSet.addAll(list);
+        sorted.addAll(treeSet);
+        return sorted;
     }
 }
