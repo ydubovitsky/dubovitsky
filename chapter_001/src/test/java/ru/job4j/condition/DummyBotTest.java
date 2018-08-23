@@ -1,5 +1,6 @@
 package ru.job4j.condition;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -10,30 +11,37 @@ import static org.junit.Assert.assertThat;
  * @since 0.1
  */
 public class DummyBotTest {
+    /**
+     * РЎСЃС‹Р»РєР° РЅР° РѕР±СЉРµРєС‚ Bot.
+     */
+    private DummyBot bot;
+
+    @Before
+    public void initBot() {
+        bot = new DummyBot();
+    }
+
     @Test
     public void whenGreetBot() {
-        DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Привет, Бот."),
-                is("Привет, умник.")
+                bot.answer("РџСЂРёРІРµС‚, Р‘РѕС‚"),
+                is("РџСЂРёРІРµС‚, СѓРјРЅРёРє.")
         );
     }
 
     @Test
     public void whenByuBot() {
-        DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Пока."),
-                is("До скорой встречи.")
+                bot.answer("РџРѕРєР°."),
+                is("Р”Рѕ СЃРєРѕСЂРѕР№ РІСЃС‚СЂРµС‡Рё.")
         );
     }
 
     @Test
     public void whenUnknownBot() {
-        DummyBot bot = new DummyBot();
         assertThat(
-                bot.answer("Сколько будет 2 + 2?"),
-                is("Это ставит меня в тупик. Спросите другой вопрос.")
+                bot.answer("РџСЂРёРІРµС‚ РґРѕСЂРѕРіРѕР№, РєР°Рє РґРµР»Р°?"),
+                is("Р­С‚Рѕ СЃС‚Р°РІРёС‚ РјРµРЅСЏ РІ С‚СѓРїРёРє. РЎРїСЂРѕСЃРёС‚Рµ РґСЂСѓРіРѕР№ РІРѕРїСЂРѕСЃ.")
         );
     }
 }
