@@ -40,7 +40,7 @@ public class SortUser {
     }
 
     /**
-     * Метод, отвечающий за сортировку сперва по возрасту, затем по имени.
+     * Метод, отвечающий за сортировку сперва по имени, если имена одинаковы - по возрасту.
      * В теле метода мы переопределяем компаратор класса Collections на собственный.
      * @return
      */
@@ -50,14 +50,11 @@ public class SortUser {
 
             @Override
             public int compare(User user1, User user2) {
-                return user1.getAge() - user2.getAge();
-            }
-        });
-
-        Collections.sort(list, new Comparator<User>() {
-            @Override
-            public int compare(User user1, User user2) {
-                return user1.getName().compareTo(user2.getName());
+                int result = user1.getName().compareTo(user2.getName());
+                if (result == 0) {
+                    result = user1.getAge() - user2.getAge();
+                }
+                return result;
             }
         });
         return list;
