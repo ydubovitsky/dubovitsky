@@ -23,16 +23,23 @@ public class CheckTest {
     }
 
     @Test
-    public void whenInArrayHaveFalseElement() {
-        boolean expected = false;
-        boolean[] data = new boolean[]{true, true, false, true};
+    public void whenInArrayOnlyTrueElements() {
+        boolean expected = true;
+        boolean[] data = new boolean[]{true, true, true};
         Assertions.assertEquals(expected, check.mono(data));
     }
 
     @Test
-    public void whenInArrayHaveTrueElement() {
+    public void whenInArrayHaveVariousElement() {
+        boolean expected = false;
+        boolean[] data = new boolean[]{true, false, true};
+        Assertions.assertEquals(expected, check.mono(data));
+    }
+
+    @Test
+    public void whenInArrayOnlyFalseElements() {
         boolean expected = true;
-        boolean[] data = new boolean[]{true, true, true, true};
+        boolean[] data = new boolean[]{false, false, false};
         Assertions.assertEquals(expected, check.mono(data));
     }
 }
