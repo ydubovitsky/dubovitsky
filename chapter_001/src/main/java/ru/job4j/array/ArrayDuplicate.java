@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Класс, отвечающий за Удаление дубликатов в массиве.
+ */
 public class ArrayDuplicate {
     /**
      * Метод убирает все дубликаты строк из массива.

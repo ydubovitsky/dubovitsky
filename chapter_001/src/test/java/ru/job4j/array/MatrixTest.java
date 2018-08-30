@@ -15,7 +15,7 @@ public class MatrixTest {
 	public void multipleTest() {
 		Matrix mtrx = new Matrix();
 		int[][] resultArray = mtrx.multiple(2);
-		int[][] expectArray = {1,2,2,3};
+		int[][] expectArray = {{0,0},{0,1}};
 		assertThat(resultArray, is(expectArray));
 	}
 }
