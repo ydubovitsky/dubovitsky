@@ -86,7 +86,10 @@
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
+                            <!-- Разобраться что это
+                            also set this to link to generated source reports
                             <linkXRef>false</linkXRef>
+                            -->
                         </configuration>
                         <goals>
                             <goal>check</goal>
