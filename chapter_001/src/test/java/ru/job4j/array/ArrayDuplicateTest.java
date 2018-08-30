@@ -23,4 +23,11 @@ public class ArrayDuplicateTest {
         Assertions.assertArrayEquals(expected, arrayDuplicate.remove(array));
     }
 
+    @Test
+    public void removeDuplicate() throws Exception {
+        String[] expected = {"1", "2", "3", "4", "5"};
+        String[] array = {"1", "1", "1", "2", "3", "4", "5"};
+        Assertions.assertArrayEquals(expected, arrayDuplicate.removeDuplicate(array));
+    }
+
 }
