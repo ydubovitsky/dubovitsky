@@ -1,7 +1,6 @@
 package lambda.diapason;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.BiFunction;
 
 /**
@@ -31,9 +30,9 @@ public class Reckon {
      * @param func
      * @return
      */
-    List<Double> diapason(double start, double end, BiFunction<Double, Double, Double> func) {
+    ArrayList<Double> diapason(double start, double end, BiFunction<Double, Double, Double> func) {
         for (double i = start; i < end; i++) {
-            list.add(func.apply(start, end));
+            list.add(func.apply(i, end));
         }
         return list;
     }
@@ -55,7 +54,7 @@ public class Reckon {
     BiFunction<Double, Double, Double> square = (x, m) -> {
         return m != 0 ? (m * Math.pow(x, 2) + m * x + m) : ((m + 1) * Math.pow(x, 2) + m * x + m);
     };
-    
+
     /**
      * Функцию, заданную формулой y=logax, называют логарифмической функцией с основанием a.
      (a>0,a≠1)
