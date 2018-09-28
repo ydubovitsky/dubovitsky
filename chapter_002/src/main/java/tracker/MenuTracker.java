@@ -1,4 +1,7 @@
 package tracker;
+
+import java.util.function.Consumer;
+
 /**
  * Этот класс отвечает за меню трекера.
  * Класс содержит набор внутренних классов,
@@ -74,9 +77,11 @@ public final class MenuTracker {
      * Метод, выводящий меню на экран пользователю.
      */
     public void show() {
-        for (UserAction action : actions) {
-            System.out.println(action.info());
-        }
+        Consumer<UserAction[]> consumer = (UserAction[] n) -> {
+            for (UserAction action : n) {
+                System.out.println(action.info());
+            }
+        };
     }
 
     private static final class AddItem extends BaseAction {
