@@ -1,26 +1,23 @@
 package ru.job4j.array;
 
+/**
+ * Класс отвечающий за создание матрицы [m]x[n].
+ */
 public class Matrix {
-	
-	//public static void main(String[] args) {
-	//	Matrix mtrx = new Matrix();
-	//	System.out.print(mtrx.multiple(9));
-	//}
-	
+
+	/**
+	 * Метод, создающий матрицу [m]x[n].
+	 * @param size - размер матрицы.
+	 * @return
+	 */
 	public int[][] multiple(int size) {
-		int[][] qwer = new int[size + 1][size + 1];
-		//StringBuilder screen = new StringBuilder();
-		for(int i = 1; i < size + 1; i++) {
-			for(int j = 1; j < size + 1; j++) {
-				//screen.append(i*j + " ");
-				qwer[i][j] = i*j;
-				//System.out.print(i*j + " ");
+		int[][] matrix = new int[size][size];
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				matrix[i][j] = i*j;
 			}
-			//screen.append(System.lineSeparator());
-			//System.out.println();
 		}
-		//System.out.println(screen.toString());
-		return qwer;
+		return matrix;
 	}
 }
 				
