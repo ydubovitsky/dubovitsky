@@ -1,9 +1,11 @@
 package tracker;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
- *
+ * Класс Трекер.
+ * Содержит в себе методы по обработке заявок.
  */
 public class Tracker {
 
@@ -18,24 +20,23 @@ public class Tracker {
     private int position = 0;
 
     /**
-     *
      * @param item
      * @return
      */
-	public Item[] add(Item item) {
-		item.setId(generateId());
-		items[position++] = item;
-		return items;
-	}
+    public Item[] add(Item item) {
+        item.setId(generateId());
+        items[position++] = item;
+        return items;
+    }
 
     /**
      * Генерируем id случайным образом
      * @return
      */
-	private int generateId() {
-		Date date = new Date();
-		return (int) (date.hashCode() / (Math.random() * -100));
-	}
+    private int generateId() {
+        Date date = new Date();
+        return (int) (date.hashCode() / (Math.random() * -100));
+    }
 
     /**
      * Редактирование заявок.
@@ -44,7 +45,7 @@ public class Tracker {
      * @param id
      * @param item
      */
-	public void replace(int id, Item item) {
+    public void replace(int id, Item item) {
         for (int i = 0; i < items.length; i++) {
             if (id == items[i].getId()) {
                 item.setId(id);
@@ -52,7 +53,7 @@ public class Tracker {
                 break;
             }
         }
-	}
+    }
 
     /**
      * Удаляем заявку из трекера.
@@ -72,9 +73,9 @@ public class Tracker {
      * Производим поиск всех заявок в трекере.
      * @return
      */
-	public Item[] findAll() {
+    public Item[] findAll() {
         return Arrays.copyOf(items, position);
-	}
+    }
 
     /**
      * Производим поиск заявки в трекере по имени заявки.
@@ -82,37 +83,45 @@ public class Tracker {
      * количеству этих заявок.
      * Затем этот массив заполняется этими заявками и возвращается.
      * Метод возвращает массив заявок с одинаковыми именами.
+     *
+     * В методе используются lambda-выражения на основе функционального встроенного интерфейса Predicate<Item>.
+     * predicate.test(items[j])
      * @param key
      * @return
      */
     public Item[] findByName(String key) {
         int arrayLength = 0;
         for(int i = 0; i < position; i++) {
-            if (key.equals(items[i].getName())) {
+            Predicate<Item> predicate = (Item itm) -> key.equals(itm.getName());
+            if (predicate.test(items[i])) {
                 arrayLength++;
             }
         }
         Item[] resultArray = new Item[arrayLength];
         for(int j = 0; j < arrayLength; j++) {
-            if (key.equals(items[j].getName())) {
+            Predicate<Item> predicate = (Item itm) -> key.equals(itm.getName());
+            if (predicate.test(items[j])) {
                 resultArray[j] = items[j];
                 j++;
             }
         }
         return resultArray;
-	}
+    }
 
     /**
-     * Производим поиск по id
+     * Функция производит поиск заявки по id.
+     * В функции используется lambda-выражение c применением предопределенного функционального интерфейса Predicate<T>.
      * @param id
      * @return
+     * @throws MenuOutException
      */
-	public Item findById(int id) throws MenuOutException {
-	    Item item = new Item();
-	    for (int i = 0; i < position; i++) {
-	        if (id == items[i].getId()) {
-	            item = items[i];
-	            break;
+    public Item findById(int id) throws MenuOutException {
+        Item item = new Item();
+        for (int i = 0; i < position; i++) {
+            Predicate<Item> predicate = (itm) -> id == itm.getId();
+            if (predicate.test(items[i])) {
+                item = items[i];
+                break;
             }
         }
         return item;
