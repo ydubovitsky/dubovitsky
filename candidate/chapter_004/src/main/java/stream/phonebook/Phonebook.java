@@ -46,6 +46,41 @@ class Person {
     }
 
     /**
+     * Если хеш-коды разные, то и входные объекты гарантированно разные.
+     * @return - хэш-код.
+     */
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(getAddress() + getName() + getPhone() + getSurname());
+    }
+
+    /**
+     * Метод сравнивает содержимое объектов и выводит значение типа boolean true,
+     * если содержимое эквивалентно, и false — если нет.
+     * @param o - объект для сравнения.
+     * @return - true/false.
+     */
+    @Override
+    public boolean equals(Object o) {
+        boolean equals = true;
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+        Person person = (Person) o;
+        // Использую == и equals.
+        if ((address.equals(person.address)) && (name.equals(person.name)) &&
+                (phone.equals(person.phone)) && (surname == person.surname)) {
+            equals = true;
+        } else {
+            equals = false;
+        }
+        return equals;
+    }
+
+    /**
      * Переопределныый метод toString.
      * @return
      */
@@ -55,7 +90,7 @@ class Person {
                 "Имя = " + this.getName() + System.lineSeparator() +
                 "Фамилия = " + this.getSurname() + System.lineSeparator() +
                 "Телефон = " + this.getPhone() + System.lineSeparator() +
-                "Адрес = " + this.getAddress() + System.lineSeparator();
+                "Адрес = " + this.getAddress();
     }
 }
 
@@ -86,7 +121,7 @@ public class Phonebook {
         list.addAll(persons.stream().filter(
                 phone -> phone.getPhone().contains(key)).collect(Collectors.toList()));
         list.addAll(persons.stream().filter(
-                adress -> adress.getAddress().contains(key)).collect(Collectors.toList())
+                address -> address.getAddress().contains(key)).collect(Collectors.toList())
         );
         //list.forEach(System.out::println);
         return list;

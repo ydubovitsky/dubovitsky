@@ -1,4 +1,4 @@
-package stream;
+package stream.examples;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,11 +46,11 @@ public class StreamUsage {
     /**
      * Рассмотрим деталей.
 
-     List<Task> bugs = tasks.stream().filter(
+     List<Task> bugs = tasks.Stream().filter(
      task -> task.name.contains("Bug")
      ).collect(Collectors.toList());
 
-     tasks.stream() - получаем объект типа Stream
+     tasks.Stream() - получаем объект типа Stream
 
      filter(
      task -> task.name.contains("Bug")
