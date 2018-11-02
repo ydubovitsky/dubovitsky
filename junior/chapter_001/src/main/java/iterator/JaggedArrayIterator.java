@@ -42,9 +42,9 @@ public class JaggedArrayIterator implements Iterator {
         for (int i = 0; i < doubleArray.length - 1; i++) {
             // Перебираем первый массив
             for (int j = 0; j < doubleArray[this.x].length - 1; j++) {
-                if (doubleArray[this.x].length - 1 > y && doubleArray[this.x][this.y++] != null) {
+                if (doubleArray[this.x].length - 1 >= y && doubleArray[this.x][this.y++] != null) {
                     exist = true;
-                    System.out.println("Я существую " + doubleArray[x][y]);
+                    //System.out.println("Я существую " + doubleArray[x][y]);
                     return exist;
                     // Если достигнут конец текущего массива переходим к следующему
                     // и проверяем его первый элемент.
@@ -53,7 +53,7 @@ public class JaggedArrayIterator implements Iterator {
                     this.y = 0;
                     if (doubleArray[x][y] != null) {
                         exist = true;
-                        System.out.println("Я существую " + doubleArray[x][y]);
+                        //System.out.println("Я существую " + doubleArray[x][y]);
                         return exist;
                     }
                 }
@@ -69,9 +69,8 @@ public class JaggedArrayIterator implements Iterator {
     @Override
     public Object next() {
         Object value = null;
-        if (this.hasNext()) {
-            value = this.doubleArray[x][y];
-        }
+        value = doubleArray[x][y];
+//        this.hasNext() ? false : ;
         return value;
     }
 
@@ -86,11 +85,9 @@ public class JaggedArrayIterator implements Iterator {
     }
 
     public static void main(String[] args) {
-        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new Integer[][]{{1,2,3,4,5,6},{1111,-5,3,-7,-1904},{0,0,0}});
-//        for (int i = 0; i < 25; i++) {
-//            System.out.println(jaggedArrayIterator.hasNext());
-//        }
-        System.out.println(jaggedArrayIterator.next());
-        System.out.println(jaggedArrayIterator.next());
+        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new Integer[][]{{1,7}, {3, 4}, {7}});
+        for (int i = 0; i < 10; i++) {
+            System.out.println(jaggedArrayIterator.hasNext());
+        }
     }
 }
