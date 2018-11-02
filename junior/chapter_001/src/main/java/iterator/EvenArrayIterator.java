@@ -32,7 +32,7 @@ public class EvenArrayIterator implements Iterator {
     @Override
     public boolean hasNext() {
         boolean value = false;
-        if (currentPosition >= this.array.length) {
+        if (currentPosition > this.array.length) {
             return value;
         }
         if (array[currentPosition] % 2 == 0) {
@@ -51,7 +51,7 @@ public class EvenArrayIterator implements Iterator {
     @Override
     public Object next() {
         Integer value = null;
-        for (int i = currentPosition; i < array.length - 1; i++) {
+        for (int i = currentPosition; i < array.length; i++) {
             if (array[currentPosition] % 2 == 0) {
                 value = array[currentPosition++];
                 break;
