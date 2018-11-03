@@ -12,6 +12,13 @@
         <module>chapter_000</module>
         <module>chapter_001</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

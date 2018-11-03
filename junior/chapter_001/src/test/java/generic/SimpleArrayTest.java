@@ -12,7 +12,7 @@ public class SimpleArrayTest {
     /**
      * Пустая ссылка типа SimpleArray.
      */
-    SimpleArray simpleArray;
+    private SimpleArray simpleArray;
 
     /**
      * Ссылке присваивается созданный объект.
@@ -71,6 +71,9 @@ public class SimpleArrayTest {
         simpleArray.add(1);
         simpleArray.add(2);
         Assert.assertThat(simpleArray.get(0), is(1));
+        Assert.assertThat(simpleArray.get(1), is(2));
+        // Проверка переполнения
+        Assert.assertNull(simpleArray.get(2));
     }
 
     /**
@@ -82,9 +85,20 @@ public class SimpleArrayTest {
         simpleArray.add(1);
         simpleArray.add(2);
         simpleArray.add(10);
+        simpleArray.add(11);
+        Assert.assertThat(1, is(simpleArray.iterator().next()));
+        Assert.assertThat(2, is(simpleArray.iterator().next()));
+        Assert.assertThat(10, is(simpleArray.iterator().next()));
+        //
         Assert.assertThat(true, is(simpleArray.iterator().hasNext()));
+    }
+
+    /**
+     * Проверка выхода за границы массива.
+     * @throws Exception
+     */
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void whenIteratorThrowException() throws Exception {
         Assert.assertThat(true, is(simpleArray.iterator().hasNext()));
-        Assert.assertThat(true, is(simpleArray.iterator().hasNext()));
-        Assert.assertThat(false, is(simpleArray.iterator().hasNext()));
     }
 }
