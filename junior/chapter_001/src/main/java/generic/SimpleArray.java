@@ -1,6 +1,7 @@
 package generic;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleArray<T> implements Iterable<T> {
 
@@ -50,12 +51,16 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     /**
-     * Если данный индекс существует, то
-     * Удаляет элемент по индексу из массива и сдвигает его на 1 позицию.
+     * Если данный индекс существует, то Удаляет элемент по индексу из массива ничего не сдвигая.
      * @param index - индекс элемента, который требуется удалить.
      */
     public void delete(int index) {
-        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
+        //System.arraycopy(array, index + 1, array, index, array.length - index - 1);
+        if (index > this.array.length) {
+            throw new ArrayIndexOutOfBoundsException("Такого индекса не существует");
+        } else {
+            array[index] = null;
+        }
     }
 
     /**
@@ -93,10 +98,7 @@ public class SimpleArray<T> implements Iterable<T> {
              */
             @Override
             public boolean hasNext() {
-                boolean value = false;
-                int index = indexIterator;
-                if (array[index++] != null) value = true;
-                return value;
+                return indexIterator < currentIndex; // меньше ли текущая позиция общего количества элементов в массиве
             }
 
             /**
@@ -105,18 +107,10 @@ public class SimpleArray<T> implements Iterable<T> {
              */
             @Override
             public T next() {
-                T value = null;
-                if (array[indexIterator] == null) {
-                    throw new ArrayIndexOutOfBoundsException("Вышли за предел массива.");
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
-                if (array.length > 1 && indexIterator > 0) {
-                    value = array[indexIterator++];
-                }
-                if (indexIterator == 0){
-                    value = array[0];
-                    indexIterator++;
-                }
-                return value;
+                return array[indexIterator++]; //просто сдвигаем
             }
         };
     }

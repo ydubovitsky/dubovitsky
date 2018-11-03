@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
 
@@ -59,8 +60,10 @@ public class SimpleArrayTest {
         simpleArray.add(2);
         simpleArray.add(3);
         simpleArray.add(4);
-        simpleArray.delete(2);
-        Assert.assertThat(simpleArray.get(2), is(4));
+        simpleArray.add(5);
+        simpleArray.delete(4);
+        Assert.assertThat(simpleArray.get(1), is(2));
+        Assert.assertNull(simpleArray.get(4));
     }
 
     /**
@@ -98,11 +101,14 @@ public class SimpleArrayTest {
      * Проверка выхода за границы массива.
      * @throws Exception
      */
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test(expected = NoSuchElementException.class)
     public void whenIteratorThrowException() throws Exception {
         Assert.assertThat(true, is(simpleArray.iterator().next()));
     }
 
+    /**
+     * Проверка, не сдвигает ли указатель метод hasNext().
+     */
     @Test
     public void hasNextAndThenNext() {
         simpleArray.add(1);
