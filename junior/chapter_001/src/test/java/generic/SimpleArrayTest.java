@@ -4,8 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class SimpleArrayTest {
 
@@ -86,11 +87,11 @@ public class SimpleArrayTest {
         simpleArray.add(2);
         simpleArray.add(10);
         simpleArray.add(11);
-        Assert.assertThat(1, is(simpleArray.iterator().next()));
-        Assert.assertThat(2, is(simpleArray.iterator().next()));
-        Assert.assertThat(10, is(simpleArray.iterator().next()));
-        //
-        Assert.assertThat(true, is(simpleArray.iterator().hasNext()));
+        Iterator iterator = simpleArray.iterator();
+        Assert.assertThat(iterator.next(), is(1));
+        Assert.assertThat(iterator.next(), is(2));
+        Assert.assertThat(iterator.next(), is(10));
+        Assert.assertThat(iterator.next(), is(11));
     }
 
     /**
@@ -99,6 +100,21 @@ public class SimpleArrayTest {
      */
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void whenIteratorThrowException() throws Exception {
-        Assert.assertThat(true, is(simpleArray.iterator().hasNext()));
+        Assert.assertThat(true, is(simpleArray.iterator().next()));
+    }
+
+    @Test
+    public void hasNextAndThenNext() {
+        simpleArray.add(1);
+        simpleArray.add(2);
+        simpleArray.add(10);
+        simpleArray.add(11);
+        Iterator iterator = simpleArray.iterator();
+        Assert.assertThat(iterator.next(), is(1));
+        Assert.assertThat(iterator.hasNext(), is(true));
+        Assert.assertThat(iterator.next(), is(2));
+        Assert.assertThat(iterator.next(), is(10));
+        Assert.assertThat(iterator.next(), is(11));
+        Assert.assertThat(iterator.hasNext(), is(false));
     }
 }

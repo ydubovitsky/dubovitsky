@@ -20,18 +20,12 @@ public class SimpleArray<T> implements Iterable<T> {
     private int currentIndex = 0;
 
     /**
-     * Ссылка на единственный итератор.
-     */
-    private Iterator<T> single;
-
-    /**
      * Конструктор, принимающий количество элементов массива.
      * @param index
      */
     public SimpleArray(int index) {
         this.index = index;
         array = (T[]) new Object[index];
-        single = new SimpleArray.Iterator();
     }
 
     /**
@@ -61,7 +55,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index - индекс элемента, который требуется удалить.
      */
     public void delete(int index) {
-        // Сдвиг массива на 1 позицию
         System.arraycopy(array, index + 1, array, index, array.length - index - 1);
     }
 
@@ -81,53 +74,51 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     /**
-     * Возвращает итератор объекта SimpleArray.
+     * Собственный итератор для обобщенного массива.
      * @return - итератор.
      */
     @Override
     public Iterator<T> iterator() {
-        return this.single;
-    }
 
-    /**
-     * Внутренний класс, описывающий собственный итератор.
-     * @param <T>
-     */
-    class Iterator<T> implements java.util.Iterator<T> {
+        return new Iterator<T>() {
 
-        /**
-         * Индекс для итератора по умолчанию.
-         */
-        private int indexIterator = 0;
+            /**
+             * Индекс для итератора по умолчанию.
+             */
+            private int indexIterator = 0;
 
-        /**
-         * Есть ли следующий элемент?
-         * @return
-         */
-        public boolean hasNext() {
-            boolean value = false;
-            if (this.next() != null) value = true;
-            return value;
-        }
-
-        /**
-         * Возвращает следующий элемент из списка.
-         * @return
-         */
-        public T next() {
-            T value = null;
-            if (array[indexIterator] == null) {
-                throw new ArrayIndexOutOfBoundsException("Вышли за предел массива.");
+            /**
+             * Проверяет есть ли следующий элемент в списке.
+             * @return
+             */
+            @Override
+            public boolean hasNext() {
+                boolean value = false;
+                int index = indexIterator;
+                if (array[index++] != null) value = true;
+                return value;
             }
-            if (indexIterator > 0) {
-                value = (T) array[indexIterator++];
+
+            /**
+             * Возвращает следующий элемент из списка.
+             * @return
+             */
+            @Override
+            public T next() {
+                T value = null;
+                if (array[indexIterator] == null) {
+                    throw new ArrayIndexOutOfBoundsException("Вышли за предел массива.");
+                }
+                if (array.length > 1 && indexIterator > 0) {
+                    value = array[indexIterator++];
+                }
+                if (indexIterator == 0){
+                    value = array[0];
+                    indexIterator++;
+                }
+                return value;
             }
-            if (indexIterator == 0){
-                value = (T) array[0];
-                indexIterator++;
-            }
-            return value;
-        }
+        };
     }
 }
 
