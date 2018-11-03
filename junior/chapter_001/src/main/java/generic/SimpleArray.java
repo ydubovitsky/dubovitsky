@@ -51,16 +51,13 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     /**
-     * Если данный индекс существует, то Удаляет элемент по индексу из массива ничего не сдвигая.
+     * Если данный индекс существует, то массив сдвигается на 1 позицию, последнему элементу массива
+     * присваивается null.
      * @param index - индекс элемента, который требуется удалить.
      */
     public void delete(int index) {
-        //System.arraycopy(array, index + 1, array, index, array.length - index - 1);
-        if (index > this.array.length) {
-            throw new ArrayIndexOutOfBoundsException("Такого индекса не существует");
-        } else {
-            array[index] = null;
-        }
+        System.arraycopy(array, index + 1, array, index, array.length - index - 1);
+        array[array.length - 1] = null;
     }
 
     /**

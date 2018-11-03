@@ -7,6 +7,12 @@
 # BlueJ files
 *.ctxt
 
+# файл модуля, созданный IntelliJ IDEA, IDE, используемой
+# для разработки приложений Java. Он хранит информацию о модуле разработки,
+# который может быть компонентом Java, Plugin, Android или Maven;
+# Сохраняет пути к модулю, зависимости и другие настройки.
+.iml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -23,5 +29,5 @@ hs_err_pid*
 
 target
 
-*.idea
+.idea
 *.iml
