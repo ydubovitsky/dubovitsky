@@ -6,11 +6,6 @@ import java.util.NoSuchElementException;
 public class SimpleArray<T> implements Iterable<T> {
 
     /**
-     * Количество элементов в массиве.
-     */
-    private int index;
-
-    /**
      * Ссылка на массив обобщенных элементов.
      */
     private T[] array;
@@ -25,7 +20,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index
      */
     public SimpleArray(int index) {
-        this.index = index;
         array = (T[]) new Object[index];
     }
 
