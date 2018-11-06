@@ -1,14 +1,13 @@
 package generic.store;
 
-import generic.SimpleArray;
-
 /**
  * Класс-контейнер для объектов класса User.
  */
-public class UserStore extends SimpleArray<User> {
+public class UserStore extends AbstractStore {
 
     /**
-     * Конструктор, принимающий количество элементов массива.
+     * Конструкто, задающий размер хранилища.
+     *
      * @param index
      */
     public UserStore(int index) {

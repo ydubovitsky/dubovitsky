@@ -21,6 +21,8 @@ public class UserStoreTest {
     public void initializationTest() {
         UserStore users = new UserStore(5);
         users.add(user);
+        // неверно
+        users.add(new Role("1"));
     }
 
 }
