@@ -5,19 +5,19 @@ import generic.SimpleArray;
 /**
  * Класс-контейнер для объектов класс Role.
  */
-public class RoleStore extends AbstractStore {
+public class RoleStore extends AbstractStore<Role> {
 
     /**
      * Хранилище объектов типа T extends Role.
      */
-    private SimpleArray<Role> simpleArray;
+    private SimpleArray simpleArray;
 
     /**
-     * Конструкто, задающий размер хранилища.
-     *
+     * Конструктор, задающий размер хранилища.
      * @param index
      */
     public RoleStore(int index) {
+        super(index);
         simpleArray = new SimpleArray(index);
     }
 }

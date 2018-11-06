@@ -12,17 +12,23 @@ public class UserStoreTest {
 
     User user;
 
+    /**
+     * Инициализация
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         user = new User("1");
     }
 
+    /**
+     * Добавляем нового пользователя в UserStore.
+     */
     @Test
     public void initializationTest() {
         UserStore users = new UserStore(5);
         users.add(user);
-        // неверно
-        users.add(new Role("1"));
+        users.add(new User("1"));
     }
 
 }
