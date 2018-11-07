@@ -86,6 +86,12 @@ public class SimpleArrayList<e> implements Iterable{
              */
             private int index = 0;
 
+            /**
+             * Поле показывает какое значение модификаций было изначально при
+             * создании итератора.
+             */
+            private int localeMode = modCount;
+
             @Override
             public boolean hasNext() {
                 return index < list.length;
@@ -93,7 +99,7 @@ public class SimpleArrayList<e> implements Iterable{
 
             @Override
             public Object next() {
-                if (!hasNext() || modCount > 0) {
+                if (!hasNext() || localeMode > modCount) {
                     throw new ConcurrentModificationException("Лист претерпел изменения");
                 }
                 return list[index++].value;
