@@ -18,6 +18,5 @@ public class RoleStore extends AbstractStore<Role> {
      */
     public RoleStore(int index) {
         super(index);
-        simpleArray = new SimpleArray(index);
     }
 }

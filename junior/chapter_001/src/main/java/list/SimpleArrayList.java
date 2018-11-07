@@ -2,6 +2,7 @@ package list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Класс SimpleArrayList.
@@ -94,12 +95,15 @@ public class SimpleArrayList<e> implements Iterable{
 
             @Override
             public boolean hasNext() {
-                return index < list.length;
+                return index < size;
             }
 
             @Override
             public Object next() {
-                if (!hasNext() || localeMode > modCount) {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (localeMode != modCount) {
                     throw new ConcurrentModificationException("Лист претерпел изменения");
                 }
                 return list[index++].value;
