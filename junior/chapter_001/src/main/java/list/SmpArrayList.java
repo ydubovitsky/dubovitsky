@@ -20,13 +20,17 @@ public class SmpArrayList<e> {
      * Реализовать метод удаления первого элемент в списке.
      */
     public void delete() {
-        Node<e> newLink = this.first;
-        for (int i = 1; i < size; i++) {
-            newLink = newLink.previous;
-            if (i == 1) {
-                newLink.previous = null; // Обнуляем связь с первым элементом.
-                size--;
+        if (first != null && size > 0) {
+            Node<e> newLink = this.first;
+            for (int i = 1; i < size; i++) {
+                newLink = newLink.previous;
+                if (i == 1) {
+                    newLink.previous = null; // Обнуляем связь с первым элементом.
+                    size--;
+                }
             }
+        } else {
+            throw new NoSuchElementException("В листе нет элементов.");
         }
     }
 
