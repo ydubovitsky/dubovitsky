@@ -34,8 +34,8 @@ public class SmpArrayListTest {
     @Test
     public void whenDeleteFirstElementInList() {
         list.delete();
-        Assert.assertEquals(3, list.get(0));
-        Assert.assertEquals(2, list.get(1));
+        Assert.assertEquals(2, list.get(0));
+        Assert.assertEquals(3, list.get(1));
     }
 
     /**
@@ -45,8 +45,8 @@ public class SmpArrayListTest {
     @Test(expected = NoSuchElementException.class)
     public void whenMethodDeleteThrowException() {
         list.delete();
-        Assert.assertEquals(3, list.get(0));
-        Assert.assertEquals(2, list.get(1));
+        Assert.assertEquals(2, list.get(0));
+        Assert.assertEquals(3, list.get(1));
         Assert.assertEquals(1, list.get(2));
     }
 }

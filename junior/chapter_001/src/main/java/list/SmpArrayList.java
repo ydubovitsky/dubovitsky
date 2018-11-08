@@ -22,7 +22,7 @@ public class SmpArrayList<e> {
     public void delete() {
         if (first != null && size > 0) {
             Node<e> newLink = this.first;
-            for (int i = 1; i < size; i++) {
+            for (int i = size - 1; i >= 0; i--) {
                 newLink = newLink.previous;
                 if (i == 1) {
                     newLink.previous = null; // Обнуляем связь с первым элементом.
@@ -42,7 +42,7 @@ public class SmpArrayList<e> {
         if (index >= size) {
             throw new NoSuchElementException();
         }
-        for (int i = 0; i < index; i++) {
+        for (int i = size - 1; i != index; i--) {
             result = result.previous;
         }
         return result.date;
@@ -68,3 +68,4 @@ public class SmpArrayList<e> {
         }
     }
 }
+
