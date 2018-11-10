@@ -37,7 +37,7 @@ public class SmpArrayList<e> {
     /**
      * Метод получения элемента по индексу.
      */
-    public e get(int index) {
+    public e get(int index) throws NoSuchElementException {
         Node<e> result = this.first;
         if (index >= size) {
             throw new NoSuchElementException();

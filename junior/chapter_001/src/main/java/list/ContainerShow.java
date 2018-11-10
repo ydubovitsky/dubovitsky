@@ -55,9 +55,9 @@ public class ContainerShow<E> implements Iterable<E> {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
 
-        return new Iterator() {
+        return new Iterator<E>() {
 
             /**
              * Текущий индекс перебора итератора.
