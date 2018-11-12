@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Контейнер базируется на связанном списке(Node<E> node).
+ * Динамический Контейнер, базируется на связанном списке(Node<E> node).
  * Реализуе интерфей Iterator.
  * Размеры контейнера увеличиваются по мере добавления элементов.
  */
-public class ContainerShow<E> implements Iterable<E> {
+public class DynamicСontainerBasedOnLinkedList<E> implements Iterable<E> {
 
     /**
      * Последний добавленыый элемент.
@@ -52,6 +52,28 @@ public class ContainerShow<E> implements Iterable<E> {
             temp = temp.previous;
         }
         return temp.value;
+    }
+
+    /**
+     * Удаляет элемент из связного списка. Если нужно элемент по индексу, находим элемент
+     * который связан с удаляемым элементом, а это элемент, добавленный после удаляемого элемента,
+     * затем меняем связи. Ссылку на удаляемый элемент затираем -> сборщик мусора в действии.
+     * @param index
+     */
+    public void delete(int index) {
+        Container<E> temp = lastElement;
+        if (index == size - 1) { // Если удаляем головной элемент.
+            lastElement = lastElement.previous;
+            size--;
+        } else if (index < size){
+            for (int i = size - 1; i != index + 1; i--) {
+                temp = temp.previous;
+            }
+            Container<E> needDelete = temp.previous;
+            temp.previous = needDelete.previous;
+            needDelete.previous = null;
+            size--;
+        }
     }
 
     @Override
