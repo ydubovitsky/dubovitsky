@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-
-
 public class SimpleStackTest {
 
     SimpleStack simpleStack;
@@ -18,6 +15,7 @@ public class SimpleStackTest {
     @Before
     public void setUp() throws Exception {
         simpleStack = new SimpleStack<>();
+        simpleStack.push(0);
         simpleStack.push(1);
         simpleStack.push(2);
         simpleStack.push(3);
@@ -28,6 +26,8 @@ public class SimpleStackTest {
         Assert.assertEquals(3, simpleStack.poll());
         Assert.assertEquals(2, simpleStack.poll());
         Assert.assertEquals(1, simpleStack.poll());
+        simpleStack.push(12345);
+        Assert.assertEquals(12345, simpleStack.poll());
     }
 
     /**
@@ -35,26 +35,13 @@ public class SimpleStackTest {
      */
     @Test(expected = NullPointerException.class, timeout = 100)
     public void whenPollReturnException() {
-        simpleStack.poll();
+        for (int i = 0; i < 15; i++) {
+            simpleStack.poll();
+        }
     }
-
 
     @Test
     public void push() throws Exception {
         simpleStack.push(1);
     }
-
-    /**
-     * Проверка работы метода удаления.
-     * @throws Exception
-     */
-    @Test
-    public void delete() throws Exception {
-        Field field = this.simpleStack.getClass().getDeclaredField("lastElement");
-        field.setAccessible(true);
-        ContainerShow.Container container = (ContainerShow.Container)field.get(simpleStack);
-        simpleStack.delete();
-        Assert.assertEquals(container.previous.value, simpleStack.poll());
-    }
-
 }

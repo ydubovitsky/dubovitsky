@@ -1,36 +1,35 @@
 package list;
 
-import java.lang.reflect.Field;
-
 /**
  * Контейнер Stack
  * LIFO - last input first output.
  */
-public class SimpleStack<T> extends ContainerShow<T> {
+public class SimpleStack<T> {
 
     /**
-     * Последний добавленыый элемент в стек.
+     * Количество добавленных элементов
      */
-    private ContainerShow<T> containerShow;
+    private int elementsCount = -1;
 
     /**
-     * Последний добавленыый элемент.
+     * Контейнер
      */
-    private Container<T> lastElement;
+    private DynamicСontainerBasedOnLinkedList<T> container;
 
     /**
      * Конструктор
      */
     public SimpleStack() {
-        containerShow = new ContainerShow<>();
+        container = new DynamicСontainerBasedOnLinkedList<>();
     }
 
     /**
      * Возвращает значение и удалять его из коллекции.
      */
     public T poll() {
-        T result = this.lastElement.value;
-        delete();
+        T result = this.container.get(elementsCount);
+        this.container.delete(elementsCount);
+        elementsCount--;
         return result;
     }
 
@@ -39,20 +38,7 @@ public class SimpleStack<T> extends ContainerShow<T> {
      * @param value
      */
     public void push(T value) {
-        containerShow.add(value);
-        try { // Используем рефлексию для доступа к приватным полям.
-            Field field = this.containerShow.getClass().getDeclaredField("lastElement");
-            field.setAccessible(true);
-            this.lastElement = (Container) field.get(containerShow);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            System.out.println(e);
-        }
-    }
-
-    /**
-     * Удаляем последний добавленный элемент.
-     */
-    public void delete() {
-        this.lastElement = this.lastElement.previous; // Ссылке на последний элемент присваивается ссылка на предпоследний объект.
+        this.container.add(value);
+        this.elementsCount++;
     }
 }
