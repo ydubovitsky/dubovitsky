@@ -1,5 +1,6 @@
 package iterator;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ public class EvenArrayIteratorTest {
      */
     @Before
     public void setUp() throws Exception {
-        evenArrayIterator = new EvenArrayIterator(new Integer[]{1,3,5,3,7,5,7,7,1,7,8});
+        evenArrayIterator = new EvenArrayIterator(new Integer[]{1,4,3,5,3,7,5,7,7,1,7,8});
     }
 
     /**
@@ -32,6 +33,7 @@ public class EvenArrayIteratorTest {
     @Test
     public void hasNext() throws Exception {
         assertThat(evenArrayIterator.hasNext(), is(false));
+        assertThat(evenArrayIterator.hasNext(), is(true));
         assertThat(evenArrayIterator.hasNext(), is(false));
         assertThat(evenArrayIterator.hasNext(), is(false));
         assertThat(evenArrayIterator.hasNext(), is(false));
@@ -50,8 +52,7 @@ public class EvenArrayIteratorTest {
      */
     @Test
     public void next() throws Exception {
-        assertThat(evenArrayIterator.next(), is(8));
-        // Проверка на переполнение
-        assertNull(evenArrayIterator.next());
+        Assert.assertEquals(4, evenArrayIterator.next());
+        Assert.assertEquals(8, evenArrayIterator.next());
     }
 }
