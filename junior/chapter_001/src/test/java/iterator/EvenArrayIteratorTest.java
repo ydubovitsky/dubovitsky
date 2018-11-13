@@ -23,7 +23,7 @@ public class EvenArrayIteratorTest {
      */
     @Before
     public void setUp() throws Exception {
-        evenArrayIterator = new EvenArrayIterator(new Integer[]{4,6,3});
+        evenArrayIterator = new EvenArrayIterator(new Integer[]{4,6,3,10});
     }
 
     /**
@@ -35,15 +35,19 @@ public class EvenArrayIteratorTest {
         assertThat(evenArrayIterator.hasNext(), is(true));
         assertThat(evenArrayIterator.hasNext(), is(true));
         assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(false));
-//        assertThat(evenArrayIterator.hasNext(), is(true));
+        assertThat(evenArrayIterator.hasNext(), is(true));
+    }
+
+    /**
+     * Когда происходит обращение к несуществующему элементу.
+     */
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void whenMethodHasNextThrowException() {
+        assertThat(evenArrayIterator.hasNext(), is(true));
+        assertThat(evenArrayIterator.hasNext(), is(true));
+        assertThat(evenArrayIterator.hasNext(), is(false));
+        assertThat(evenArrayIterator.hasNext(), is(true));
+        assertThat(evenArrayIterator.hasNext(), is(true));
     }
 
     /**
@@ -53,6 +57,7 @@ public class EvenArrayIteratorTest {
     @Test
     public void next() throws Exception {
         Assert.assertEquals(4, evenArrayIterator.next());
-        Assert.assertEquals(8, evenArrayIterator.next());
+        Assert.assertEquals(6, evenArrayIterator.next());
+        Assert.assertEquals(10, evenArrayIterator.next());
     }
 }

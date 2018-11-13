@@ -1,7 +1,6 @@
 package iterator;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  *  Класс реализующий итератор, возвращающий только четные цифры.
@@ -31,8 +30,11 @@ public class EvenArrayIterator implements Iterator {
      * @return
      */
     @Override
-    public boolean hasNext() throws NoSuchElementException {
+    public boolean hasNext() throws ArrayIndexOutOfBoundsException {
         boolean value = false;
+        if (currentPosition > array.length) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         if (array[currentPosition] % 2 == 0) {
             value = true;
         }
@@ -47,9 +49,9 @@ public class EvenArrayIterator implements Iterator {
     @Override
     public Object next() {
         Object result = null;
-        while(!hasNext()) {
-            result = (Object) array[currentPosition];
-        }
+        do {
+            result = array[currentPosition];
+        } while (!hasNext());
         return result;
     }
 }
