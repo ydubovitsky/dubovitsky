@@ -8,9 +8,10 @@ package list;
 public class SimpleQueue<T> {
 
     /**
-     * Стек-контейнер.
+     * Два Стек-контейнера.
      */
     private SimpleStack<T> simpleStack;
+    private SimpleStack<T> temp;
 
     /**
      * Количество добавленных элементов.
@@ -22,6 +23,7 @@ public class SimpleQueue<T> {
      */
     public SimpleQueue() {
         simpleStack = new SimpleStack<>();
+        temp = new SimpleStack<>();
     }
 
     /**
@@ -31,7 +33,6 @@ public class SimpleQueue<T> {
      */
     public T poll() {
         T result = null;
-        SimpleStack<T> temp = new SimpleStack<>();
         for (int i = 0; i < addedElementsCount; i++) {
             temp.push(this.simpleStack.poll());
         }
