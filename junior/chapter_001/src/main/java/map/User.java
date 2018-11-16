@@ -43,21 +43,21 @@ public class User {
         this.birthday = birthday;
     }
 
-//    /**
-//     * Переопределяем метод хэш-код.
-//     * Результат, например com.foo.MyType@2f92e0f4, может быть объяснен как:
-//     com.foo.MyType - имя класса, то есть класс MyType в пакете com.foo.
-//     @ - соединяет строку вместе
-//     2f92e0f4 хэш-код объекта.
-//     * @return
-//     */
-//    @Override
-//    public int hashCode() {
-//        int result = name != null ? name.hashCode() : 0;
-//        result = 31 * result + children;
-//        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-//        return result;
-//    }
+    /**
+     * Переопределяем метод хэш-код.
+     * Результат, например com.foo.MyType@2f92e0f4, может быть объяснен как:
+     com.foo.MyType - имя класса, то есть класс MyType в пакете com.foo.
+     @ - соединяет строку вместе
+     2f92e0f4 хэш-код объекта.
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + children;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        return result;
+    }
 
 
     @Override
