@@ -43,20 +43,33 @@ public class User {
         this.birthday = birthday;
     }
 
-    /**
-     * Переопределяем метод хэш-код.
-     * Результат, например com.foo.MyType@2f92e0f4, может быть объяснен как:
-     com.foo.MyType - имя класса, то есть класс MyType в пакете com.foo.
-     @ - соединяет строку вместе
-     2f92e0f4 хэш-код объекта.
-     * @return
-     */
+//    /**
+//     * Переопределяем метод хэш-код.
+//     * Результат, например com.foo.MyType@2f92e0f4, может быть объяснен как:
+//     com.foo.MyType - имя класса, то есть класс MyType в пакете com.foo.
+//     @ - соединяет строку вместе
+//     2f92e0f4 хэш-код объекта.
+//     * @return
+//     */
+//    @Override
+//    public int hashCode() {
+//        int result = name != null ? name.hashCode() : 0;
+//        result = 31 * result + children;
+//        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+//        return result;
+//    }
+
+
     @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + children;
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (children != user.children) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
     }
 
     /**
@@ -71,6 +84,6 @@ public class User {
         Map<User, Object> map = new HashMap<>();
         map.put(user1, "1");
         map.put(user2, "2");
-        System.out.println(map);
+        System.out.println(map + " size = " + map.size());
     }
 }
