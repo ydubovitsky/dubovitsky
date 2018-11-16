@@ -31,36 +31,38 @@ public class User {
      */
     private Calendar birthday;
 
+    /**
+     * Конструктор
+     * @param name
+     * @param children
+     * @param birthday
+     */
     public User(String name, int children, GregorianCalendar birthday) {
         this.name = name;
         this.children = children;
         this.birthday = birthday;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Переопределяем метод хэш-код.
+     * Результат, например com.foo.MyType@2f92e0f4, может быть объяснен как:
+     com.foo.MyType - имя класса, то есть класс MyType в пакете com.foo.
+     @ - соединяет строку вместе
+     2f92e0f4 хэш-код объекта.
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + children;
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        return result;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getChildren() {
-        return children;
-    }
-
-    public void setChildren(int children) {
-        this.children = children;
-    }
-
-    public Calendar getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Calendar birthday) {
-        this.birthday = birthday;
-    }
-
+    /**
+     * Инициализирующий метод.
+     * @param args
+     */
     public static void main(String[] args) {
         User user1 = new User("Василий", 45, new GregorianCalendar(1975,
                 Calendar.DECEMBER, 31));
