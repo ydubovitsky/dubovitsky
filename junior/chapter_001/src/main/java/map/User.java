@@ -19,17 +19,17 @@ public class User {
     /**
      * Имя пользователя.
      */
-    String name;
+    private String name;
 
     /**
      * Количество детей.
      */
-    int children;
+    private int children;
 
     /**
      * День рождения пользователя.
      */
-    Calendar birthday;
+    private Calendar birthday;
 
     public User(String name, int children, GregorianCalendar birthday) {
         this.name = name;
