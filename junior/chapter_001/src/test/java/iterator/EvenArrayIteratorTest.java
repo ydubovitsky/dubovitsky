@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -41,7 +43,7 @@ public class EvenArrayIteratorTest {
     /**
      * Когда происходит обращение к несуществующему элементу.
      */
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test(expected = NoSuchElementException.class)
     public void whenMethodHasNextThrowException() {
         assertThat(evenArrayIterator.hasNext(), is(true));
         assertThat(evenArrayIterator.hasNext(), is(true));

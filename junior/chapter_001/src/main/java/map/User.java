@@ -1,9 +1,6 @@
 package map;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Класс модели - это класс, который представляет объект данных,
@@ -85,5 +82,12 @@ public class User {
         map.put(user1, "1");
         map.put(user2, "2");
         System.out.println(map + " size = " + map.size());
+
+        Set<Integer> set = new HashSet<>();
+        set.addAll((Arrays.asList(1,1,1,1,2,3,4)));
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
     }
 }
