@@ -75,8 +75,8 @@ public class Logic {
         int[][] table = this.convert();
         boolean result = false;
         int tempY = 0; // количество белых фишек по вертикали
+        int tempX = 0; // количество белых фишек по горизонтали
         for (int row = 0; row != table.length; row++) {
-            int tempX = 0; // количество белых фишек по горизонтали
             for (int cell = 0; cell != table.length; cell++) {
                 if (table[row][cell] == 1) {
                     tempX++;
