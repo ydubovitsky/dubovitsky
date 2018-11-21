@@ -85,7 +85,7 @@ public class Logic {
                     tempY++;
                 }
             }
-            if (tempX == 5 || tempY == 5) { // если по горизонтали или вертикали 5 фишек в ряд
+            if (tempX == table.length || tempY == table.length) { // если по горизонтали или вертикали 5 фишек в ряд
                 result = true;
                 break;
             }
