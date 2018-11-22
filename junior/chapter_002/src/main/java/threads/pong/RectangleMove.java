@@ -2,6 +2,9 @@ package threads.pong;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Класс, отвечающий за перемещение мячика.
+ */
 public class RectangleMove implements Runnable {
     private final Rectangle rect;
 
@@ -11,11 +14,11 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            while (this.rect.getX() < 300) {
+        while (!Thread.currentThread().isInterrupted()) {
+            while (this.rect.getX() < 300 && !Thread.currentThread().isInterrupted()) {
                 this.move(5);
             }
-            while (this.rect.getX() > 0) {
+            while (this.rect.getX() > 0 && !Thread.currentThread().isInterrupted()) {
                 this.move(-5);
             }
         }
@@ -23,6 +26,7 @@ public class RectangleMove implements Runnable {
 
     /**
      * Метод отвечает за перемещение.
+     *
      * @param offset - величина смещение.
      */
     private void move(int offset) {
@@ -30,7 +34,8 @@ public class RectangleMove implements Runnable {
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Упс, вы нажали кнопку Выход! Нить прекращает работу!");
+            Thread.currentThread().interrupt();
         }
     }
 }
