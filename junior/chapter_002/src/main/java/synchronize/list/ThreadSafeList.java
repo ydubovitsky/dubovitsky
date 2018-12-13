@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class ThreadSafeList {
 
     @GuardedBy("this")
-    DynamicListBasedOnArray list;
+    private final DynamicListBasedOnArray list;
 
     public ThreadSafeList(DynamicListBasedOnArray dynamicListBasedOnArray) {
         this.list = dynamicListBasedOnArray;
@@ -31,11 +31,16 @@ public class ThreadSafeList {
     }
 
     /**
-     * Возвращает копию листа из данного объекта.
+     * метод создает новый обьект DynamicListBasedOnArray и переносит в него все значения  из поля класса
+     * затем возвращает его;
      * @param dynamicListBasedOnArray
      * @return
      */
     private synchronized DynamicListBasedOnArray copy(DynamicListBasedOnArray dynamicListBasedOnArray) {
-        return dynamicListBasedOnArray;
+        DynamicListBasedOnArray dl = new DynamicListBasedOnArray();
+        while (dynamicListBasedOnArray.iterator().hasNext()) {
+            dl.add(dynamicListBasedOnArray.iterator().next());
+        }
+        return dl;
     }
 }
