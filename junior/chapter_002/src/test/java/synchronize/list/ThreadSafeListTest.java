@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 public class ThreadSafeListTest {
 
+    DynamicListBasedOnArray dl;
     ThreadSafeList threadSafeList;
 
     class Threads implements Runnable {
@@ -36,12 +37,11 @@ public class ThreadSafeListTest {
 
     @Before
     public void setUp() throws Exception {
-        threadSafeList = new ThreadSafeList(new DynamicListBasedOnArray());
-        // Заполняем лист
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Added " + i);
-            threadSafeList.list.add(i);
+        dl = new DynamicListBasedOnArray();
+        for (int i = 0; i < 10; i++) {
+            dl.add(i); // Заполняем лист
         }
+        threadSafeList = new ThreadSafeList(dl);
     }
 
     @Test
