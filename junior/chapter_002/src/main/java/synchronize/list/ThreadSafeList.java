@@ -1,0 +1,41 @@
+package synchronize.list;
+
+import list.DynamicListBasedOnArray;
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Iterator;
+
+/**
+ * Потокобезопасный класс - Динамический список.
+ */
+@ThreadSafe
+public class ThreadSafeList {
+
+    @GuardedBy("this")
+    DynamicListBasedOnArray list;
+
+    public ThreadSafeList(DynamicListBasedOnArray dynamicListBasedOnArray) {
+        this.list = dynamicListBasedOnArray;
+    }
+
+    /**
+     * Итератор для копии.
+     * @return
+     */
+    @NotNull
+    //@Override
+    public synchronized Iterator iterator() {
+        return copy(this.list).iterator();
+    }
+
+    /**
+     * Возвращает копию листа из данного объекта.
+     * @param dynamicListBasedOnArray
+     * @return
+     */
+    private synchronized DynamicListBasedOnArray copy(DynamicListBasedOnArray dynamicListBasedOnArray) {
+        return dynamicListBasedOnArray;
+    }
+}
