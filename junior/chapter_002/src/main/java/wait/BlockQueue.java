@@ -3,38 +3,39 @@ package wait;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Это блокирующая очередь, ограниченная по размеру.
  * В данном шаблоне Producer помещает данные в очередь, а Consumer извлекает данные из очереди.
  * @param <E>
  */
 @ThreadSafe
-class Queue<E> {
+class BlockQueue<E> {
     /**
      * Очередь размером 7.
      */
     @GuardedBy("this")
-    E[] queue = (E[]) new Object[7];
+    private final Queue<E> list = new LinkedList<>();
 
     /**
      * Размерность очереди
      */
-    volatile Integer count = 0;
+    private int maxSize = 5;
 
     /**
      * Добавляет объект в очередь.
      */
     public synchronized void put(E e) {
-        while (count == queue.length) { // Пока очередь не заполнена
+        while (list.size() == maxSize) { // Пока очередь не заполнена
             try {
                 wait();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
-        queue[count] = e;
-        System.out.println("Output: " + queue[count]);
-        count++;
+        list.add(e);
         notifyAll();
     }
 
@@ -44,18 +45,18 @@ class Queue<E> {
      * @return
      */
     public synchronized E get() {
-        while (count == 0) {
+        while (list.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
         }
-        count--;
-        E result = queue[count];
+        E result = list.poll();
         System.out.println("Output: " + result);
         notifyAll();
         return result;
     }
 }
+
 

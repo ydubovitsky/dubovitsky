@@ -6,13 +6,13 @@ import org.junit.Test;
 /**
  * Тестовый класс.
  */
-public class QueueTest {
+public class BlockQueueTest {
 
-    Queue queue;
+    BlockQueue queue;
 
     @Before
     public void setUp() {
-        queue = new Queue<>();
+        queue = new BlockQueue<>();
     }
 
     @Test
@@ -26,10 +26,10 @@ public class QueueTest {
      * Класс поставщик.
      */
     class Producer<E> implements Runnable {
-        Queue<E> queue;
+        BlockQueue<E> queue;
         Thread thread;
 
-        public Producer(Queue queue, String name) {
+        public Producer(BlockQueue queue, String name) {
             this.queue = queue;
             thread = new Thread(this, name);
             thread.start();
@@ -48,11 +48,12 @@ public class QueueTest {
      * Класс потребитель.
      */
     class Consumer<E> extends Thread {
-        Queue<E> queue;
+        BlockQueue<E> queue;
 
-        public Consumer(Queue queue, String name) {
+        public Consumer(BlockQueue queue, String name) {
             super(name);
             this.queue = queue;
+            this.start();
         }
 
         public void run() {
