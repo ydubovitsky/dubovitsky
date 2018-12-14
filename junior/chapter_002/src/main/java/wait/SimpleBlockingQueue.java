@@ -11,11 +11,12 @@ import net.jcip.annotations.ThreadSafe;
 @ThreadSafe
 public class SimpleBlockingQueue<E> {
 
-    Queue<Integer> queue = new Queue<>();
+    private Queue<Integer> queue = new Queue<>();
 
     public SimpleBlockingQueue() {
-        new Producer(queue);
-        new Consumer(queue).start();
+        new Consumer(queue, "Получатель 1").start();
+        new Producer(queue, "Поставщик 1 ");
+        new Producer(queue, "Поставщик 2 ");
     }
 
     public static void main(String[] args) {
@@ -29,9 +30,9 @@ public class SimpleBlockingQueue<E> {
         Queue<E> queue;
         Thread thread;
 
-        public Producer(Queue queue) {
+        public Producer(Queue queue, String name) {
             this.queue = queue;
-            thread = new Thread(this, "Producer");
+            thread = new Thread(this, name);
             thread.start();
         }
 
@@ -50,8 +51,8 @@ public class SimpleBlockingQueue<E> {
     class Consumer extends Thread {
         Queue<E> queue;
 
-        public Consumer(Queue queue) {
-            super("Consumer");
+        public Consumer(Queue queue, String name) {
+            super(name);
             this.queue = queue;
         }
 
@@ -78,18 +79,18 @@ public class SimpleBlockingQueue<E> {
         /**
          * Размерность очереди
          */
-        int count = 0;
+        volatile Integer count = 0;
 
         /**
          * Переменная
          */
-        boolean start = false;
+        volatile boolean start = false;
 
         /**
          * Добавляет объект в очередь.
          */
         public synchronized void put(E e) {
-            while (start) {
+            while (start && count >= queue.length) { // Пока происходит чтение или очередь не заполнена
                 try {
                     wait();
                 } catch (InterruptedException ex) {
@@ -98,7 +99,14 @@ public class SimpleBlockingQueue<E> {
             }
             queue[count] = e;
             System.out.println("Insert into queue: " + queue[count]);
-            count++;
+            int temp;
+            synchronized (this.count){
+                temp = this.count;
+            }
+            temp++;
+            synchronized (this.count) {
+                this.count = temp;
+            }
             start = true;
             notify();
         }
@@ -115,7 +123,14 @@ public class SimpleBlockingQueue<E> {
                     ex.printStackTrace();
                 }
             }
-            count--;
+            int temp;
+            synchronized (this.count){
+                temp = this.count;
+            }
+            temp--;
+            synchronized (this.count) {
+                this.count = temp;
+            }
             E result = queue[count];
             System.out.println("Output: " + result);
             start = false;
