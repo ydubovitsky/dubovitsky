@@ -44,18 +44,22 @@ class BlockQueue<E> {
      * Получаем элемент из очереди.
      * @return
      */
-    public synchronized E poll() {
+    public synchronized E poll() throws InterruptedException { // Пробрасывает исключение наверх
         while (list.isEmpty()) {
-            try {
-                wait();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+            wait();
         }
         E result = list.poll();
         System.out.println("Output: " + result);
         notifyAll();
         return result;
+    }
+
+    /**
+     * Метод показывает пуста ли очередь.
+     * @return true - да, false - нет.
+     */
+    public synchronized boolean isEmpty() {
+        return list.isEmpty();
     }
 }
 
