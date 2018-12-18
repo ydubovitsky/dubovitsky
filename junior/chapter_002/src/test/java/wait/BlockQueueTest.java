@@ -38,7 +38,7 @@ public class BlockQueueTest {
         public void run() {
             Integer i = 0;
             while (true) {
-                queue.put((E)i);
+                queue.offer((E)i);
                 i++;
             }
         }
@@ -58,7 +58,7 @@ public class BlockQueueTest {
 
         public void run() {
             while (true) {
-                queue.get();
+                queue.poll();
             }
         }
     }

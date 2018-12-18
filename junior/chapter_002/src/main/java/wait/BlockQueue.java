@@ -27,7 +27,7 @@ class BlockQueue<E> {
     /**
      * Добавляет объект в очередь.
      */
-    public synchronized void put(E e) {
+    public synchronized void offer(E e) {
         while (list.size() == maxSize) { // Пока очередь не заполнена
             try {
                 wait();
@@ -36,15 +36,15 @@ class BlockQueue<E> {
             }
         }
         list.add(e);
+        System.out.println("Input " + e);
         notifyAll();
     }
 
     /**
      * Получаем элемент из очереди.
-     *
      * @return
      */
-    public synchronized E get() {
+    public synchronized E poll() {
         while (list.isEmpty()) {
             try {
                 wait();
