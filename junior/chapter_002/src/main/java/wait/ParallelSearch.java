@@ -11,9 +11,23 @@ public class ParallelSearch {
          */
         BlockQueue<Integer> queue = new BlockQueue<Integer>();
         /**
-         *
+         * Поток-потребитель; Пока производитель работает, работает и потребитель.
          */
-        final boolean[] flag = new boolean[1];
+        Thread consumer = new Thread(() -> {
+            while (!Thread.currentThread().isInterrupted()) { // Пока текущий поток не прерван
+                try {
+                    queue.poll();
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+        });
+        /**
+         * Запускаем поток потребитель;
+         */
+        consumer.start();
         /**
          * Поток, добавляющий элементы в очередь.
          */
@@ -27,28 +41,12 @@ public class ParallelSearch {
                         e.printStackTrace();
                     }
                 }
-                flag[0] = true;
+                consumer.interrupt();
             }
         };
         /**
-         * Поток-потребитель; Пока производитель работает, работает и потребитель.
+         * Запускаем поток производитель.
          */
-        Thread consumer = new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) { // Пока текущий поток не прерван
-                try {
-                    if (flag[0]) Thread.currentThread().interrupt();
-                    queue.poll();
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Thread.currentThread().interrupt();
-                }
-            }
-        });
-        /**
-         * Запускаем потоки.
-         */
-        consumer.start();
         producer.start();
     }
 }
