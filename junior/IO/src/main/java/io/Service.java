@@ -23,4 +23,29 @@ public class Service {
         }
         return result;
     }
+
+    /**
+     * Удаление запрещенных слов
+     * @param in
+     * @param out
+     * @param abuse
+     */
+    void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
+        String str;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out));
+        try {
+            do {
+                str = bufferedReader.readLine();
+                for (int i = 0; i < abuse.length; i++) {
+                    if (str.contains(abuse[i])) {
+                        continue;
+                    }
+                }
+                bufferedWriter.write(str);
+            } while (bufferedReader.ready());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
