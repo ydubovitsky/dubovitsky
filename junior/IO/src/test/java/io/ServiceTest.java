@@ -2,7 +2,7 @@ package io;
 
 import org.junit.jupiter.api.Assertions;
 
-import java.io.ByteArrayInputStream;
+import java.io.*;
 import java.util.Collections;
 import java.util.function.IntFunction;
 import java.util.stream.Collector;
@@ -28,11 +28,14 @@ class ServiceTest {
 
     @org.junit.jupiter.api.Test
     void dropAbuses() {
-        IntFunction<String[]> intFunction = (int n) -> {
-            String[] strings = new String[1];
-            strings[n] = "плохо";
-            return strings;
-        };
-        System.out.println(intFunction.apply(0)[0]);
+        InputStream in = System.in;
+        OutputStream out = System.out;
+        try {
+            in.read(new byte[]{'c', 'a', 'h'});
+            service.dropAbuses(in, out, new String[]{"a"});
+            ((PrintStream) out).println(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

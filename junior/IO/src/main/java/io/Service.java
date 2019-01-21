@@ -28,17 +28,17 @@ public class Service {
      * Удаление запрещенных слов
      * @param in
      * @param out
-     * @param abuse
+     * @param abuse - массив запрещенных слов
      */
     void dropAbuses(InputStream in, OutputStream out, String[] abuse) {
         String str;
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in)); // Входной поток
+        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(out)); // Выходной поток
         try {
             do {
                 str = bufferedReader.readLine();
                 for (int i = 0; i < abuse.length; i++) {
-                    if (str.contains(abuse[i])) {
+                    if (str.contains(abuse[i])) { // Пропускаем слово
                         continue;
                     }
                 }
