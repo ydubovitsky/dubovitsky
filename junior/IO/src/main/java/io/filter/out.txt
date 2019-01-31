@@ -1,0 +1,8 @@
+ package io.filter;
+
+import java.io.File;
+
+public class Main {
+    static File in = newЗамена    static File out = newЗамена    public static void main(String[] args) {
+        FileFilterWords fileFilterWords = new FileFilterWords(in, out);
+        fileFilterWords.dropAbuses(newЗамена   
