@@ -1,5 +1,6 @@
-package io;
+package io.service;
 
+import io.service.Service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
