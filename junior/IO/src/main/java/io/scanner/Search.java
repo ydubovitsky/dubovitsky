@@ -1,5 +1,6 @@
 package io.scanner;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ public class Search {
         Search dirList = new Search();
         ArrayList<String> list = new ArrayList<>();
         list.add("java");
-        list.add(".iml");
+        list.add("iml");
         list.add("xml");
         dirList.recursionSearch("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\", list);
     }
@@ -31,7 +32,10 @@ public class Search {
      * @param dir - Каталог в которм происходит поиск
      * @param list - расширение искомых файлов
      */
-    public void recursionSearch(String dir, List<String> list) {
+    public List<File> recursionSearch(String dir, List<String> list) {
+        // Список файлов
+        List<File> files = new ArrayList<>();
+
         try(DirectoryStream<Path> str = Files.newDirectoryStream(Paths.get(dir))) {
             for (Path p : str) {
                 if (Files.isDirectory(p)) {
@@ -39,6 +43,10 @@ public class Search {
                 } else {
                     for (int i = 0; i < list.size(); i++) {
                         if (p.toString().endsWith(list.get(i))) {
+
+                            // Добавляем файлы в список
+                            files.add(p.toFile());
+
                             System.out.println(p.toString());
                         }
                     }
@@ -47,5 +55,6 @@ public class Search {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return files;
     }
 }
