@@ -16,30 +16,47 @@ abstract public class FilterWords {
     void dropAbuses(String[] abuse) {
         try(InputStream is = this.factoryInputStream(); OutputStream os =  this.factoryOutputStream()) {
             int c;
-            StringBuilder stringBuilder = new StringBuilder(); // Собираем строку из символов
-            while ((c = is.read()) != -1) { // Считываем посимвольно из потока ввода
+
+            // Собираем строку из символов
+            StringBuilder stringBuilder = new StringBuilder();
+
+            // Считываем посимвольно из потока ввода
+            while ((c = is.read()) != -1) {
+                stringBuilder.append((char)c);
                 switch (c) {
                     case ' ' : // если встретили символ пробела, значит слово закончилось
-                        for (int i = 0; i < abuse.length; i++) {
-                            if (stringBuilder.toString().contains(abuse[i])) {
-                                os.write("Замена".getBytes()); // заменяем плохое слово на "Замена"
-                                stringBuilder.delete(0, stringBuilder.length()); // Очищаем
-                                break; // выходим из цикла.
-                            } else{
-                                os.write(' ');
-                            }
-                        }
-                        os.write(stringBuilder.toString().getBytes()); // выводим в поток вывода массив байтов
-                        stringBuilder.delete(0, stringBuilder.length()); // Очищаем
+
+                        // Производим замену
+                        String result = replace(stringBuilder.toString(), abuse);
+                        os.write(result.getBytes());
+                        stringBuilder.delete(0, stringBuilder.length());
                         break;
-                    default: // если символ не пробел, собирвем его из char
-                        stringBuilder.append((char)c);
+                    default:
+                        os.write(stringBuilder.toString().getBytes());
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Метод производит замену подстроки из str входящей в массив String[] на другое слово.
+     * @return
+     */
+    public String replace(String str, String[] strings) {
+        String result = new String();
+        for (int i = 0; i < strings.length; i++) {
+            if (str.contains(strings[i])) {
+                result = str.replace( strings[i], "%oops");
+            }
+        }
+        return result;
+    }
+
+    public void writeInOutputStream() {}
+
+
 
     /**
      * Фабричные методы для получения объектов реализующие интерфейсы InputStream и OutputStream.

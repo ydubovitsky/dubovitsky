@@ -19,12 +19,22 @@ public class FileFilterWords extends FilterWords {
     }
 
     @Override
-    InputStream factoryInputStream() throws FileNotFoundException {
-        return new FileInputStream(in);
+    InputStream factoryInputStream() {
+        try {
+            return new FileInputStream(in);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    OutputStream factoryOutputStream() throws FileNotFoundException {
-        return new FileOutputStream(out);
+    OutputStream factoryOutputStream() {
+        try {
+            return new FileOutputStream(out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
