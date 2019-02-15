@@ -10,10 +10,11 @@ public class Main {
         UserOne userOne = new UserOne();
         ConsoleChat consoleChat = new ConsoleChat(userOne.sendMsg(),
                 new LogFile(
-                        new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\text.txt")),
+                        new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\logs.txt")),
 
                 // Связываем выходной поток с консолью
-                System.out);
+                System.out, new ChatBot(
+                        new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\text.txt")));
         consoleChat.showMsg();
     }
 }

@@ -30,25 +30,6 @@ public class LogFile implements Logs {
         }
     }
 
-    @Override
-    public String returnRandomString() {
-        String result = new String();
-        try {
-            // Получаем список всех строк
-            List<String> list = Files.readAllLines(this.log.toPath());
-
-            // Получить случайное значение строки
-            Random random = new Random();
-            int value = random.nextInt(list.size());
-
-            // Вернуть случайную строку из файла
-            result = list.get(value);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     /**
      * Метод возвращает случайную строку из файла this.log
      */

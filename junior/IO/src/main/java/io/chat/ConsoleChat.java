@@ -19,6 +19,11 @@ public class ConsoleChat implements Chat {
      */
     PrintStream printStream;
 
+    /**
+     * Чат-Бот.
+     */
+    Bot bot;
+
     private final String endChat = "закончить";
     private final String freezeChat = "остановить";
     private final String continueChat = "продолжить";
@@ -27,10 +32,11 @@ public class ConsoleChat implements Chat {
      * Принимает входной поток данных, Лог, и Выходной поток.
      * @param reader
      */
-    public ConsoleChat(Reader reader, Logs logs, PrintStream printStream) {
+    public ConsoleChat(Reader reader, Logs logs, PrintStream printStream, Bot bot) {
         this.reader = reader;
         this.logs = logs;
         this.printStream = printStream;
+        this.bot = bot;
     }
 
     @Override
@@ -50,7 +56,7 @@ public class ConsoleChat implements Chat {
                 } if (str.equals(this.continueChat)){
                     flag = false;
                 } else if(!flag){
-                    result = str + " Бот вам отвечает: " + this.logs.returnRandomString();
+                    result = str + " Бот вам отвечает: " + this.bot.returnRandomString();
                 }
                 this.printStream.println(result);
                 this.logs.save(result);

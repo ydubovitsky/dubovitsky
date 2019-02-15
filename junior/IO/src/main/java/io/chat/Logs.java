@@ -6,10 +6,4 @@ public interface Logs {
      * @return
      */
     void save(String str);
-
-    /**
-     * Возвращает случайную фразу из файла
-     * @return
-     */
-    String returnRandomString();
 }
