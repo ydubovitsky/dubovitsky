@@ -1,7 +1,17 @@
-"C:\Program Files\Java\jdk-11.0.1\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\lib\idea_rt.jar=50663:C:\Program Files\JetBrains\IntelliJ IDEA 2018.3.2\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\user\IdeaProjects\dubovitsky\junior\IO\target\classes;C:\Users\user\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar io.chat.LogFile
-Exception in thread "main" java.lang.IllegalArgumentException: bound must be positive
-	at java.base/java.util.Random.nextInt(Random.java:388)
-	at io.chat.LogFile.returnRandomString(LogFile.java:56)
-	at io.chat.LogFile.main(LogFile.java:27)
-
-Process finished with exit code 1
+Незнакомец: Есть деньги? 
+ρBot: Ага, поделиться? 
+Незнакомец: Дай мне денег. 
+ρBot: Сколько денег тебе дать? 
+Незнакомец: Много. 
+ρBot: О как :) А примерно? 
+Незнакомец: 1000000. 
+ρBot: Но у меня нет таких денег... 
+Незнакомец: Работай тогда. 
+ρBot: Хорошо, буду стараться!
+олд Бот отвечает : ρBot: О как :) А примерно? 
+Незнакомец: Привет! Как тебя зовут?
+ρBot: Привет! Меня зовут ρBot.
+Незнакомец: Как дела?
+ρBot: Еще не родила :) Все ок.
+Незнакомец: У меня тоже все хорошо.
+ρBot: Круто! А что ты делаешь?

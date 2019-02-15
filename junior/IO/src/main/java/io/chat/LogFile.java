@@ -5,40 +5,26 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Конкретный класс, реализующий лог
+ */
 public class LogFile implements Logs {
 
+    /**
+     * Лог-файл
+     */
     File log;
 
     public LogFile(File file) {
         this.log = file;
     }
 
-    /**
-     * Тестовый метод
-     * @param args
-     */
-    public static void main(String[] args) {
-        File file = new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\text.txt");
-        LogFile logFile = new LogFile(file);
-        ByteArrayInputStream b = new ByteArrayInputStream("Hello".getBytes());
-        //logFile.save(b);
-        //System.out.println(logFile.read());
-        for (int i = 0; i < 10; i++) {
-            System.out.println(logFile.returnRandomString());
-        }
-    }
 
     @Override
-    public void save(Reader reader) {
-        int i;
-        try(FileWriter fr = new FileWriter(log)) {
-
-            // Пока во входном потоке есть данные
-            while ((i = reader.read()) != -1) {
-
-                // Записываем их в файл
-                fr.write(i);
-            }
+    public void save(String str) {
+        // true - перевод на новую строку
+        try(FileWriter fr = new FileWriter(log, true)) {
+            fr.write("\n" + str);
         } catch (IOException e) {
             e.printStackTrace();
         }

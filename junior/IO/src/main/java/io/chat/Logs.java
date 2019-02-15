@@ -1,13 +1,11 @@
 package io.chat;
 
-import java.io.Reader;
-
 public interface Logs {
     /**
-     * Метод получает входной поток данных и сохраняет их в файл
+     * Метод получает строку и сохраняет ее в файл
      * @return
      */
-    void save(Reader reader);
+    void save(String str);
 
     /**
      * Возвращает случайную фразу из файла

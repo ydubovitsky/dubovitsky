@@ -1,6 +1,6 @@
 package io.chat;
 
-import java.io.OutputStream;
+import java.io.File;
 import java.io.Reader;
 
 public class ChatBot implements Bot {
@@ -12,8 +12,7 @@ public class ChatBot implements Bot {
     }
 
     @Override
-    public Reader receiveMsg(Reader msg) {
+    public Reader receiveMsg(File msg) {
         return null;
     }
-
 }

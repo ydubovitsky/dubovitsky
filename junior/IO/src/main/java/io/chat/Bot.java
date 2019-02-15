@@ -1,5 +1,6 @@
 package io.chat;
 
+import java.io.File;
 import java.io.Reader;
 
 /**
@@ -10,5 +11,5 @@ public interface Bot {
      * Получает Поток ввода из файла(т.е. случайную фразу)
      * @return
      */
-    Reader receiveMsg(Reader msg);
+    Reader receiveMsg(File msg);
 }
