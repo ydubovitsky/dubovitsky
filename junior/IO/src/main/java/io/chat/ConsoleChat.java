@@ -4,32 +4,48 @@ import java.io.*;
 
 public class ConsoleChat implements Chat {
 
-    InputStream inputStream;
+    /**
+     * Поток ввода символов от пользователя
+     */
+    Reader reader;
+
+    /**
+     * Файл, куда будет записываться лог и откуда будет извлекаться случайная фраза
+     */
     Logs logs;
+    // Создаем выходной поток символов и связываем его с консолью
+    //OutputStreamWriter out = new OutputStreamWriter(new BufferedOutputStream(System.out));
 
     /**
      * Принимает входной поток данных
-     * @param inputStream
+     * @param reader
      */
-    public ConsoleChat(InputStream inputStream, Logs logs) {
-        this.inputStream = inputStream;
+    public ConsoleChat(Reader reader, Logs logs) {
+        this.reader = reader;
         this.logs = logs;
-    }
-
-    public static void main(String[] args) {
-        ConsoleChat consoleChat = new ConsoleChat(new UserOne().sendMsg(), new LogFile(new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\text.txt")));
-        consoleChat.showMsg();
     }
 
     @Override
     public void showMsg() {
-        int c;
-        try {
-            while ((c = inputStream.read()) != -1) {
-                logs.save(inputStream);
+        // Строка в которую будет записываться строка из потока ввода символов
+        String str = new String();
+
+        // Можно сделать фабричный метод
+        try(BufferedReader br = (BufferedReader)this.reader) {
+            while (!((str = br.readLine()).equals("hello"))) {
+                System.out.println(str + " Бот отвечает : " + this.logs.returnRandomString());
             }
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        UserOne userOne = new UserOne();
+        ConsoleChat consoleChat = new ConsoleChat(userOne.sendMsg(),
+                new LogFile(
+                        new File("C:\\Users\\user\\IdeaProjects\\dubovitsky\\junior\\IO\\src\\main\\java\\io\\chat\\text.txt")));
+        consoleChat.showMsg();
+        //consoleChat.showMsg();
     }
 }

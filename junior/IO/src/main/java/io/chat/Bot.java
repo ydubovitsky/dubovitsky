@@ -1,20 +1,14 @@
 package io.chat;
 
-import java.io.OutputStream;
+import java.io.Reader;
 
 /**
  * Интерфейс Бота.
  */
 public interface Bot {
     /**
-     * Получает сообщение от пользователя.
+     * Получает Поток ввода из файла(т.е. случайную фразу)
      * @return
      */
-    void reciveMsg();
-
-    /**
-     * Отвечает на вопрос пользователя.
-     * @return - возвращает поток вывода.
-     */
-    OutputStream sendAnswer();
+    Reader receiveMsg(Reader msg);
 }

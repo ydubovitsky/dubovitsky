@@ -1,13 +1,13 @@
 package io.chat;
 
-import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * Интерфейс пользователя
  */
 public interface User {
     /**
-     * Посылает сообщение в чат.
+     * Создает поток ввода симвоов.
      */
-    InputStream sendMsg();
+    Reader sendMsg();
 }
