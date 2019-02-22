@@ -17,7 +17,38 @@
             <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.sonatype.aether</groupId>
+            <artifactId>aether-api</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>6.18</version>
+        </dependency>
     </dependencies>
-
-
+    <!-- Добавлен плагин для чтения свойств -->
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>properties-maven-plugin</artifactId>
+                    <version>1.0.0</version>
+                    <executions>
+                        <execution>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>read-project-properties</goal>
+                            </goals>
+                            <configuration>
+                                <files>
+                                    <file>${basedir}/config/dev.properties</file>
+                                </files>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
 </project>
