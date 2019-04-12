@@ -29,18 +29,28 @@ public class Server extends DataExchange {
     private final String exit = "пока";
 
     /**
-     * Client s data
-     */
-    private DataInputStream dataInput;
-
-    /**
      * Constructor
      * @param port - server s port
      */
-    public Server(int port, AnswersQuestions answers) {
+    public Server(int port) {
         this.serverPort = port;
         this.answers = answers;
-        this.connection();
+    }
+
+    /**
+     * Answers setter;
+     * @param answers
+     */
+    public void setAnswers(AnswersQuestions answers) {
+        this.answers = answers;
+    }
+
+    /**
+     * Getter answers;
+     * @return
+     */
+    public AnswersQuestions getAnswers() {
+        return this.answers;
     }
 
     /**
@@ -52,37 +62,32 @@ public class Server extends DataExchange {
         try{
             ServerSocket s = new ServerSocket(this.serverPort);
             this.serverSocket = s.accept();
+            System.out.println("Connected");
             InputStream i = serverSocket.getInputStream();
             OutputStream o = serverSocket.getOutputStream();
-            while (true) {
 
+            // end of cycle
+            String end = null;
+            do {
                 // invoke method from parent`s class
-                this.consoleOut(i);
+                end = this.consoleOut(i);
+                this.sendMsg(o, userInput);
 
-                this.sendMsg(o, getUserInput());
-            }
+                // end of cycle if user input "this.exit word"
+            } while (!end.equals(this.exit));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Getting user`s InputStream from another class.
-     */
-    public InputStream getUserInput() {
-        // getting random answer;
-        String answer = new Answers().getAnswer();
-
-        // getting new is
-        ByteArrayInputStream data = new ByteArrayInputStream(answer.getBytes());
-        return data;
-    }
-
-    public static void main(String[] args) throws Exception{
-        Server server = new Server(3000, new Answers());
-        //server.inputСonnection();
-        //server.answer();
-        //server.getAllAdress();
+    public static void main(String[] args) throws Exception {
+        // starting server
+        Server server = new Server(3000);
+        // set answers
+        server.setAnswers(new Answers());
+        //TODO Слишком громоздко
+        server.setUserInput(new ByteArrayInputStream(server.getAnswers().getAnswer().getBytes()));
+        //start data change
+        server.connection();
     }
 }
-

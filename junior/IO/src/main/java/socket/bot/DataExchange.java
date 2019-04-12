@@ -7,9 +7,22 @@ import java.io.*;
  */
 public abstract class DataExchange {
 
+    /**
+     * User`s input stream data
+     */
+    protected InputStream userInput;
+
     abstract void connection();
 
-    abstract InputStream getUserInput();
+    /**
+     * UserInput Setter
+     * @param inputStream
+     * @return
+     */
+    InputStream setUserInput(InputStream inputStream) {
+        this.userInput = inputStream;
+        return this.userInput;
+    }
 
     /**
      * This method write into output stream user`s data from input stream;
@@ -20,29 +33,36 @@ public abstract class DataExchange {
         try{
             //TODO Почему не работает эта обертка?
             // OutputStreamWriter o = new OutputStreamWriter(outputStream);
-            BufferedReader b = new BufferedReader(new InputStreamReader(inputStream));
-
+            int c;
+            while ((c = inputStream.read()) != -1) {
+                outputStream.write(c);
+            }
             // sending input user`s data on server
-            outputStream.write(b.readLine().getBytes());
+            outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * This method receive input data and write it on Console
+     * This method receive input data and write it on Console and return user`s string
      * @param inputStream
      */
-    void consoleOut(InputStream inputStream) {
+    String consoleOut(InputStream inputStream) {
+        //TODO Сделать метод проще StringBuilder - String
+        String result = "";
+        StringBuilder sb = new StringBuilder();
         try{
             int a;
             while ((a = inputStream.read()) != -1) {
 
-                // write on console
-                System.out.print((char)a);
+                // create String
+                sb.append((char)a);
             }
+            result = sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return result;
     }
 }

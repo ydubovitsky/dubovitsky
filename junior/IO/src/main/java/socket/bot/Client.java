@@ -22,17 +22,14 @@ public class Client extends DataExchange{
     private final int port;
 
     /**
-     * User`s input stream data
+     * Client`s socket
      */
-    private InputStream inputStream;
-
     private Socket socket;
 
 
-    public Client(InetAddress inetAddress, int port, InputStream inputStream) {
+    public Client(InetAddress inetAddress, int port) {
         this.inetAddress = inetAddress;
         this.port = port;
-        this.inputStream = inputStream;
     }
 
     /**
@@ -41,40 +38,30 @@ public class Client extends DataExchange{
     public void connection() {
         try {
             this.socket = new Socket(this.inetAddress, port);
-
             while (true) {
-
-                // create IO streams
+                // create new IO streams
                 OutputStream o = this.socket.getOutputStream();
                 InputStream i = this.socket.getInputStream();
-
                 // invoke 2 methods
-                //TODO разобраться с этими 2мя методами и возможно вывести
-                // их в интерфейс или абстрактный класс для сервера и клиента!
-                this.sendMsg(o, getUserInput());
+                this.sendMsg(o, this.userInput);
 
                 // invoke method from parent`s class
                 this.consoleOut(i);
+                // close 2 streams
                 o.close();
-                i.close();
+                o.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Getting user`s InputStream from console
-     */
-    public InputStream getUserInput() {
-        // from console...
-        BufferedInputStream b = new BufferedInputStream(System.in);
-        return b;
-    }
-
     public static void main(String[] args) throws Exception {
-        Client client = new Client(InetAddress.getLocalHost(), 3000, System.in);
+        // create client
+        Client client = new Client(InetAddress.getLocalHost(), 3000);
+        // set user input
+        client.setUserInput(new BufferedInputStream(System.in));
+        // starting client
         client.connection();
-        //client.sendMsg();
     }
 }
