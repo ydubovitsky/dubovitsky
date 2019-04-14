@@ -48,9 +48,8 @@ public abstract class DataExchange {
      * This method receive input data and write it on Console and return user`s string
      * @param inputStream
      */
+    //TODO Этот метод можно улучшить, задавая выходной поток: консоль, файл или что то еще...
     String consoleOut(InputStream inputStream) {
-        //TODO Сделать метод проще StringBuilder - String
-        String result = "";
         StringBuilder sb = new StringBuilder();
         try{
             int a;
@@ -59,10 +58,10 @@ public abstract class DataExchange {
                 // create String
                 sb.append((char)a);
             }
-            result = sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        System.out.println(sb.toString());
+        return sb.toString();
     }
 }

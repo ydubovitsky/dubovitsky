@@ -49,7 +49,7 @@ public class Client extends DataExchange{
                 this.consoleOut(i);
                 // close 2 streams
                 o.close();
-                o.close();
+                i.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class Client extends DataExchange{
         // create client
         Client client = new Client(InetAddress.getLocalHost(), 3000);
         // set user input
-        client.setUserInput(new BufferedInputStream(System.in));
+        client.setUserInput(System.in);
         // starting client
         client.connection();
     }
