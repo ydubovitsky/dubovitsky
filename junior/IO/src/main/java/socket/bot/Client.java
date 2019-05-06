@@ -26,6 +26,17 @@ public class Client extends DataExchange{
      */
     private Socket socket;
 
+    /**
+     * IO Streams
+     */
+    private InputStream inputStream;
+    private OutputStream outputStream;
+
+    /**
+     * Count of try connection to server
+     */
+    private int count = 20;
+
 
     public Client(InetAddress inetAddress, int port) {
         this.inetAddress = inetAddress;
@@ -35,33 +46,37 @@ public class Client extends DataExchange{
     /**
      * This method create new connection to server and create new socket.
      */
-    public void connection() {
+    public boolean connection() {
+        //TODO Почему нельзя вынести за пределеы метода?
+        // connection flag
+        boolean connection = false;
         try {
             this.socket = new Socket(this.inetAddress, port);
-            while (true) {
-                // create new IO streams
-                OutputStream o = this.socket.getOutputStream();
-                InputStream i = this.socket.getInputStream();
-                // invoke 2 methods
-                this.sendMsg(o, this.userInput);
-
-                // invoke method from parent`s class
-                this.consoleOut(i);
-                // close 2 streams
-                o.close();
-                i.close();
+            if (this.socket != null) {
+                connection = true;
             }
+            // create new IO streams
+            this.outputStream = this.socket.getOutputStream();
+            this.inputStream = this.socket.getInputStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Reconnection... Try № " + this.count--);
         }
+        return connection;
     }
 
     public static void main(String[] args) throws Exception {
         // create client
         Client client = new Client(InetAddress.getLocalHost(), 3000);
         // set user input
-        client.setUserInput(System.in);
+        client.setUserInput(new ByteArrayInputStream("Hello".getBytes()));
         // starting client
-        client.connection();
+        while (client.connection() || client.count > 0) {
+            //TODO Тело метода где будут отсылаться и получаться сообщения
+            if (client.socket != null && client.socket.isConnected()) {
+                while (client.socket.isConnected()) {
+                    client.sendMsg(client.outputStream, client.userInput);
+                }
+            }
+        }
     }
 }

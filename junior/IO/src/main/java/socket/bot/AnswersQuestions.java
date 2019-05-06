@@ -8,5 +8,5 @@ public interface AnswersQuestions {
      * Return random String
      * @return
      */
-    public String getAnswer();
+    String getAnswer();
 }

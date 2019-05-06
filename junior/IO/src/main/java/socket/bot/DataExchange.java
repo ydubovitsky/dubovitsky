@@ -12,7 +12,11 @@ public abstract class DataExchange {
      */
     protected InputStream userInput;
 
-    abstract void connection();
+    /**
+     * Set connection
+     * @return - true, if connection successful.
+     */
+    abstract boolean connection();
 
     /**
      * UserInput Setter

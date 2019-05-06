@@ -17,8 +17,9 @@ class DataExchangeTest {
     class RealClass extends DataExchange {
 
         @Override
-        void connection() {
+        boolean connection() {
             // this is a stub, or how we will be testing abstract class?
+            return false;
         }
     }
 

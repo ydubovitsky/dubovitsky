@@ -16,7 +16,7 @@ public class Server extends DataExchange {
     /**
      * Server socket object
      */
-    private Socket serverSocket = null;
+    private Socket serverSocket;
 
     /**
      * Oracle s answers.
@@ -27,6 +27,12 @@ public class Server extends DataExchange {
      * Chat "exit' word
      */
     private final String exit = "пока";
+
+    /**
+     * IO Streams
+     */
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
     /**
      * Constructor
@@ -57,37 +63,43 @@ public class Server extends DataExchange {
      * Create server socket.
      * @return - socket
      */
-    public void connection() {
+    public boolean connection() {
+        // flag of connection
+        boolean connection = false;
         // create server socket
         try{
             ServerSocket s = new ServerSocket(this.serverPort);
             this.serverSocket = s.accept();
-            System.out.println("Connected");
-            InputStream i = serverSocket.getInputStream();
-            OutputStream o = serverSocket.getOutputStream();
 
-            // end of cycle
-            String end = null;
-            do {
-                // invoke method from parent`s class
-                end = this.consoleOut(i);
-                this.sendMsg(o, userInput);
+            // checking
+            if (this.serverSocket.isConnected()) {
+                connection = true;
+                System.out.println("Connected");
+            }
 
-                // end of cycle if user input "this.exit word"
-            } while (!end.equals(this.exit));
+            // getting IOStreams
+            this.inputStream = serverSocket.getInputStream();
+            this.outputStream = serverSocket.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return connection;
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         // starting server
         Server server = new Server(3000);
         // set answers
         server.setAnswers(new Answers());
         //TODO Слишком громоздко
         server.setUserInput(new ByteArrayInputStream(server.getAnswers().getAnswer().getBytes()));
-        //start data change
+
+        // Server starting
         server.connection();
+        //TODO Почему цикл не завершается если клиент завершил работу?
+        while (!server.serverSocket.isClosed()) {
+            //server.sendMsg(System.out, server.inputStream);
+            server.consoleOut(server.inputStream);
+        }
     }
 }
