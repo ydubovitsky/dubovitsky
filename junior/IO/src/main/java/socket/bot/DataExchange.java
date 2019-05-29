@@ -16,7 +16,7 @@ public abstract class DataExchange {
      * Set connection
      * @return - true, if connection successful.
      */
-    abstract boolean connection();
+    abstract void connection();
 
     /**
      * UserInput Setter
@@ -26,26 +26,6 @@ public abstract class DataExchange {
     InputStream setUserInput(InputStream inputStream) {
         this.userInput = inputStream;
         return this.userInput;
-    }
-
-    /**
-     * This method write into output stream user`s data from input stream;
-     * @param outputStream
-     * @param inputStream
-     */
-    void sendMsg(OutputStream outputStream, InputStream inputStream) {
-        try{
-            //TODO Почему не работает эта обертка?
-            // OutputStreamWriter o = new OutputStreamWriter(outputStream);
-            int c;
-            while ((c = inputStream.read()) != -1) {
-                outputStream.write(c);
-            }
-            // sending input user`s data on server
-            outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

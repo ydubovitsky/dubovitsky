@@ -1,6 +1,7 @@
 package socket.bot;
 
-import com.sun.tools.javac.util.List;
+
+import java.util.List;
 
 /**
  * This class contain answer for client questions.
@@ -33,6 +34,6 @@ public class Answers implements AnswersQuestions{
      * This method return random answers from list.
      */
     public String getAnswer() {
-        return answers.get(this.rnd(0, this.answers.length() - 1));
+        return answers.get(this.rnd(0, this.answers.size() - 1));
     }
 }

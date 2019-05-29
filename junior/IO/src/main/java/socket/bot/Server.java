@@ -24,9 +24,11 @@ public class Server extends DataExchange {
     private AnswersQuestions answers;
 
     /**
-     * Chat "exit' word
+     * Chat key words
      */
     private final String exit = "пока";
+    private final String start = "старт";
+    private boolean flag = true;
 
     /**
      * IO Streams
@@ -52,54 +54,41 @@ public class Server extends DataExchange {
     }
 
     /**
-     * Getter answers;
-     * @return
-     */
-    public AnswersQuestions getAnswers() {
-        return this.answers;
-    }
-
-    /**
      * Create server socket.
      * @return - socket
      */
-    public boolean connection() {
-        // flag of connection
-        boolean connection = false;
-        // create server socket
-        try{
-            ServerSocket s = new ServerSocket(this.serverPort);
-            this.serverSocket = s.accept();
-
-            // checking
-            if (this.serverSocket.isConnected()) {
-                connection = true;
-                System.out.println("Connected");
+    public void connection() {
+        while (true) {
+            try {
+                ServerSocket serverSocket = new ServerSocket(this.serverPort);
+                while (flag) {
+                    Socket socket = serverSocket.accept();
+                    System.out.println("Подключились");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    String clientMsg = reader.readLine();
+                    if (clientMsg.equals(exit)) {
+                        flag = false;
+                    }
+                    if(flag || clientMsg.equals(start)) {
+                        flag = true;
+                        System.out.println("ngdfngndfgndg");
+                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+                        writer.write(answers.getAnswer());
+                        writer.close();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            // getting IOStreams
-            this.inputStream = serverSocket.getInputStream();
-            this.outputStream = serverSocket.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-
-    public static void main(String[] args) {
-        // starting server
-        Server server = new Server(3000);
-        // set answers
-        server.setAnswers(new Answers());
-        //TODO Слишком громоздко
-        server.setUserInput(new ByteArrayInputStream(server.getAnswers().getAnswer().getBytes()));
-
-        // Server starting
-        server.connection();
-        //TODO Почему цикл не завершается если клиент завершил работу?
-        while (!server.serverSocket.isClosed()) {
-            //server.sendMsg(System.out, server.inputStream);
-            server.consoleOut(server.inputStream);
         }
     }
-}
+
+
+        public static void main(String[] args) {
+            // starting server
+            Server server = new Server(4343);
+            server.setAnswers(new Answers());
+            // set answers
+            server.connection();
+        }
+    }

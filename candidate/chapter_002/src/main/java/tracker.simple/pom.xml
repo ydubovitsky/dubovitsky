@@ -1,8 +1,0 @@
-<project>
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>DubovitskyGroup</groupId>
-	<artifactId>tracker</artifactId>
-	<version>1.0</version>
-	<name>tracker</name>
-	<packaging>jar</packaging>
-</project>
