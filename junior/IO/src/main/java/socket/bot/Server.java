@@ -1,7 +1,9 @@
 package socket.bot;
 
 import java.io.*;
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * The server class
@@ -14,68 +16,119 @@ public class Server extends DataExchange {
     private int serverPort;
 
     /**
-     * Server socket object
-     */
-    private Socket serverSocket;
-
-    /**
      * Oracle s answers.
      */
     private AnswersQuestions answers;
 
     /**
-     * Chat key words
+     * List of Clients for sending msg
      */
-    private final String exit = "пока";
-    private final String start = "старт";
-    private boolean flag = true;
-
-    /**
-     * IO Streams
-     */
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private ArrayList<OutputStream> clientsOut;
 
     /**
      * Constructor
+     *
      * @param port - server s port
      */
     public Server(int port) {
         this.serverPort = port;
-        this.answers = answers;
+        this.clientsOut = new ArrayList<>();
+        this.answers = new Answers();
     }
 
     /**
-     * Answers setter;
-     * @param answers
+     * Log-file;
      */
-    public void setAnswers(AnswersQuestions answers) {
-        this.answers = answers;
-    }
+    private final String log = "logs.txt";
 
     /**
      * Create server socket.
      * @return - socket
      */
-    public void connection() {
-        while (true) {
+    public void start() {
+        try {
+            ServerSocket serverSocket = new ServerSocket(this.serverPort);
+            while (true) {
+                Socket socket = serverSocket.accept();
+
+                //TODO Может быть добавлять сокет а не выходной поток? Тогда во внутреннем классе
+                // меньше будет проверок?
+                // add clients into list
+                clientsOut.add(socket.getOutputStream());
+
+                // starting a new thread
+                Thread thread = new Thread(new ClientsProcess(socket));
+                thread.start();
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sending msg for all register classes;
+     * @param msg
+     */
+    private void sendMsgAllClients(String msg) {
+        for (int i = 0; i < clientsOut.size(); i++) {
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientsOut.get(i)), true);
+            pw.println(msg);
+        }
+    }
+
+    /**
+     * Inner class for process clients requests.
+     */
+    private class ClientsProcess implements Runnable {
+
+        /**
+         * Input Socket
+         */
+        Socket socket;
+
+        /**
+         * Chat key words
+         */
+        private final String exit = "пока";
+        private final String start = "старт";
+
+        /**
+         * Constructor
+         * @param socket
+         */
+        public ClientsProcess(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+            new ClientsProcess(socket).sendAnswer();
+        }
+
+        /**
+         * This method process clients msg and sending answers.
+         */
+        private void sendAnswer() {
             try {
-                ServerSocket serverSocket = new ServerSocket(this.serverPort);
-                while (flag) {
-                    Socket socket = serverSocket.accept();
-                    System.out.println("Подключились");
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    String clientMsg = reader.readLine();
-                    if (clientMsg.equals(exit)) {
-                        flag = false;
+                BufferedReader br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+                String clientMsg = br.readLine();
+
+                // checking! if client sending "stop words", him remove from observers list;
+                if (clientMsg.equals(exit)) {
+                    //TODO Или синхронизировать весь метод?
+                    synchronized(this) {
+                        clientsOut.remove(this.socket.getOutputStream());
                     }
-                    if(flag || clientMsg.equals(start)) {
-                        flag = true;
-                        System.out.println("ngdfngndfgndg");
-                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-                        writer.write(answers.getAnswer());
-                        writer.close();
+                }
+                if (clientMsg.equals(start)) {
+                    // if List of clients not contain this socket, add into list
+                    synchronized (this) {
+                        if (!clientsOut.contains(socket.getOutputStream())) {
+                            clientsOut.add(socket.getOutputStream());
+                        }
                     }
+                    // invoke method from outer class
+                    sendMsgAllClients(answers.getAnswer());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,12 +136,9 @@ public class Server extends DataExchange {
         }
     }
 
-
-        public static void main(String[] args) {
-            // starting server
-            Server server = new Server(4343);
-            server.setAnswers(new Answers());
-            // set answers
-            server.connection();
-        }
+    public static void main(String[] args) {
+        // starting server
+        new Server(4343).start();
     }
+}
+

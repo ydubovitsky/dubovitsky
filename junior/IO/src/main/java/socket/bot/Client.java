@@ -3,8 +3,6 @@ package socket.bot;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * The client class
@@ -22,22 +20,17 @@ public class Client extends DataExchange{
     private final int port;
 
     /**
-     * Client`s socket
+     * Socket and IO streams;
      */
     private Socket socket;
+    private BufferedReader reader;
+    private PrintWriter writer;
 
     /**
-     * IO Streams
+     * Constructor
+     * @param inetAddress - server Address
+     * @param port - server port
      */
-    private InputStream inputStream;
-    private OutputStream outputStream;
-
-    /**
-     * Count of try connection to server
-     */
-    private int count = 20;
-
-
     public Client(InetAddress inetAddress, int port) {
         this.inetAddress = inetAddress;
         this.port = port;
@@ -46,12 +39,19 @@ public class Client extends DataExchange{
     /**
      * This method create new connection to server and create new socket.
      */
-    public void connection() {
+    public void start() {
         while (true) {
-            try (Socket socket = new Socket(this.inetAddress, port)) {
-                //TODO Обрати внимание!
-                processMsg(socket.getInputStream(), System.out);
-                System.out.println("Вышел из метода");
+            try {
+                socket = new Socket(inetAddress, port);
+                this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                //TODO Можно добавить болье абстракции заменив PrintWriter На OutputStream
+                this.writer = new PrintWriter(socket.getOutputStream());
+
+                // Starting a new thread for sending process
+                Thread thread = new Thread(new SendingMsg(this.writer));
+                thread.start();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,26 +59,51 @@ public class Client extends DataExchange{
     }
 
     /**
-     * This method write into output stream user`s data from input stream;
-     * @param outputStream
-     * @param inputStream
+     * Inner class for sending msg to server;
      */
-    public void processMsg(InputStream inputStream, OutputStream outputStream) {
-        try(PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream), true);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            String msg;
-            while ((msg = reader.readLine()) != null) {
+    class SendingMsg implements Runnable{
+
+        PrintWriter writer;
+
+        public SendingMsg(PrintWriter writer) {
+            this.writer = writer;
+        }
+
+        @Override
+        public void run() {
+            sendMsg(writer, getConsoleMsg());
+        }
+
+        /**
+         * This method getting OutputStream and write into msg
+         * @param writer
+         * @param msg
+         */
+        public void sendMsg(PrintWriter writer, String msg) {
                 writer.write(msg);
+                writer.flush();
+                writer.close();
+        }
+
+        /**
+         * Return string from console
+         * @return - console string.
+         */
+        private String getConsoleMsg() {
+            String result = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                result = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            return result;
         }
     }
 
+
     public static void main(String[] args) throws Exception {
         // create client
-        Client client = new Client(InetAddress.getLocalHost(), 4343);
-        // set user input
-        client.connection();
+        new Client(InetAddress.getLocalHost(), 4343).start();
     }
 }
