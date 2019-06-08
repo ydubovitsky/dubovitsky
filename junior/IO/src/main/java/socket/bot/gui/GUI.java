@@ -1,4 +1,4 @@
-package socket.bot;
+package socket.bot.gui;
 
 import javax.swing.*;
 import java.awt.*;

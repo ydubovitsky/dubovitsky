@@ -1,6 +1,5 @@
 package socket.bot;
 
-
 import java.util.List;
 
 /**
@@ -34,6 +33,6 @@ public class Answers implements AnswersQuestions{
      * This method return random answers from list.
      */
     public String getAnswer() {
-        return answers.get(this.rnd(0, this.answers.size() - 1));
+        return answers.get(rnd(0, this.answers.size() - 1));
     }
 }

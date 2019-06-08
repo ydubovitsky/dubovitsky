@@ -1,57 +1,44 @@
 package socket.bot;
 
 import java.io.*;
+import java.lang.reflect.InaccessibleObjectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
 /**
  * The client class
  */
-public class Client extends DataExchange{
+public class Client {
 
-    /**
-     * Server`s inet address
-     */
-    private final InetAddress inetAddress;
+    private final String host = "127.0.0.1";
+    private int port = 4343;
 
-    /**
-     * Server`s port
-     */
-    private final int port;
+    private void start() {
+            try {
+                Socket socket = new Socket(host, port);
+                OutputStream out = socket.getOutputStream();
+                InputStream input = socket.getInputStream();
 
-    /**
-     * Socket and IO streams;
-     */
-    private Socket socket;
-    private BufferedReader reader;
-    private PrintWriter writer;
-
-    /**
-     * Constructor
-     * @param inetAddress - server Address
-     * @param port - server port
-     */
-    public Client(InetAddress inetAddress, int port) {
-        this.inetAddress = inetAddress;
-        this.port = port;
+                // call method
+                sendAndGet(input, out);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     /**
-     * This method create new connection to server and create new socket.
+     * Gets message from input stream and outputs on the console.
      */
-    public void start() {
-        while (true) {
+    private void sendAndGet(InputStream i, OutputStream o) {
+            BufferedReader b = new BufferedReader(new InputStreamReader(i));
+            PrintWriter w = new PrintWriter(new OutputStreamWriter(o));
+            while (true) {
+            w.write(userInput() + "\n");
+            w.flush();
+            String msg1;
             try {
-                socket = new Socket(inetAddress, port);
-                this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                //TODO Можно добавить болье абстракции заменив PrintWriter На OutputStream
-                this.writer = new PrintWriter(socket.getOutputStream());
-
-                // Starting a new thread for sending process
-                Thread thread = new Thread(new SendingMsg(this.writer));
-                thread.start();
-
+                msg1 = b.readLine();
+                System.out.println("Server say " + msg1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,51 +46,21 @@ public class Client extends DataExchange{
     }
 
     /**
-     * Inner class for sending msg to server;
+     * Get message from the console
+     * @return - console message.
      */
-    class SendingMsg implements Runnable{
-
-        PrintWriter writer;
-
-        public SendingMsg(PrintWriter writer) {
-            this.writer = writer;
+    private String userInput() {
+        String msg = null;
+        BufferedReader userReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            msg = userReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        @Override
-        public void run() {
-            sendMsg(writer, getConsoleMsg());
-        }
-
-        /**
-         * This method getting OutputStream and write into msg
-         * @param writer
-         * @param msg
-         */
-        public void sendMsg(PrintWriter writer, String msg) {
-                writer.write(msg);
-                writer.flush();
-                writer.close();
-        }
-
-        /**
-         * Return string from console
-         * @return - console string.
-         */
-        private String getConsoleMsg() {
-            String result = null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            try {
-                result = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
+        return msg;
     }
 
-
-    public static void main(String[] args) throws Exception {
-        // create client
-        new Client(InetAddress.getLocalHost(), 4343).start();
+    public static void main(String[] args) {
+        new Client().start();
     }
 }
