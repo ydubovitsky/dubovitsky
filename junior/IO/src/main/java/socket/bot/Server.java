@@ -3,19 +3,19 @@ package socket.bot;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The server class, implements pattern Observer;
  */
-public class Server {
+public class Server implements Subject, Serializable {
 
     private final int port = 4343;
     private AnswersQuestions answers;
-    private InputStream input;
-    private OutputStream output;
-    private boolean flag = true;
+    private List<Socket> observers = new ArrayList<>();
 
-    public Server(AnswersQuestions answers) {
+    private Server(AnswersQuestions answers) {
         this.answers = answers;
     }
 
@@ -27,11 +27,12 @@ public class Server {
                 while (true) {
                     // this cycle for connected client
                     Socket socket = serverSocket.accept();
-                    this.input = socket.getInputStream();
-                    this.output = socket.getOutputStream();
+
+                    // add new observer
+                    addObserver(socket);
 
                     // call method
-                    inputProcess(this.input, this.output);
+                    logicProcess(socket);
                 }
                 // if previous cycle ended, this method go to first cycle and starts waiting a new client!
             } catch (IOException e) {
@@ -40,31 +41,60 @@ public class Server {
         }
     }
 
-    private void inputProcess(InputStream input, OutputStream out) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
+    private void logicProcess(Socket socket) {
         try {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String clientMsg;
             while ((clientMsg = reader.readLine())!= null) {
                 System.out.println(clientMsg);
                 // if client send "stop"
-                if (clientMsg.equals("stop") || !flag) {
-                    //System.out.println("Yeas!");
-                    writer.write("\n");
-                    writer.flush();
-                    flag = false;
+                if (clientMsg.equals("stop")) {
+                    unregisterObserver(socket);
                 }
-                // if client send "start" or another different word
-                if (clientMsg.equals("start") || flag) {
-                    writer.write(this.answers.getAnswer() + "\n");
-                    writer.flush();
-                    flag = true;
+                // if client sending anything than "stop"
+                else {
+                    sendAnswer();
                 }
             }
-            System.out.println("Вышли из цикла");
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Register socket like Observer and send him Object Server;
+     * @param socket
+     */
+    public void addObserver(Socket socket) {
+        try {
+            // create and sending for client this object (SERVER) =) stupid, but fun
+            ObjectOutputStream object = new ObjectOutputStream(new DataOutputStream(socket.getOutputStream()));
+            object.writeObject(this);
+            this.observers.add(socket);
+            System.out.println("Count of registers users = " + observers.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sends answers for all register clients
+     */
+    private void sendAnswer() {
+        try {
+            for (Socket socket : observers) {
+                PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                writer.write(this.answers.getAnswer() + "\n");
+                writer.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void unregisterObserver(Socket socket) {
+        observers.remove(socket);
+        System.out.println("Count of registers users = " + observers.size());
     }
 
     public static void main(String[] args) {
