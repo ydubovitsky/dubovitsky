@@ -13,6 +13,7 @@ public class Server {
     private AnswersQuestions answers;
     private InputStream input;
     private OutputStream output;
+    private boolean flag = true;
 
     public Server(AnswersQuestions answers) {
         this.answers = answers;
@@ -43,10 +44,24 @@ public class Server {
         BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
         try {
-            while (reader.readLine() != null) {
-                writer.write(this.answers.getAnswer() + "\n");
-                writer.flush();
+            String clientMsg;
+            while ((clientMsg = reader.readLine())!= null) {
+                System.out.println(clientMsg);
+                // if client send "stop"
+                if (clientMsg.equals("stop") || !flag) {
+                    //System.out.println("Yeas!");
+                    writer.write("\n");
+                    writer.flush();
+                    flag = false;
+                }
+                // if client send "start" or another different word
+                if (clientMsg.equals("start") || flag) {
+                    writer.write(this.answers.getAnswer() + "\n");
+                    writer.flush();
+                    flag = true;
+                }
             }
+            System.out.println("Вышли из цикла");
         }catch (IOException e) {
             e.printStackTrace();
         }

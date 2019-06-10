@@ -1,8 +1,6 @@
 package socket.bot;
 
 import java.io.*;
-import java.lang.reflect.InaccessibleObjectException;
-import java.net.InetAddress;
 import java.net.Socket;
 
 /**
