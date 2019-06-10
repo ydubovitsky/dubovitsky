@@ -1,0 +1,25 @@
+# https://docs.travis-ci.com/user/languages/java/
+language: java
+
+# Improve Build Speed https://dzone.com/articles/travis-ci-tutorial-java-projects
+cache:
+  directories:
+    - $HOME/.m2
+
+# Notifications https://docs.travis-ci.com/user/notifications/
+notifications:
+  email:
+    recipients:
+      - y.dubovitsky@gmail.com
+    on_success: always # default: change
+    on_failure: never # default: always
+
+    after_fail:
+      - bash <(curl -s https://codecov.io/bash)
+    after_success:
+      - bash <(curl -s https://codecov.io/bash)
+
+#https://codecov.io/gh/y-dubovitsky/dubovitsky
+env:
+  global:
+    - CODECOV_TOKEN="2238f60d-03f7-4c7f-9a03-94b2ef31bbe6"

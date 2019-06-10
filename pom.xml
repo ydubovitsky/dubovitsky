@@ -58,11 +58,12 @@
                 </configuration>
             </plugin>
 
-            <!-- org.jacoco -->
+
+            <!-- JaCoCo plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
+                <version>0.8.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -95,7 +96,7 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+
     </dependencies>
     <modules>
         <module>candidate</module>
