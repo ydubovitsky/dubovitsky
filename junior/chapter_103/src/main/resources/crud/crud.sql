@@ -11,8 +11,6 @@ CREATE TABLE "Users" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "Role" (
 	"id_role" serial NOT NULL,
 	"role" TEXT NOT NULL,
