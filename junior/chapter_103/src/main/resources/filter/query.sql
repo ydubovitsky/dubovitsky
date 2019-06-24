@@ -36,12 +36,28 @@ select id_product, name,type from product
   where product.id_type = (select type.id_type from type where type.name = 'milk');
 
 -- 7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
-select * from product;
--- у всех молочных продуктов количество равно 15 теперь
-update product set count = 15 where product.id_type = 3;
-select type.name from product, type where
-  product.count < 10 group by type.name;
+select * from product order by id_type;
+-- Добавим в таблицу product, продукты с типом 1 в количесве 11 штук
+insert into product(
+name,
+id_type,
+price
+) values (
+'Сыр Дружба',
+1,
+13.2
+)
+--
+select product.id_type from product group by product.id_type
+having count(product.id_type) > 10
+
 
 -- 8. Вывести все продукты и их тип.
 select product.name, type.name from product, type
   where product.id_type = type.id_type;
+
+select product.name, type.name from product
+inner join type on product.id_type = type.id_type
+
+-- Удаляем лишний столбец
+alter table product drop column count;
