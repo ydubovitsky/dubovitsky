@@ -44,6 +44,13 @@ create table attach(
   id_item int references item(id_item)
 );
 
+-- Changing of type
+-- ALTER TABLE attach ALTER COLUMN file TYPE bytea; not work!
+
+ALTER TABLE attach ADD COLUMN files bytea;
+ALTER TABLE attach DROP COLUMN file;
+ALTER TABLE attach RENAME COLUMN files TO file;
+
 create table comment(
   id_comment bigserial primary key ,
   text text,
