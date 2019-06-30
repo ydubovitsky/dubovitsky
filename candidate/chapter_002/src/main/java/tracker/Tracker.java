@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * Класс Трекер.
  * Содержит в себе методы по обработке заявок.
  */
-public class Tracker {
+public class Tracker implements ITracker{
 
     /**
      * Максимальное количество заявок в трекере.
@@ -23,10 +23,10 @@ public class Tracker {
      * @param item
      * @return
      */
-    public Item[] add(Item item) {
+    public Item add(Item item) {
         item.setId(generateId());
         items[position++] = item;
-        return items;
+        return item;
     }
 
     /**
