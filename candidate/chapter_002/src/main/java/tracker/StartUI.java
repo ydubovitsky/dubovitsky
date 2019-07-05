@@ -16,10 +16,16 @@ public class StartUI {
     private volatile boolean active = true;
 
     /**
+     * Final variable Tracker;
+     */
+    private final ITracker iTracker;
+
+    /**
      * Конструктор.
      * @param input
      */
-    public StartUI(final Input input) {
+    public StartUI(Input input, ITracker iTracker) {
+        this.iTracker = iTracker;
         this.input = input;
     }
 
@@ -35,8 +41,7 @@ public class StartUI {
      * Метод запускающий приложение.
      */
     public void init() {
-        Tracker tracker = new Tracker();
-        MenuTracker menu = new MenuTracker(input, tracker);
+        MenuTracker menu = new MenuTracker(input, this.iTracker);
         menu.fillActions(this);
         do {
             menu.show();
@@ -50,6 +55,10 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ValidateInput(new ConsoleInput())).init();
+        new StartUI(
+                new ValidateInput(
+                        // TODO Зависит от конкретного класса Tracker
+                        new ConsoleInput()), new Tracker()
+        ).init();
     }
 }

@@ -7,7 +7,7 @@ public class ConsoleInputTest {
     public void whenUserInsertDataFromConsole() {
         Tracker tracker = new Tracker();
         ConsoleInput consoleInput = new ConsoleInput();
-        StartUI startUI = new StartUI(consoleInput);
+        StartUI startUI = new StartUI(consoleInput, tracker);
         startUI.init();
     }
 }

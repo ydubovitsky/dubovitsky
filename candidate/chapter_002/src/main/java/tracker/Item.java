@@ -26,11 +26,31 @@ public class Item {
         return id;
     }
 
+    public String getDesc() {
+        return this.desc;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setCreate(long create) {
+        this.create = create;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

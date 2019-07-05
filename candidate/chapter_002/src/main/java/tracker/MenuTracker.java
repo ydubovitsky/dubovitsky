@@ -12,10 +12,12 @@ public final class MenuTracker {
      * Переменная, отвечающая за пользовательский ввод данных.
      */
     private final Input input;
+
     /**
      * Класс нашего трекера.
      */
-    private final Tracker tracker;
+    private final ITracker tracker;
+
     /**
      * Список всех наших функций
      */
@@ -38,7 +40,7 @@ public final class MenuTracker {
      * @param input
      * @param tracker
      */
-    public MenuTracker(final Input input, final Tracker tracker) {
+    public MenuTracker(final Input input, final ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -99,7 +101,7 @@ public final class MenuTracker {
          * @param input
          * @param tracker
          */
-        public void execute(final Input input, final Tracker tracker) {
+        public void execute(final Input input, final ITracker tracker) {
             String name = input.ask("Введите Имя задачи");
             String desc = input.ask("Введите Описание нового элемента:");
             Long date = Long.parseLong(input.ask("Введите Дату Создания нового элемента:"));
@@ -124,7 +126,7 @@ public final class MenuTracker {
          * @param input
          * @param tracker
          */
-        public void execute(final Input input, final Tracker tracker) {
+        public void execute(final Input input, final ITracker tracker) {
             if (tracker.findAll().length > 0) {
                 System.out.println("Выводим все элементы Трекера на экран.");
                 for (int i = 0; i < tracker.findAll().length; i++) {
@@ -157,7 +159,7 @@ public final class MenuTracker {
          */
         @SuppressWarnings("CheckStyle")
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
                 int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите удалить"));
                 tracker.delete(id);
                 System.out.println("Элементы с id " + id + " удален.");
@@ -180,7 +182,7 @@ public final class MenuTracker {
          * @param tracker
          */
         @Override
-        public void execute(final Input input, final Tracker tracker) {
+        public void execute(final Input input, final ITracker tracker) {
             // Мы исходим из того, что id не могут быть одинаковы.
             int id = Integer.parseInt(input.ask("Введите id элемента, который вы хотите найти"));
             String value = tracker.findById(id).getName();
@@ -208,7 +210,7 @@ public final class MenuTracker {
          * @param tracker
          */
         @Override
-        public void execute(final Input input, final Tracker tracker) {
+        public void execute(final Input input, final ITracker tracker) {
             String name = input.ask("Введите имя элемента, который вы хотите найти");
             System.out.println("Результаты поиска:");
             if (tracker.findByName(name).length != 0) {
@@ -249,7 +251,7 @@ public final class MenuTracker {
          * @param tracker
          */
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             String answer = input.ask("Вы хотите выйти? y/n");
             if ("y".equals(answer)) {
                 this.startUI.setActive(false);
@@ -279,7 +281,7 @@ class EditElement extends BaseAction {
      * @param tracker
      */
     @Override
-    public void execute(final Input input, final Tracker tracker) {
+    public void execute(final Input input, final ITracker tracker) {
             int id = Integer.parseInt(input.ask("Введите номер элемента, который вы хотите отредактировать:"));
             // Создаем элемент для замены
             String[] result = input.ask("Введите через запятую ИМЯ, ОПИСАНИЕ, ДАТУ СОЗДАНИЯ, КОМЕНТАРИЙ для нового элемента:").split(", ");
