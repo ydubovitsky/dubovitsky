@@ -1,4 +1,4 @@
-package jdbc.optimization;
+package jdbc.optimization.utility;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

@@ -1,31 +1,34 @@
 package jdbc.optimization;
 
+import jdbc.optimization.config.Config;
+
 import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * https://habr.com/ru/sandbox/88039/
  * https://alekseygulynin.ru/rabota-s-sqlite-v-java/
  */
 public class StoreSQL implements AutoCloseable {
+
     private final Config config;
     private Connection connect;
     public Statement statmt;
     public ResultSet resSet;
+    // name of table
+    private String table;
 
-    public StoreSQL(Config config) {
+    public StoreSQL(Config config, String table) {
+        this.table = table;
         this.config = config;
     }
 
     /**
      * Connect to a sample database
      */
-    // --------ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ--------
-    public void connection() throws ClassNotFoundException, SQLException
-    {
+    public void connection() throws ClassNotFoundException, SQLException    {
         connect = null;
         Class.forName("org.sqlite.JDBC");
         connect = DriverManager.getConnection(config.get("url"));
@@ -39,38 +42,29 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
-    // --------Создание таблицы--------
-    public void CreateDB() throws ClassNotFoundException, SQLException
-    {
+    /**
+     * Create a table
+     */
+    public void CreateTable() throws SQLException    {
         statmt = connect.createStatement();
-        statmt.execute("CREATE TABLE if not exists 'users' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'name' text, 'phone' INT);");
-
+        // Если таблица отсутствует, то создает ее.
+        statmt.execute(
+                "CREATE TABLE if not exists " + table + " ('field' INTEGER);"
+        );
         System.out.println("Таблица создана или уже существует.");
     }
 
-    // --------Заполнение таблицы--------
-    public void WriteDB() throws SQLException
-    {
-        statmt.execute("INSERT INTO 'users' ('name', 'phone') VALUES ('Petya', 125453); ");
-        statmt.execute("INSERT INTO 'users' ('name', 'phone') VALUES ('Vasya', 321789); ");
-        statmt.execute("INSERT INTO 'users' ('name', 'phone') VALUES ('Masha', 456123); ");
+    /**
+     * Output a table
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public void ReadDB() throws  SQLException    {
+        resSet = statmt.executeQuery("SELECT * FROM " +  table + ";");
 
-        System.out.println("Таблица заполнена");
-    }
-
-    // -------- Вывод таблицы--------
-    public void ReadDB() throws ClassNotFoundException, SQLException
-    {
-        resSet = statmt.executeQuery("SELECT * FROM users");
-
-        while(resSet.next())
-        {
-            int id = resSet.getInt("id");
-            String  name = resSet.getString("name");
-            String  phone = resSet.getString("phone");
-            System.out.println( "ID = " + id );
-            System.out.println( "name = " + name );
-            System.out.println( "phone = " + phone );
+        while(resSet.next()) {
+            int field = resSet.getInt("field");
+            System.out.println( "field = " + field );
             System.out.println();
         }
 
@@ -78,13 +72,26 @@ public class StoreSQL implements AutoCloseable {
     }
 
     /**
-     *  метод generate(int size) - генерирует в базе данных n записей.
+     * метод generate(int size) - генерирует в базе данных n записей.
      * @param size
      */
-    public void generate(int size) {
+    public void generate(int size) throws SQLException {
+        resSet = statmt.executeQuery("SELECT COUNT(*) as 'count' from " + table + ";");
+        int value = resSet.getInt("count");
 
+        // if row in the table > 0 then add new rows and delete old rows.
+        if (value > 0) {
+            statmt.execute("delete from " + table + ";");
+            for (int i = 0; i < size; i++) {
+                statmt.execute("insert into " + table + " values (" + i + ");");
+            }
+        }
     }
 
+    /**
+     * Return empty list. //TODO Зачем?
+     * @return
+     */
     public List<Map.Entry> load() {
         return Collections.EMPTY_LIST;
     }
@@ -99,10 +106,10 @@ public class StoreSQL implements AutoCloseable {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Config config = new Config();
         config.init();
-        StoreSQL storeSQL = new StoreSQL(config);
+        StoreSQL storeSQL = new StoreSQL(config, "entry");
         storeSQL.connection();
-        storeSQL.CreateDB();
-        storeSQL.WriteDB();
+        storeSQL.CreateTable();
+        storeSQL.generate(10);
         storeSQL.ReadDB();
     }
 }
