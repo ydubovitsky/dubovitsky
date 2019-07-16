@@ -1,6 +1,4 @@
-package jdbc.optimization;
-
-import jdbc.optimization.parser.Parser;
+package jdbc.optimization.parser;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -8,6 +6,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 
+/**
+ * This class generate .xml files from entities and generate entities from .xml;
+ */
 public class ParserImpl implements Parser {
 
     @Override
@@ -23,6 +24,7 @@ public class ParserImpl implements Parser {
     public void saveObject(File file, Object o) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(o.getClass());
         Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.marshal(o,file);
     }
 }

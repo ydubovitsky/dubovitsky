@@ -1,11 +1,10 @@
-package jdbc.optimization;
+package jdbc.optimization.database;
 
-import jdbc.optimization.config.Config;
+import jdbc.optimization.entity.Entry;
 
 import java.sql.*;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * https://habr.com/ru/sandbox/88039/
@@ -29,7 +28,6 @@ public class StoreSQL implements AutoCloseable {
      * Connect to a sample database
      */
     public void connection() throws ClassNotFoundException, SQLException    {
-        connect = null;
         Class.forName("org.sqlite.JDBC");
         connect = DriverManager.getConnection(config.get("url"));
 
@@ -45,7 +43,7 @@ public class StoreSQL implements AutoCloseable {
     /**
      * Create a table
      */
-    public void CreateTable() throws SQLException    {
+    public void createTable() throws SQLException    {
         statmt = connect.createStatement();
         // Если таблица отсутствует, то создает ее.
         statmt.execute(
@@ -59,7 +57,7 @@ public class StoreSQL implements AutoCloseable {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public void ReadDB() throws  SQLException    {
+    public void readDB() throws  SQLException    {
         resSet = statmt.executeQuery("SELECT * FROM " +  table + ";");
 
         while(resSet.next()) {
@@ -89,11 +87,18 @@ public class StoreSQL implements AutoCloseable {
     }
 
     /**
-     * Return empty list. //TODO Зачем?
+     * Method return list of all elements from the table
      * @return
      */
-    public List<Map.Entry> load() {
-        return Collections.EMPTY_LIST;
+    public Entry getTable() throws SQLException{
+        Entry entry = null;
+        List<Entry.Field> list = null;
+        resSet = statmt.executeQuery("SELECT field from " + table + ";");
+        while (resSet.next()) {
+            list = new ArrayList<>();
+            list.add(new Entry.Field(resSet.getInt("field")));
+        }
+        return new Entry(list);
     }
 
     @Override
@@ -101,15 +106,5 @@ public class StoreSQL implements AutoCloseable {
         if (connect != null) {
             connect.close();
         }
-    }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Config config = new Config();
-        config.init();
-        StoreSQL storeSQL = new StoreSQL(config, "entry");
-        storeSQL.connection();
-        storeSQL.CreateTable();
-        storeSQL.generate(10);
-        storeSQL.ReadDB();
     }
 }
