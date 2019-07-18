@@ -90,15 +90,21 @@ public class StoreSQL implements AutoCloseable {
      * Method return list of all elements from the table
      * @return
      */
-    public Entry getTable() throws SQLException{
-        Entry entry = null;
+    // TODO Что то в этом методе не так... слишком сложно
+    public List<Entry.Field> getTable() throws SQLException{
+        // Извлекаем все поля из таблицы в список полей
         List<Entry.Field> list = null;
         resSet = statmt.executeQuery("SELECT field from " + table + ";");
         while (resSet.next()) {
             list = new ArrayList<>();
-            list.add(new Entry.Field(resSet.getInt("field")));
+            Entry.Field field = new Entry.Field();
+            field.setField(resSet.getInt("field"));
+            list.add(field);
         }
-        return new Entry(list);
+        // Создаем сущность 'таблица' и добавляем в нее список полей
+        Entry entry = new Entry();
+        entry.setFields(list);
+        return entry.getFields();
     }
 
     @Override

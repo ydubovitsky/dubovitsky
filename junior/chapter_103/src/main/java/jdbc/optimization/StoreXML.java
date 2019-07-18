@@ -1,10 +1,13 @@
 package jdbc.optimization;
 
+import jdbc.optimization.entity.Entity;
+import jdbc.optimization.entity.Entry;
 import jdbc.optimization.parser.Parser;
 
 import java.io.File;
+import java.util.List;
 
-public class StoreXML<E> {
+public class StoreXML {
 
     private File file;
     private Parser parser;
@@ -22,7 +25,7 @@ public class StoreXML<E> {
      * Cохраняет данные из list в файл target.
      * @param e
      */
-    void save(E e) throws Exception{
+    void save(List<Entry.Field> e) throws Exception{
         parser.saveObject(this.file, e);
     }
 }

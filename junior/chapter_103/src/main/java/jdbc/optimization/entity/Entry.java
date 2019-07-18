@@ -10,46 +10,33 @@ import java.util.List;
  * This class describes entity "Entry" with one filed - field
  */
 @XmlRootElement(name = "table")
-@XmlType(propOrder = {"field"})
-public class Entry  {
+@XmlType(propOrder = {"fields"})
+public class Entry implements Entity{
 
-    private List<Field> field;
-    
-    public Entry() {
-        
+    private List<Field> fields;
+
+    public List<Field> getFields() {
+        return fields;
     }
 
-    public Entry(List<Field> field) {
-        this.field = field;
-    }
-
-    @XmlElement(name = "field")
+    @XmlElement(name = "fields")
     @XmlElementWrapper
-    public void setField(List<Field> fields) {
-        this.field = fields;
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
     }
 
-    public List<Field> getField() {
-        return this.field;
-    }
-
-    @XmlRootElement
+    @XmlRootElement(name="field")
     public static class Field {
-        private int value;
 
-        public Field() {
+        private int field;
+
+        public int getField() {
+            return field;
         }
 
-        public Field(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
+        @XmlElement
+        public void setField(int field) {
+            this.field = field;
         }
     }
 }

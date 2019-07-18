@@ -13,7 +13,7 @@ import java.sql.SQLException;
 class StoreXMLTest {
 
     StoreSQL storeSQL;
-    StoreXML<Entry> storeXML;
+    StoreXML storeXML;
 
     @BeforeEach
     void setUp() throws SQLException, ClassNotFoundException {
@@ -30,7 +30,7 @@ class StoreXMLTest {
     @Test
     void save() throws Exception, SQLException {
         File file = File.createTempFile("temp", ".xml");
-        storeXML = new StoreXML<>(file, new ParserImpl());
+        storeXML = new StoreXML(file, new ParserImpl());
         storeXML.save(storeSQL.getTable());
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
         String str;
