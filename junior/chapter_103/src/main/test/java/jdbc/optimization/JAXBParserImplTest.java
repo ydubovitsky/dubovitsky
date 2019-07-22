@@ -37,7 +37,6 @@ class JAXBParserImplTest {
                 new File(parser.getClass().getResource("/jdbc/optimization/xml/getObject.xml").toURI()),
                 Entry.class);
         Assertions.assertEquals(actual, expected);
-
     }
 
     @Test

@@ -15,7 +15,6 @@ public class JAXBParserImpl implements JAXBParser {
     public Object getObject(File file, Class c) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(c);
         Unmarshaller un = context.createUnmarshaller();
-        un.setProperty();
         Object object = un.unmarshal(file);
         return object;
     }
@@ -25,9 +24,5 @@ public class JAXBParserImpl implements JAXBParser {
         JAXBContext context = JAXBContext.newInstance(o.getClass());
         Marshaller ma = context.createMarshaller();
         ma.marshal(o, file);
-    }
-
-    public static void main(String[] args) throws Exception{
-
     }
 }
