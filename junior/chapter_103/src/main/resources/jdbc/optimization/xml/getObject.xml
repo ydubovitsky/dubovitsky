@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <entry  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="getObject.xsd">
-    <field>12345</field>
-    <field>98765</field>
-    <field>11111</field>
+    <field>1</field>
+    <field>2</field>
+    <field>3</field>
 </entry >

@@ -1,6 +1,7 @@
 package jdbc.optimization;
 
 import jdbc.optimization.entities.Entry;
+import jdbc.optimization.jaxb.JAXBParser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -11,18 +12,11 @@ public class StoreXML {
     @Autowired
     private JAXBParser jaxbParser;
 
+    @Autowired
     private File file;
 
     public StoreXML() {
 
-    }
-
-    public JAXBParser getJaxbParser() {
-        return jaxbParser;
-    }
-
-    public void setJaxbParser(JAXBParser jaxbParser) {
-        this.jaxbParser = jaxbParser;
     }
 
     /**

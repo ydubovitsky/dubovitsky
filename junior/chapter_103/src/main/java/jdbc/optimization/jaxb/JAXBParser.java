@@ -1,4 +1,4 @@
-package jdbc.optimization;
+package jdbc.optimization.jaxb;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;

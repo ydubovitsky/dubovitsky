@@ -1,10 +1,9 @@
 package jdbc.optimization;
 
 import jdbc.optimization.entities.Entry;
-import org.junit.Assert;
-import org.junit.Before;
+import jdbc.optimization.jaxb.JAXBParser;
+import jdbc.optimization.jaxb.JAXBParserImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +11,6 @@ import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JAXBParserImplTest {
 

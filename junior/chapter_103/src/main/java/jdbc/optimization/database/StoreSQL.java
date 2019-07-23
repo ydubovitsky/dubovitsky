@@ -11,6 +11,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * For example
+ * https://habr.com/ru/sandbox/88039/
+ */
 public class StoreSQL {
 
     @Autowired
@@ -68,15 +72,23 @@ public class StoreSQL {
      * @param size - count of fields
      * @throws SQLException
      */
-    public void generate(int size) throws SQLException {
-        int result = statmt.executeQuery("Select count(field) as amount from entry;")
-                .getInt("amount");
-        // if table not empty
-        if (result > 0) {
-            statmt.execute("delete from entry");
-        }
-        for (int i = 0; i < size; i++) {
-            statmt.execute("INSERT INTO 'entry' ('field') VALUES (" + i + "); ");
+    public void generate(int size) {
+        try {
+            // TODO Можно упростить и все в один запрос объединить
+            int result = statmt.executeQuery("Select count(field) as amount from entry;")
+                    .getInt("amount");
+            // if table not empty
+            if (result > 0) {
+                statmt.execute("delete from entry");
+            }
+            connection.setAutoCommit(false);
+            for (int i = 0; i < size; i++) {
+                statmt.addBatch("INSERT INTO 'entry' ('field') VALUES (" + i + "); ");
+            }
+            statmt.executeBatch();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

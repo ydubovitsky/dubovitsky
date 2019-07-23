@@ -1,13 +1,15 @@
 package jdbc.optimization.config;
 
-import jdbc.optimization.JAXBParser;
-import jdbc.optimization.JAXBParserImpl;
+import jdbc.optimization.jaxb.JAXBParser;
+import jdbc.optimization.jaxb.JAXBParserImpl;
 import jdbc.optimization.StoreXML;
 import jdbc.optimization.database.Connect;
 import jdbc.optimization.database.StoreSQL;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 
 /**
@@ -36,5 +38,16 @@ public class Config {
     @Bean
     public StoreXML storeXML() {
         return new StoreXML();
+    }
+
+    @Bean
+    public File getFile() {
+        File file = null;
+        try {
+            file = File.createTempFile("temp", ".xml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }
