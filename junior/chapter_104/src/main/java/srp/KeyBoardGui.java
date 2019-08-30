@@ -12,9 +12,11 @@ public class KeyBoardGui {
 
     private Map<String, JButton> buttons = new HashMap<>();
     private InteractCalcApp main;
+    private TextAreaGui text;
 
-    public KeyBoardGui(InteractCalcApp main) {
+    public KeyBoardGui(InteractCalcApp main, TextAreaGui text) {
         this.main = main;
+        this.text = text;
         setButtons();
         setAction();
         addButtons();
@@ -41,9 +43,9 @@ public class KeyBoardGui {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // old text
-                    String local = main.gettingText().getText();
+                    String local = text.getText();
                     // update text
-                    main.gettingText().setText(local + b.getText());
+                   text.setText(local + b.getText());
                 }
             });
         }

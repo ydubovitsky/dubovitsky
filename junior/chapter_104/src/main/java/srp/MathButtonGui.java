@@ -5,6 +5,7 @@ import ru.job4j.Calculator;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class MathButtonGui {
@@ -14,6 +15,7 @@ public class MathButtonGui {
 
     private InteractCalcApp main;
     private Calculator calculator;
+    private TextAreaGui text;
 
     private double[] values = new double[2];
     private String flag = null;
@@ -23,9 +25,10 @@ public class MathButtonGui {
      */
     private int pressed = 0;
 
-    public MathButtonGui(InteractCalcApp main, Calculator calculator) {
+    public MathButtonGui(InteractCalcApp main, Calculator calculator, TextAreaGui text) {
         this.main = main;
         this.calculator = calculator;
+        this.text = text;
         setButtons();
         setAction();
         addButton();
@@ -43,54 +46,60 @@ public class MathButtonGui {
             public void actionPerformed(ActionEvent e) {
                 switch (flag) {
                     case "+": // +
-                        values[1] = Double.valueOf(main.gettingText().getText());
+                        values[1] = Double.valueOf(text.getText());
                         calculator.add(values[0], values[1]);
-                        main.gettingText().setText(String.valueOf(calculator.getResult()));
+                        text.setText(String.valueOf(calculator.getResult()));
                         break;
                     case "-": // -
-                        values[1] = Double.valueOf(main.gettingText().getText());
+                        values[1] = Double.valueOf(text.getText());
                         calculator.subtract(values[0], values[1]);
-                        main.gettingText().setText(String.valueOf(calculator.getResult()));
+                        text.setText(String.valueOf(calculator.getResult()));
                         break;
+                    case "*": // *
+                        // TODO Доделать
                 }
             }
         });
-        // TODO Упростить
         buttons.get("+").addActionListener((e) -> {
-                if (pressed == 0) {
-                    // Запоминаем и обнуляем значение
-                    values[0] = Double.valueOf(main.gettingText().getText());
-                    main.gettingText().setText(null);
-                    flag = "+";
-                }
-                if (pressed == 1) {
-                    values[1] = Double.valueOf(main.gettingText().getText());
-                    calculator.add(values[0], values[1]);
-                    main.gettingText().setText(String.valueOf(calculator.getResult()));
-                    pressed = 0;
-                }
-                pressed++;
+            buttonLogic(this.calculator, "+", "add");
             }
         );
-        // TODO Упростить
         buttons.get("-").addActionListener((e) -> {
-                    if (pressed == 0) {
-                        // Запоминаем и обнуляем значение
-                        values[0] = Double.valueOf(main.gettingText().getText());
-                        main.gettingText().setText(null);
-                        flag = "-";
-                    }
-                    if (pressed == 1) {
-                        values[1] = Double.valueOf(main.gettingText().getText());
-                        calculator.subtract(values[0], values[1]);
-                        main.gettingText().setText(String.valueOf(calculator.getResult()));
-                        pressed = 0;
-                    }
-                    pressed++;
+                    buttonLogic(this.calculator, "-", "subtract");
                 }
         );
     }
 
+    /**
+     * In this method invoke function by name; uses reflection
+     * @param object - the name of the class from which the function is called
+     * @param f - name of math function
+     * @param str - flag of button
+     */
+    private void buttonLogic(Object object, String f, String str) {
+        if (pressed == 0) {
+            // Запоминаем и обнуляем значение
+            values[0] = Double.valueOf(text.getText());
+            text.setText(null);
+            flag = f;
+        }
+        if (pressed == 1) {
+            values[1] = Double.valueOf(text.getText());
+            try {
+                Method method = object.getClass().getMethod(str);
+                method.invoke(values[0],values[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            text.setText(String.valueOf(calculator.getResult()));
+            pressed = 0;
+        }
+        pressed++;
+    }
+
+    /**
+     * Added all button on the main app interface
+     */
     private void addButton() {
         List<JButton> list = new ArrayList<>(buttons.values());
         for (JButton b : list) {

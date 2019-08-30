@@ -8,7 +8,8 @@ import java.awt.*;
 public class InteractCalcApp {
 
     private final JFrame frame;
-    // TODO улучшить
+    // TODO улучшить очень много зависимостей в связанном коде!
+    // TODO Сделать геттеры тут?
     private KeyBoardGui keyBoard;
     private MathButtonGui mathButton;
     private TextAreaGui text;
@@ -16,8 +17,8 @@ public class InteractCalcApp {
     public InteractCalcApp() {
         frame = new JFrame();
         text = new TextAreaGui(this);
-        keyBoard = new KeyBoardGui(this);
-        mathButton = new MathButtonGui(this, new Calculator());
+        keyBoard = new KeyBoardGui(this, text);
+        mathButton = new MathButtonGui(this, new Calculator(), this.text);
     }
 
     /**
@@ -36,10 +37,6 @@ public class InteractCalcApp {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
-    }
-
-    public JTextArea gettingText() {
-        return text.getjTextArea();
     }
 
     public static void main(String[] args) {
