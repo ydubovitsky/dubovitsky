@@ -20,4 +20,12 @@ public class TextAreaGui {
     public void addTextArea() {
         this.interactCalcApp.addButton(getjTextArea());
     }
+
+    public String getText() {
+        return this.jTextArea.getText();
+    }
+
+    public void setText(String str) {
+        this.jTextArea.setText(str);
+    }
 }
