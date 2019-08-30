@@ -25,7 +25,6 @@ public class MainGui {
      */
     public void addButton(Component component) {
         this.frame.add(component);
-        this.frame.repaint();
     }
 
     private void interfaceGeneration() {

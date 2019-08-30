@@ -3,14 +3,14 @@ package srp;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-
-import static srp.Validation.validation;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KeyBoardGui {
 
     private Map<String, JButton> buttons = new HashMap<>();
-    private JButton clear = new JButton("Clear");
     private MainGui main;
 
     /**
@@ -50,7 +50,10 @@ public class KeyBoardGui {
             b.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    main.gettingText().setText(buttons.get(b).);
+                    // old text
+                    String local = main.gettingText().getText();
+                    // update text
+                    main.gettingText().setText(local + b.getText());
                 }
             });
         }

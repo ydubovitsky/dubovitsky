@@ -16,6 +16,9 @@ public class MathButtonGui {
     private KeyBoardGui keyBoard;
     private Calculator calculator;
 
+    private double[] values = new double[2];
+    private int flag = 0;
+
     /**
      * number of button clicks
      */
@@ -37,28 +40,57 @@ public class MathButtonGui {
     }
 
     private void setAction() {
-        // TODO Упростить
-        buttons.get("+").addActionListener(new ActionListener() {
+        buttons.get("=").addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Доработать логику
-                double first = 0;
-                double second = 0;
-                if (pressed == 0) {
-                    first = keyBoard.getGlobal()[0];
-                    second = keyBoard.getGlobal()[1];
-                    pressed++;
+                switch (flag) {
+                    case 1: // +
+                        values[1] = Double.valueOf(main.gettingText().getText());
+                        calculator.add(values[0], values[1]);
+                        main.gettingText().setText(String.valueOf(calculator.getResult()));
+                        break;
+                    case 2: // -
+                        values[1] = Double.valueOf(main.gettingText().getText());
+                        calculator.subtract(values[0], values[1]);
+                        main.gettingText().setText(String.valueOf(calculator.getResult()));
+                        break;
                 }
-                if (pressed == 1) {
-                    first = keyBoard.getGlobal()[0];
-                    second = keyBoard.getGlobal()[0];
-                    pressed = 0;
-                }
-                calculator.add(first, second);
-                main.gettingText()
-                        .setText(calculator.getResult() + "");
             }
         });
+        // TODO Упростить
+        buttons.get("+").addActionListener((e) -> {
+                if (pressed == 0) {
+                    // Запоминаем и обнуляем значение
+                    values[0] = Double.valueOf(main.gettingText().getText());
+                    main.gettingText().setText(null);
+                    flag = 1;
+                }
+                if (pressed == 1) {
+                    values[1] = Double.valueOf(main.gettingText().getText());
+                    calculator.add(values[0], values[1]);
+                    main.gettingText().setText(String.valueOf(calculator.getResult()));
+                    pressed = 0;
+                }
+                pressed++;
+            }
+        );
+        // TODO Упростить
+        buttons.get("-").addActionListener((e) -> {
+                    if (pressed == 0) {
+                        // Запоминаем и обнуляем значение
+                        values[0] = Double.valueOf(main.gettingText().getText());
+                        main.gettingText().setText(null);
+                        flag = 2;
+                    }
+                    if (pressed == 1) {
+                        values[1] = Double.valueOf(main.gettingText().getText());
+                        calculator.subtract(values[0], values[1]);
+                        main.gettingText().setText(String.valueOf(calculator.getResult()));
+                        pressed = 0;
+                    }
+                    pressed++;
+                }
+        );
     }
 
     private void addButton() {
