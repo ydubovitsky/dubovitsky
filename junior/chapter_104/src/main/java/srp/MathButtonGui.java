@@ -12,21 +12,19 @@ public class MathButtonGui {
     private Map<String, JButton> buttons = new HashMap<>();
     private final String[] names = new String[]{"+","-","/","*","="};
 
-    private MainGui main;
-    private KeyBoardGui keyBoard;
+    private InteractCalcApp main;
     private Calculator calculator;
 
     private double[] values = new double[2];
-    private int flag = 0;
+    private String flag = null;
 
     /**
      * number of button clicks
      */
     private int pressed = 0;
 
-    public MathButtonGui(MainGui main, KeyBoardGui keyBoard, Calculator calculator) {
+    public MathButtonGui(InteractCalcApp main, Calculator calculator) {
         this.main = main;
-        this.keyBoard = keyBoard;
         this.calculator = calculator;
         setButtons();
         setAction();
@@ -44,12 +42,12 @@ public class MathButtonGui {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (flag) {
-                    case 1: // +
+                    case "+": // +
                         values[1] = Double.valueOf(main.gettingText().getText());
                         calculator.add(values[0], values[1]);
                         main.gettingText().setText(String.valueOf(calculator.getResult()));
                         break;
-                    case 2: // -
+                    case "-": // -
                         values[1] = Double.valueOf(main.gettingText().getText());
                         calculator.subtract(values[0], values[1]);
                         main.gettingText().setText(String.valueOf(calculator.getResult()));
@@ -63,7 +61,7 @@ public class MathButtonGui {
                     // Запоминаем и обнуляем значение
                     values[0] = Double.valueOf(main.gettingText().getText());
                     main.gettingText().setText(null);
-                    flag = 1;
+                    flag = "+";
                 }
                 if (pressed == 1) {
                     values[1] = Double.valueOf(main.gettingText().getText());
@@ -80,7 +78,7 @@ public class MathButtonGui {
                         // Запоминаем и обнуляем значение
                         values[0] = Double.valueOf(main.gettingText().getText());
                         main.gettingText().setText(null);
-                        flag = 2;
+                        flag = "-";
                     }
                     if (pressed == 1) {
                         values[1] = Double.valueOf(main.gettingText().getText());
@@ -98,10 +96,5 @@ public class MathButtonGui {
         for (JButton b : list) {
             main.addButton((b));
         }
-    }
-
-
-    public Map<String, JButton> getButtons() {
-        return buttons;
     }
 }

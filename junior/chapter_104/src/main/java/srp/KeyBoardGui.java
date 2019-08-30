@@ -11,19 +11,9 @@ import java.util.Map;
 public class KeyBoardGui {
 
     private Map<String, JButton> buttons = new HashMap<>();
-    private MainGui main;
+    private InteractCalcApp main;
 
-    /**
-     * Attention! This is current value in textArea
-     */
-    private double[] global = new double[2];
-
-    /**
-     * Count pressed of button;
-     */
-    private int pressed = 0;
-
-    public KeyBoardGui(MainGui main) {
+    public KeyBoardGui(InteractCalcApp main) {
         this.main = main;
         setButtons();
         setAction();
@@ -67,13 +57,5 @@ public class KeyBoardGui {
         for (JButton b : list) {
             main.addButton((b));
         }
-    }
-
-    public Map<String, JButton> getButtons() {
-        return buttons;
-    }
-
-    public double[] getGlobal() {
-        return global;
     }
 }

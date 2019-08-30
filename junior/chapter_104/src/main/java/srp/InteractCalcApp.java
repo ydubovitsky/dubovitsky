@@ -5,18 +5,19 @@ import ru.job4j.Calculator;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainGui {
+public class InteractCalcApp {
 
     private final JFrame frame;
+    // TODO улучшить
     private KeyBoardGui keyBoard;
     private MathButtonGui mathButton;
-    private JTextArea text;
+    private TextAreaGui text;
 
-    public MainGui() {
+    public InteractCalcApp() {
         frame = new JFrame();
-        text = new JTextArea();
+        text = new TextAreaGui(this);
         keyBoard = new KeyBoardGui(this);
-        mathButton = new MathButtonGui(this, this.keyBoard, new Calculator());
+        mathButton = new MathButtonGui(this, new Calculator());
     }
 
     /**
@@ -27,20 +28,22 @@ public class MainGui {
         this.frame.add(component);
     }
 
+    /**
+     * This method create calculator graphic interface
+     */
     private void interfaceGeneration() {
         frame.setLayout(new GridLayout(4,4));
-        frame.add(text);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500,500);
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        MainGui m = new MainGui();
-        m.interfaceGeneration();
+    public JTextArea gettingText() {
+        return text.getjTextArea();
     }
 
-    public JTextArea gettingText() {
-        return text;
+    public static void main(String[] args) {
+        InteractCalcApp m = new InteractCalcApp();
+        m.interfaceGeneration();
     }
 }
