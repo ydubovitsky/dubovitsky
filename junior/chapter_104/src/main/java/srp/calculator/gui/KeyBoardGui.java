@@ -1,4 +1,4 @@
-package srp;
+package srp.calculator.gui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

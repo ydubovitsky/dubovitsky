@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +18,17 @@ public class UserInputImpl implements UserInput {
 
     InputStream input;
     Calculator calculator;
+
+    /**
+     * queue with strings from user input
+     */
+    Queue<String> list = new ArrayDeque<>();
+
+    /**
+     * List with a and b from expression;
+     * Example a + b = c;
+     */
+    private List<Double> variables  = new ArrayList<>();
 
     public UserInputImpl(InputStream reader, Calculator calculator) {
         this.input = reader;
@@ -31,23 +45,14 @@ public class UserInputImpl implements UserInput {
             Map.entry("/", "div")
     );
 
-    private List<Double> variables  = new ArrayList<>();
-
     /**
      * Return string from console
      * @return
      */
-    private String getString() {
-        String str = null;
-        try {
-            // getting user input
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            // TODO Проблема с возвращаемым значением
-            str = reader.readLine();
-        }catch (IOException e) {
-            System.out.println("Repeat input");
-        }
-        return str;
+    private void getString() {
+        Scanner scanner = new Scanner(input);
+        String s = scanner.nextLine();
+        list.add(s);
     }
 
     /**
@@ -56,7 +61,7 @@ public class UserInputImpl implements UserInput {
      */
     private void getNumbers(String str) {
         variables.clear(); // clearing list before add a new values
-        Pattern pattern = Pattern.compile("\\d");
+        Pattern pattern = Pattern.compile("[+-]?([0-9]*[.])?[0-9]+");
         Matcher matcher = pattern.matcher(str);
         while (matcher.find()) {
             variables.add(Double.valueOf(matcher.group()));
@@ -77,7 +82,6 @@ public class UserInputImpl implements UserInput {
                 try {
                     // invoke method by name
                     Method method = calculator.getClass().getMethod(map.get(o), double.class, double.class);
-                    // it is wrong; replace 0 and 1
                     method.invoke(calculator, variables.get(0), variables.get(1));
                     result = calculator.getResult();
                 } catch (Exception e) {
@@ -91,7 +95,9 @@ public class UserInputImpl implements UserInput {
     }
 
     public void starting() {
-        getNumbers(getString());
-        doAction(getString());
+        getString();
+        String str = list.poll();
+        getNumbers(str);
+        doAction(str);
     }
 }

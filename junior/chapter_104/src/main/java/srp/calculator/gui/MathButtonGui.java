@@ -1,4 +1,4 @@
-package srp;
+package srp.calculator.gui;
 
 import ru.job4j.Calculator;
 

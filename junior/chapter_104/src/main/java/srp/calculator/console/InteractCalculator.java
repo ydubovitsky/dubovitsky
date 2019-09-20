@@ -4,7 +4,7 @@ import ru.job4j.Calculator;
 
 /**
  * Input into console expression:
- * Examples: 1+1, 45*45, 35/5, 10-2;
+ * Examples: 1+1, 45*45, 35/5, 10-2, 1.1+2.2;
  * Press button: 'Enter'
  */
 public class InteractCalculator {
@@ -25,5 +25,4 @@ public class InteractCalculator {
     public static void main(String[] args) {
         new InteractCalculator(new UserInputImpl(System.in, new Calculator())).starting();
     }
-
 }
