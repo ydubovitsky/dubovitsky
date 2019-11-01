@@ -1,4 +1,4 @@
-package srp.calculator.console;
+package srp.calculator.console.reflection;
 
 public interface UserInput {
 

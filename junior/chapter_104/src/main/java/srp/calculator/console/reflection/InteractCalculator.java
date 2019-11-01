@@ -1,4 +1,4 @@
-package srp.calculator.console;
+package srp.calculator.console.reflection;
 
 import ru.job4j.Calculator;
 
