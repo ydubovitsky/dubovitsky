@@ -1,13 +1,14 @@
 package srp.calculator.console.simple;
 
-import ru.job4j.Calculator;
+/**
+ * This class implements basis calculable interface;
+ */
+public class InteractCalc implements Calculable{
 
-public class InteractCalc {
-
-    private Calculator calculator;
+    private Calculable calculator;
     private double calculateResult;
 
-    public InteractCalc(Calculator calculator) {
+    public InteractCalc(Calculable calculator) {
         this.calculator = calculator;
     }
 
@@ -17,7 +18,27 @@ public class InteractCalc {
     //TODO Что это за шаблон? Адаптер?
     public double add(double a, double b) {
         calculator.add(a,b);
-        return calculateResult = calculator.getResult();
+        return calculateResult = getResult();
+    }
+
+    public double subtract(double a, double b) {
+        calculator.subtract(a,b);
+        return calculateResult = getResult();
+    }
+
+    public double div(double a, double b) {
+        calculator.div(a,b);
+        return calculateResult = getResult();
+    }
+
+    public double multiple(double a, double b) {
+        calculator.multiple(a,b);
+        return calculateResult = getResult();
+    }
+
+    @Override
+    public double getResult() {
+        return calculator.getResult();
     }
 
     /**

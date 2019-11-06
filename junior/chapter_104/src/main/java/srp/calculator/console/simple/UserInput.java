@@ -1,21 +1,29 @@
 package srp.calculator.console.simple;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
 /**
  * User input
  */
-class UserInput {
+class UserInput implements Subject, Runnable{
 
     private InputStream input;
 
     /**
-     * stack with user_s strings;
+     * User_s input string from some king InputStream
      */
-    private Stack<String> stack = new Stack<>();
+    private String userString;
 
+    private List<Observer> observers = new ArrayList<>();
+
+    /**
+     * Constructor
+     * @param in
+     */
     public UserInput(InputStream in) {
         this.input = in;
     }
@@ -26,36 +34,32 @@ class UserInput {
      */
     public void fillStack() {
         Scanner scanner = new Scanner(input);
-        Runnable runnable = () -> {
-            while (scanner.hasNext()) {
-                stack.push(scanner.next());
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        while (scanner.hasNext()) {
+            userString = scanner.next();
+            // Строка меняет свое состояние и все наблюдатели оповещабтся
+            notifyObserver();
+        }
     }
 
-    private void soutStack() {
-        Runnable runnable = () -> {
-            while (true) {
-                if (stack.empty()) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println(stack.pop());
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+    @Override
+    public boolean registerObserver(Observer o) {
+        return observers.add(o);
     }
 
-    public static void main(String[] args) {
-        UserInput userInput = new UserInput(System.in);
-        userInput.fillStack();
-        userInput.soutStack();
+    @Override
+    public boolean removeObserver(Observer o) {
+        return observers.remove(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for (Observer o : observers) {
+            o.update(this.userString);
+        }
+    }
+
+    @Override
+    public void run() {
+        fillStack();
     }
 }

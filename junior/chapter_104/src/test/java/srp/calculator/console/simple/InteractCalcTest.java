@@ -18,7 +18,7 @@ class InteractCalcTest {
 
     @BeforeEach
     void setUp() {
-        interactCalc = new InteractCalc(new Calculator());
+        interactCalc = new InteractCalc(new CalcWrapper(new Calculator()));
     }
 
     /**
