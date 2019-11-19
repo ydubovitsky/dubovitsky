@@ -25,6 +25,7 @@ public class DatabaseManager {
      */
     private Connection connection;
 
+    //TODO ВОТ ВСЕ ПОПРАВИТЬ! org.postgresql.util.PSQLException: ResultSet not positioned properly, perhaps you need to call next.
     /**
      * This method return all users from database
      * @return

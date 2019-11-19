@@ -22,7 +22,8 @@
         /**
          * This piece of code gets all request param and output all object(Users)
          */
-        Enumeration<String> attributeNames = request.getAttributeNames();
+        ServletContext servletContext = request.getServletContext();
+        Enumeration<String> attributeNames = servletContext.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
             String name = attributeNames.nextElement();
             outputUsers((User)request.getAttribute(name));

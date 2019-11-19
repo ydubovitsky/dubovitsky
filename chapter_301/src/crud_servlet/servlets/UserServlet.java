@@ -5,6 +5,7 @@ import crud_servlet.beans.User;
 import crud_servlet.intarfaces.Modelable;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +37,13 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = model.getUsers();
+        ServletContext servletContext = req.getServletContext();
         for (User user : users) {
             //TODO Можно ли запихнуть в атрибут объект? Наверное нет...
-            req.setAttribute(user.getName(), user);
+            // Запихни это все в контекст!
+            servletContext.setAttribute(user.getName(), user);
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/crud_servlet/view.jsp");
+        RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/jsp/crud_servlet/view.jsp");
         dispatcher.forward(req, resp);
     }
 
