@@ -6,7 +6,6 @@ import crud_servlet.database.DatabaseManager;
 import crud_servlet.intarfaces.Connectable;
 import crud_servlet.intarfaces.Modelable;
 
-import java.sql.Time;
 import java.util.List;
 
 public class ModelImpl implements Modelable {
@@ -26,8 +25,8 @@ public class ModelImpl implements Modelable {
     }
 
     @Override
-    public void createUser(int id, String name, String login, String password, String email, Time time) {
-        databaseManager.addUser(id, name, login, password, email, time);
+    public void createUser(String name, String login, String password, String email) {
+        databaseManager.addUser(name, login, password, email);
     }
 
     @Override

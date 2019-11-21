@@ -49,6 +49,10 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String name = req.getParameter("user_name");
+        String password = req.getParameter("user_password");
+        String login = req.getParameter("user_login");
+        String email = req.getParameter("user_email");
+        model.createUser(name, login, password, email);
     }
 }

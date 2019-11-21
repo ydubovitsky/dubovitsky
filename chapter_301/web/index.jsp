@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  crud_servlet.beans.User: user
+  main.crud_servlet.beans.User: user
   Date: 19.11.2019
   Time: 12:17
   To change this template use File | Settings | File Templates.

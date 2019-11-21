@@ -2,7 +2,6 @@ package crud_servlet.intarfaces;
 
 import crud_servlet.beans.User;
 
-import java.sql.Time;
 import java.util.List;
 
 public interface Modelable {
@@ -17,7 +16,7 @@ public interface Modelable {
      * Create new user
      * @return
      */
-    void createUser(int id, String name, String login, String password, String email, Time time);
+    void createUser(String name, String login, String password, String email);
 
     /**
      * Update user fields;

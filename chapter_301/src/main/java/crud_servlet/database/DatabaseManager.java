@@ -3,10 +3,7 @@ package crud_servlet.database;
 import crud_servlet.beans.User;
 import crud_servlet.intarfaces.Connectable;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,6 @@ public class DatabaseManager {
      */
     private Connection connection;
 
-    //TODO ВОТ ВСЕ ПОПРАВИТЬ! org.postgresql.util.PSQLException: ResultSet not positioned properly, perhaps you need to call next.
     /**
      * This method return all users from database
      * @return
@@ -35,8 +31,8 @@ public class DatabaseManager {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("Select * from users");
-            //TODO а проверка? Если множество пустое?
-            do {
+            //TODO а проверка? Если множество пустое? ТУТ ОШИБКА! ВОЗВРАЩАЕТ ПУСТОЙ ЛИСТ
+            while (resultSet.next()){
                 users.add(createUser(
                         resultSet.getInt(1),
                         resultSet.getString(2),
@@ -44,18 +40,26 @@ public class DatabaseManager {
                         resultSet.getString(4),
                         resultSet.getString(5),
                         resultSet.getTime(6)));
-            } while (resultSet.next());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    public void addUser(int id, String name, String login, String password, String email, Time time) {
+    /**
+     * Added new user in database and current timeStamp;
+     */
+    public void addUser(String name, String login, String password, String email) {
         try {
-            Statement statement = connection.createStatement();
-            //TODO Дописать метод! И сделать чтобы id автоматически создавался при добавлении пользователя
-            statement.execute("insert into users(id, name, login) values (1,2,3)");
+            String sql = "insert into users(name, login, password, email, createdate) values(?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, login);
+            statement.setString(3, password);
+            statement.setString(4, email);
+            statement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+            statement.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,5 +77,9 @@ public class DatabaseManager {
         user.setEmail(email);
         user.setCreateDate(time);
         return user;
+    }
+
+    public static void main(String[] args) {
+        new DatabaseManager(new ConnectionDataBase()).addUser("Mordekay", "morda123", "efef23", "dr_mo@mail.ru");
     }
 }
