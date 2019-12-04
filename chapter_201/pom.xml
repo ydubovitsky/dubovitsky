@@ -36,7 +36,7 @@
                             </goals>
                             <configuration>
                                 <files>
-                                    <file>${basedir}/config/dev.properties</file>
+                                    <file>${basedir}/src/config/app.properties</file>
                                 </files>
                             </configuration>
                         </execution>
@@ -44,16 +44,16 @@
                 </plugin>
             </plugins>
             <!-- Указан путь, откуда брать ресурсы -->
-            <!--<resources>-->
-                <!--<resource>-->
-                    <!--<directory>>${project.basedir}</directory>-->
-                    <!--<includes>-->
-                        <!--<include>>${project.basedir}/src/main/resources</include>-->
-                        <!--<include>>${project.basedir}/junior/IO/src/main/resources</include>-->
-                        <!--<include>>${project.basedir}/IO/src/main/resources</include>-->
-                        <!--<include>>${project.basedir}/*</include>-->
-                    <!--</includes>-->
-                <!--</resource>-->
-            <!--</resources>-->
+            <resources>
+                <resource>
+                    <directory>>${project.basedir}</directory>
+                    <includes>
+                        <include>>${project.basedir}/src/main/resources</include>
+                        <include>>${project.basedir}/src/main/resources</include>
+                        <include>>${project.basedir}/src/main/resources</include>
+                        <include>>${project.basedir}/*</include>
+                    </includes>
+                </resource>
+            </resources>
         </build>
 </project>
