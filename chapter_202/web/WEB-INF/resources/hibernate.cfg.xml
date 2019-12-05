@@ -1,0 +1,18 @@
+<!--Обрати внимание, что из-за того какая схема объявлена, Хибер может и не сконфигурироваться.-->
+<!--Например если тут будет xmlns:fd="http://www.hibernate.org/xsd/hibernate-configuration-->
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5433/hibernate</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+
+        <!-- Если таблицы нет в БД, то Хибер сам ее создаст, в противном случае будет ошибка -->
+        <property name="hbm2ddl.auto">update</property>
+        <!--Показать sql команды -->
+        <property name="show_sql">true</property>
+        <!--А это когда мы мапаем через Аннотации-->
+        <mapping class="crud_servlet.entity.Users"/>
+    </session-factory>
+</hibernate-configuration>
