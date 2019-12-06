@@ -1,6 +1,6 @@
-package crud_servlet.database;
+package mvc.database;
 
-import crud_servlet.beans.User;
+import mvc.beans.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

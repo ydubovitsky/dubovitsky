@@ -1,4 +1,4 @@
-package crud_servlet.beans;
+package mvc.beans;
 
 import java.sql.Time;
 import java.util.Date;

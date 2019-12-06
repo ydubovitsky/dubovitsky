@@ -1,7 +1,7 @@
-package crud_servlet.database;
+package mvc.database;
 
-import crud_servlet.beans.User;
-import crud_servlet.intarfaces.Connectable;
+import mvc.beans.User;
+import mvc.intarfaces.Connectable;
 
 import java.sql.*;
 import java.util.ArrayList;

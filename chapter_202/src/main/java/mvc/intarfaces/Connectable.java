@@ -1,4 +1,4 @@
-package crud_servlet.intarfaces;
+package mvc.intarfaces;
 
 import java.sql.Connection;
 

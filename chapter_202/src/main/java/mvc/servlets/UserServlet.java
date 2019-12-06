@@ -1,8 +1,8 @@
-package crud_servlet.servlets;
+package mvc.servlets;
 
-import crud_servlet.ModelImpl;
-import crud_servlet.beans.User;
-import crud_servlet.intarfaces.Modelable;
+import mvc.ModelImpl;
+import mvc.beans.User;
+import mvc.intarfaces.Modelable;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -43,7 +43,7 @@ public class UserServlet extends HttpServlet {
             // Запихни это все в контекст!
             servletContext.setAttribute(user.getName(), user);
         }
-        RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/jsp/crud_servlet/view.jsp");
+        RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/jsp/mvc/view.jsp");
         dispatcher.forward(req, resp);
     }
 

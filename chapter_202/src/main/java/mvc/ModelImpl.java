@@ -1,10 +1,10 @@
-package crud_servlet;
+package mvc;
 
-import crud_servlet.beans.User;
-import crud_servlet.database.ConnectionDataBase;
-import crud_servlet.database.DatabaseManager;
-import crud_servlet.intarfaces.Connectable;
-import crud_servlet.intarfaces.Modelable;
+import mvc.beans.User;
+import mvc.database.ConnectionDataBase;
+import mvc.database.DatabaseManager;
+import mvc.intarfaces.Connectable;
+import mvc.intarfaces.Modelable;
 
 import java.util.List;
 

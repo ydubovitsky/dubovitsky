@@ -1,4 +1,4 @@
-<%@ page import="crud_servlet.beans.User" %>
+<%@ page import="mvc.beans.User" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.io.IOException" %>

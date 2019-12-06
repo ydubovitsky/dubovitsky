@@ -1,6 +1,6 @@
-package crud_servlet.intarfaces;
+package mvc.intarfaces;
 
-import crud_servlet.beans.User;
+import mvc.beans.User;
 
 import java.util.List;
 

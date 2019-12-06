@@ -1,6 +1,6 @@
-package crud_servlet.database;
+package mvc.database;
 
-import crud_servlet.intarfaces.Connectable;
+import mvc.intarfaces.Connectable;
 
 import java.io.FileReader;
 import java.io.IOException;
